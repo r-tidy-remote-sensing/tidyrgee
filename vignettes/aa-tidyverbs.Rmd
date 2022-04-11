@@ -24,6 +24,7 @@ data(tidyrgee)
 # Filter
 
 Have adopted have made an s3 method for `filter` so it now works in a dplyresque fashion
+
 ```{r}
 library(rgee)
 ee_Initialize()
