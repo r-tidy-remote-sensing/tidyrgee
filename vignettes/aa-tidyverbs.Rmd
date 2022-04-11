@@ -1,0 +1,35 @@
+---
+title: "aa-tidyverbs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{aa-tidyverbs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyrgee)
+data(tidyrgee)
+
+```
+
+
+# Filter
+
+Have adopted have made an s3 method for `filter` so it now works in a dplyresque fashion
+```{r}
+library(rgee)
+ee_Initialize()
+l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
+l8 |> 
+  filter(date>"2016-01-01",date<"2016-03-04")
+
+
+```
