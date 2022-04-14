@@ -27,10 +27,43 @@ Have adopted have made an s3 method for `filter` so it now works in a dplyresque
 
 ```{r}
 library(rgee)
+library(tidyrgee)
 ee_Initialize()
 l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
 l8 |> 
   filter(date>"2016-01-01",date<"2016-03-04")
+
+
+```
+
+
+# group_by and summarise
+
+### group_by
+```{r}
+
+modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+
+modis_ic$select("NDVI") %>%
+   filter(date>="2016-01-01",date<="2019-12-31") %>%
+   group_by(year) 
+   
+```
+
+
+### group_by + summarise
+```{r}
+modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
+   filter(date>="2016-01-01",date<="2019-12-31") %>%
+   group_by(year) %>%
+   summarise(stat="max")
+
+modis_ndvi_yearly |> ee_print()
+
+
+ 
+
+```
 
 
 ```
