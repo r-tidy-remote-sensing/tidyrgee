@@ -31,7 +31,7 @@ summarise.grouped_imageCol <-  function(x,stat,...){
   if(attributes(x)$grouped_vars =="year"){
 
 
-    exploreRGEE::ee_year_filter(imageCol = x,
+    ee_year_composite(imageCol = x,
                                 stat=stat,startDate=date_range[1],
                                 endDate=date_range[2])
   }
