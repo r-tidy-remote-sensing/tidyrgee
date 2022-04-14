@@ -1,3 +1,12 @@
+group_by.ee.imagecollection.ImageCollection <- function(x,...){
+  dots <- list(...)
+  class(x) <- append(class(x),"grouped_imageCol")
+}
+
+
+
+
+
 filter <- function(x, ...){
 
   UseMethod('filter')
@@ -33,7 +42,7 @@ filter.ee.imagecollection.ImageCollection <- function(x,...){
     gt_date <- extract_date(gt_cond_split)
 
     date_range <-  c(gt_date,lt_date)
-    cat(crayon::green(glue::glue("filtering imageCollection from {gt_date} to {lt_date}")))
+    cat(crayon::green(glue::glue("filtering imageCollection from {gt_date} to {lt_date}")),"\m")
 
 
     x$filterDate(date_range)}
@@ -70,7 +79,7 @@ extract_date <- function(expr_split){
   if(length(expr_split)==4){
     date_component <- expr_split[4]
   }
-  date_component_fmt <- stringr::str_remove_all(cs1[[4]],"\\\"") |> readr::parse_date()
+  date_component_fmt <- stringr::str_remove_all(date_component[[4]],"\\\"") |> readr::parse_date()
   cond <- extract_condition(expr_split)
   if(cond==">"){
     date_component_adjusted <- lubridate::ymd(date_component_fmt)+1
