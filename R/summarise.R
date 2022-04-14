@@ -26,6 +26,7 @@ summarise <-  function(x, stat,...){
 #' }
 #'
 
+
 summarise.grouped_imageCol <-  function(x,stat,...){
   date_range <-  date_range_imageCol(x)
   if(attributes(x)$grouped_vars =="year"){

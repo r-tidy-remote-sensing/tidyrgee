@@ -52,6 +52,7 @@ modis_ic$select("NDVI") %>%
 
 
 ### group_by + summarise
+
 ```{r}
 modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
    filter(date>="2016-01-01",date<="2019-12-31") %>%
