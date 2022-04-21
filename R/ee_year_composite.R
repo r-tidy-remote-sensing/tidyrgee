@@ -1,12 +1,3 @@
-
-#' @title Filter by Year
-#' @param imageCol An earth engine ImageCollection
-#' @param ... extra args to pass on
-#'
-#' @export
-#'
-
-
 #' @name ee_year_composite
 #' @param stat A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
@@ -27,7 +18,7 @@ ee_year_composite<-  function(imageCol,
   endYear = lubridate::year(endDate)
   years = ee$List$sequence(startYear, endYear)
 
-  ee_reducer <-  stat_to_reducer(stat)
+  ee_reducer <-  stat_to_reducer_full(stat)
 
   ee$ImageCollection$fromImages(
     years$map(rgee::ee_utils_pyfunc(function (y) {

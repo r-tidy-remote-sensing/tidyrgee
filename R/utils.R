@@ -17,7 +17,7 @@ stat_to_reducer <- function(fun){ switch(
 }
 
 
-#' stat_to_reducer_full - helper function
+#' stat_to_reducer_full - helper function - useful in ee_*_composite funcs
 #' @param fun reducer/statistic using typical r-syntax (character)
 
 stat_to_reducer_full <-  function(fun){switch(fun,

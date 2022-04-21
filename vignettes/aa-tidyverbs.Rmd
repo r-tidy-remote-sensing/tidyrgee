@@ -15,9 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(rgee)
 library(tidyrgee)
-# data(tidyrgee)
-dat
+
+ee_Initialize()
 ```
 
 
@@ -26,12 +27,9 @@ dat
 Have adopted have made an s3 method for `filter` so it now works in a dplyresque fashion
 
 ```{r}
-library(rgee)
-library(tidyrgee)
 
-ee_Initialize()
 l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
-# debugonce(filter)
+
 l8 |> 
   filter(date>"2016-01-01",date<"2016-03-04")
 
@@ -56,6 +54,8 @@ modis_ic$select("NDVI") %>%
 ### group_by + summarise
 
 ```{r}
+
+debugonce(summarise)
 modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
    filter(date>="2016-01-01",date<="2019-12-31") %>%
    group_by(year) %>%
