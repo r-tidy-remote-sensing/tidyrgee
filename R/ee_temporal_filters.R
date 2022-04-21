@@ -124,8 +124,8 @@ ee_year_month_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
   assertthat::assert_that(is.numeric(month)&length(month)>0,
                           msg = "month must be a numeric vector of lenght greater than 0")
 
-  year_ic <-  ee_year_filter(imageCol = imageCol,year=year)
-  yr_mo_ic <-  ee_month_filter(imageCol=year_ic,month=month)
+  yr_ic <-  ee_year_filter(imageCol = imageCol,year=year)
+  yr_mo_ic <-  ee_month_filter(imageCol=yr_ic,month=month)
   return(yr_mo_ic)
 
 
