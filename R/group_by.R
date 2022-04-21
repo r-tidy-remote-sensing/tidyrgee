@@ -1,7 +1,7 @@
 
 
 group_by <-  function(x, ...){
-  UseMethod('summarise')
+  UseMethod('group_by')
 
 }
 
