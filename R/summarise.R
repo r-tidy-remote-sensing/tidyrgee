@@ -33,8 +33,8 @@ summarise.grouped_imageCol <-  function(x,stat,...){
 
 
     ee_year_composite(imageCol = x,
-                                stat=stat,startDate=date_range[1],
-                                endDate=date_range[2])
+                                stat=stat,start_date=date_range[1],
+                                end_date=date_range[2])
   }
 
 }
