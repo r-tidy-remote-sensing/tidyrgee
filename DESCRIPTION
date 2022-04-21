@@ -5,13 +5,22 @@ Authors@R:
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Depends: 
     R (>= 2.10)
+Imports: 
+    assertthat,
+    glue,
+    lubridate,
+    purrr,
+    readr,
+    rgee,
+    rlang,
+    stringr
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    geojsonio
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

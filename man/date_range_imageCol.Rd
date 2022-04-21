@@ -16,7 +16,7 @@ sorted date vector (length 2)
 a fast-working helper function to extract min and max date ranges for image collections
 }
 \examples{
-\donrun{
+\dontrun{
 library(tidyrgee)
 ee_Initialize()
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

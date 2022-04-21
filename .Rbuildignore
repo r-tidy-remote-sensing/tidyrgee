@@ -3,3 +3,4 @@
 ^README\.Rmd$
 ^\.github$
 ^dev_history\.R$
+^LICENSE\.md$

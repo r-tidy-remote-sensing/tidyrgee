@@ -2,7 +2,7 @@
 #'
 #' @param x ee$Image or ee$ImageCollection
 #' @param stat stat/function to apply
-#' @param ...
+#' @param ... other arguments
 #'
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 #' @export

@@ -63,11 +63,14 @@ modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
 
 
 # showing difference in year_filter vs year_composite here... 
-modis_ic |> ee_year_filter("2002-01-01","2004-01-01") |> ee_print()
-modis_ic |> ee_year_composite(start_date = "2002-01-01",end_date = "2004-01-01",stat="max") |> ee_print()
+modis_ic |> tidyrgee::ee_year_filter("2002-01-01","2004-01-01") |> ee_print()
+modis_ic |> tidyrgee::ee_year_composite(start_date = "2002-01-01",end_date = "2004-01-01",stat="max") |> ee_print()
 
+
+# cool dplyr::group_by still working
+# library(tidyverse)
  
-
+# dat |> group_by(survey_date)
 ```
 
 

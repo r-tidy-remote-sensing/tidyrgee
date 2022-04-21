@@ -11,7 +11,7 @@ summarise(x, stat, ...)
 
 \item{stat}{stat/function to apply}
 
-\item{...}{}
+\item{...}{other arguments}
 }
 \value{
 ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat

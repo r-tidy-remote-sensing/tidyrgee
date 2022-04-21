@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{stat_to_reducer_full}
 \alias{stat_to_reducer_full}
-\title{stat_to_reducer_full - helper function}
+\title{stat_to_reducer_full - helper function - useful in ee_*_composite funcs}
 \usage{
 stat_to_reducer_full(fun)
 }
@@ -10,5 +10,5 @@ stat_to_reducer_full(fun)
 \item{fun}{reducer/statistic using typical r-syntax (character)}
 }
 \description{
-stat_to_reducer_full - helper function
+stat_to_reducer_full - helper function - useful in ee_*_composite funcs
 }
