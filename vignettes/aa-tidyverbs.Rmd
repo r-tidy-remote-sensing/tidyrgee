@@ -74,4 +74,14 @@ modis_ic |> tidyrgee::ee_year_composite(start_date = "2002-01-01",end_date = "20
 ```
 
 
+low level filters `ee_year`,`ee_month`, `ee_year_month` - this will be wrapped conditionally into `filter` methods
+
+```{r}
+
+
+modis_ic |> ee_month_filter(month=c(3,6,9)) |> ee_get_date_ic()
+
+modis_ic |> ee_year_month_filter(month=c(3,6,9)) |> ee_get_date_ic()
+
+
 ```
