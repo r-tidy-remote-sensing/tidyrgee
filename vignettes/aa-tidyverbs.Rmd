@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(tidyrgee)
-data(tidyrgee)
-
+# data(tidyrgee)
+dat
 ```
 
 
@@ -28,8 +28,10 @@ Have adopted have made an s3 method for `filter` so it now works in a dplyresque
 ```{r}
 library(rgee)
 library(tidyrgee)
+
 ee_Initialize()
 l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
+# debugonce(filter)
 l8 |> 
   filter(date>"2016-01-01",date<"2016-03-04")
 

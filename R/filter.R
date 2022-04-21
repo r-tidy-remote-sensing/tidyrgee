@@ -1,20 +1,35 @@
 
 
 
+
+
+#' filter
+#'
+#' @param x imageCollection
+#' @param ... other arguments
+#'
+#' @return filtered image or imageCollection form filtered imageCollection
+#' @export
+#'
+#' @examples \dontrun{
+#'
+#' library(rgee)
+#' library(tidyrgee)
+#' ee_Initialize()
+#' l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
+#' l8 |>
+#'     filter(date>"2016-01-01",date<"2016-03-04")
+#'     }
+
 filter <- function(x, ...){
 
   UseMethod('filter')
 
 }
 
-#' @name filter
-#' @param x A imageCollection
-#' @param ... filterCollection
+
+
 #' @export
-#'
-#'
-
-
 filter.ee.imagecollection.ImageCollection <- function(x,...){
   stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
   quo_list <- rlang::quos(...)

@@ -1,18 +1,10 @@
-
-
-summarise <-  function(x, stat,...){
-  UseMethod('summarise')
-
-}
-
-
 #' summarise (method for imageCollections)
 #'
 #' @param x ee$Image or ee$ImageCollection
 #' @param stat stat/function to apply
 #' @param ...
 #'
-#' @return
+#' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 #' @export
 #'
 #' @examples \dontrun{
@@ -26,7 +18,15 @@ summarise <-  function(x, stat,...){
 #' }
 #'
 
+summarise <-  function(x, stat,...){
+  UseMethod('summarise')
 
+}
+
+
+
+
+#' @export
 summarise.grouped_imageCol <-  function(x,stat,...){
   date_range <-  date_range_imageCol(x)
   if(attributes(x)$grouped_vars =="year"){

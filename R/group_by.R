@@ -1,17 +1,11 @@
 
 
-group_by <-  function(x, ...){
-  UseMethod('group_by')
-
-}
-
-
-#' Title
+#' group_by
 #'
-#' @param x
+#' @param x ee$ImageCollection
 #' @param ... group_by variables  (must be "month", "year" or combination of the two)
 #'
-#' @return imageCollection with grouped_vars atttribute
+#' @return ee$ImageCollection with grouped_vars attribute
 #' @export
 #'
 #' @examples \dontrun{
@@ -22,7 +16,14 @@ group_by <-  function(x, ...){
 #'    filter(date>="2016-01-01",date<="2019-12-31") |>
 #'    group_by(year)
 #' }
-#'
+
+group_by <-  function(x, ...){
+  UseMethod('group_by')
+
+}
+
+
+#' @export
 group_by.ee.imagecollection.ImageCollection <- function(x,...){
 
   new_groups <- rlang::enquos(..., .ignore_empty = "all")
