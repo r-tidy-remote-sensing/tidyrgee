@@ -32,10 +32,43 @@ This is a basic example which shows you how to solve a common problem:
 filter an ImageCollection by date and then group by year and month and
 then take the mean.
 
+### load and initialize
+
 ``` r
-## load rgee and initialize GEE auth.
-# library(rgee)
-# ee_Initialize()
-# 
-# library(tidyrgee)
+library(tidyrgee)
+#> 
+#> Attaching package: 'tidyrgee'
+#> The following object is masked from 'package:stats':
+#> 
+#>     filter
+library(rgee)
+ee_Initialize()
+#> -- rgee 1.1.2.9000 ---------------------------------- earthengine-api 0.1.295 -- 
+#>  v user: not_defined
+#>  v Initializing Google Earth Engine: v Initializing Google Earth Engine:  DONE!
+#>  v Earth Engine account: users/zackarno 
+#> --------------------------------------------------------------------------------
+```
+
+### dplyresque syntax
+
+In this example, by piping in `filter`, `group_by` , `summarise` just as
+you would for a data.frame you are sequentially:
+
+1.  filtering the ImageCollection by date
+2.  grouping the filtered ImageCollection by year
+3.  summarizing each pixel by year. In this case, taking the mean NDVI
+    value from all images in each year.
+
+The result will be an `ImageCollection` with the one `Image` per year
+that holds the mean pixel values
+
+``` r
+modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+
+modis_mean_ndvi_yearly <- modis_ic$select("NDVI") %>% # still rgee/GEE syntax
+   filter(date>="2016-01-01",date<="2019-12-31") %>%
+   group_by(year) %>%
+   summarise(stat="mean")
+#> returning imageCol grouped by yearreturning  ImageCollection of x
 ```

@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+data/dat.rda
+inst/doc
+/doc/
+/Meta/

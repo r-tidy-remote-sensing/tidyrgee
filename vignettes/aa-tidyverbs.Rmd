@@ -1,0 +1,90 @@
+---
+title: "aa-tidyverbs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{aa-tidyverbs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rgee)
+library(tidyrgee)
+
+ee_Initialize()
+```
+
+
+# Filter
+
+Have adopted have made an s3 method for `filter` so it now works in a dplyresque fashion
+
+```{r}
+
+l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
+
+l8 |> 
+  filter(date>"2016-01-01",date<"2016-03-04")
+
+
+```
+
+
+# group_by and summarise
+
+### group_by
+```{r}
+
+modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+
+modis_ic$select("NDVI") %>%
+   filter(date>="2016-01-01",date<="2019-12-31") %>%
+   group_by(year) 
+   
+```
+
+
+### group_by + summarise
+
+```{r}
+
+# debugonce(summarise)
+modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
+   filter(date>="2016-01-01",date<="2019-12-31") %>%
+   group_by(year) %>%
+   summarise(stat="sum")
+
+
+# showing difference in year_filter vs year_composite here... 
+modis_ic |> tidyrgee::ee_year_filter("2002-01-01","2004-01-01") |> ee_print()
+modis_ic |> tidyrgee::ee_year_composite(start_date = "2002-01-01",end_date = "2004-01-01",stat="max") |> ee_print()
+
+
+# cool dplyr::group_by still working
+# library(tidyverse)
+ 
+# dat |> group_by(survey_date)
+```
+
+
+low level filters `ee_year`,`ee_month`, `ee_year_month` - this will be wrapped conditionally into `filter` methods
+
+```{r}
+
+
+modis_ic |> ee_month_filter(month=c(3,6,9)) |> ee_get_date_ic()
+
+
+
+modis_ic |> ee_year_month_filter(year = c(2005,2007),
+                                 month=c(3,4)) |> ee_get_date_ic()
+
+
+```

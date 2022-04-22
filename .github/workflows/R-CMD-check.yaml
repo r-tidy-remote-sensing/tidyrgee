@@ -25,11 +25,19 @@ jobs:
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
+    # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
 
     steps:
       - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8.10'
+          architecture: 'x64'
 
       - uses: r-lib/actions/setup-pandoc@v1
 

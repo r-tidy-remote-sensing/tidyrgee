@@ -1,0 +1,27 @@
+
+#' A subset of question responses from the 2019 Host Community MSNA in Bangladesh
+#'
+#' Data frame of responses with anonymized coordinates
+#'
+#' @format A data frame with 1374 rows and 15 variables:
+#' \describe{
+#'   \item{_uuid}{unique identifier}
+#'   \item{informed_consent}{informed consent}
+#'   \item{survey_date}{date of surey}
+#'   \item{end_survey}{date of end of survey}
+#'   \item{electricity_grid}{question about electricity grid}
+#'   \item{solar_light}{question about solar light}
+#'   \item{illness_HH_count}{repeat group calculation on # hh members with illness in past x days}
+#'   \item{cooking_fuel/collected_firewood}{select multiple response - did HH collect firewood for cooking fuel}
+#'   \item{income_source/agricultural_production_sale}{income source question - ag}
+#'   \item{agricultural_land}{question on agricultural land}
+#'   \item{employment_source/agricultural_casual}{employment source - ag}
+#'   \item{employment_source/non_agricultural_casual}{employment source - non-ag}
+#'   \item{employment_source/fishing}{employment source - fishing}
+#'   \item{_gps_reading_longitude}{longitude - jittered/anonymized}
+#'   \item{_gps_reading_latitude}{latitude - jittered/anonymized}
+#'   ...
+#' }
+"bgd_msna"
+
+
