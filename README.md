@@ -56,9 +56,9 @@ In this example, by piping in `filter`, `group_by` , `summarise` just as
 you would for a data.frame you are sequentially:
 
 1.  filtering the ImageCollection by date
-2.  grouping it by year
-3.  summarizing at the pixel-level by taking the mean of all pixels in
-    your date range for each year
+2.  grouping the filtered ImageCollection by year
+3.  summarizing each pixel by year. In this case, taking the mean NDVI
+    value from all images in each year.
 
 The result will be an `ImageCollection` with the one `Image` per year
 that holds the mean pixel values
