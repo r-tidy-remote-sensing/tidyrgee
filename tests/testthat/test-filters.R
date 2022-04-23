@@ -1,5 +1,7 @@
 test_that("ee_year_filter works", {
   library(rgee)
+  ee_Initialize()
+
   modis_ic <- rgee::ee$ImageCollection("MODIS/006/MOD13Q1")
 
   num_img_2003 <- modis_ic$filterDate("2003-01-01","2003-12-31")$size()$getInfo()
