@@ -103,6 +103,7 @@ extract_date <- function(expr_split){
   else{
     date_component_adjusted <-  lubridate::ymd(date_component_fmt)
   }
+  return(date_component_adjusted)
 }
 
 
