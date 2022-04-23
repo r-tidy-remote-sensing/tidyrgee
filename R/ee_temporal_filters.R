@@ -7,7 +7,7 @@
 #' @return ee$ImageCollection or ee$Image filtered by year
 #' @export
 
-ee_year_filter <- function(imageCol,...){
+ee_year_filter <- function(imageCol,year,...){
 
   UseMethod('ee_year_filter')
 

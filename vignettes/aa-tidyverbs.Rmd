@@ -63,8 +63,8 @@ modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
 
 
 # showing difference in year_filter vs year_composite here... 
-modis_ic |> tidyrgee::ee_year_filter("2002-01-01","2004-01-01") |> ee_print()
-modis_ic |> tidyrgee::ee_year_composite(start_date = "2002-01-01",end_date = "2004-01-01",stat="max") |> ee_print()
+# modis_ic |> tidyrgee::ee_year_filter("2002-01-01","2004-01-01") |> ee_print()
+# modis_ic |> tidyrgee::ee_year_composite(start_date = "2002-01-01",end_date = "2004-01-01",stat="max") |> ee_print()
 
 
 # cool dplyr::group_by still working
@@ -79,12 +79,18 @@ low level filters `ee_year`,`ee_month`, `ee_year_month` - this will be wrapped c
 ```{r}
 
 
-modis_ic |> ee_month_filter(month=c(3,6,9)) |> ee_get_date_ic()
+modis_ic |> 
+  ee_month_filter(month=c(3,6,9)) |>
+  ee_get_date_ic()
 
 
 
-modis_ic |> ee_year_month_filter(year = c(2005,2007),
-                                 month=c(3,4)) |> ee_get_date_ic()
+modis_ic |> 
+  ee_year_month_filter(
+    year = c(2005,2007),
+    month=c(3,4)
+    ) |> 
+  ee_get_date_ic()
 
 
 ```
