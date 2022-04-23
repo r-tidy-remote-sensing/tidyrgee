@@ -4,7 +4,7 @@
 \alias{ee_year_composite}
 \title{ee_year_composite}
 \usage{
-ee_year_composite(imageCol, stat, start_date, end_date, ...)
+ee_year_composite(imageCol, stat, year, ...)
 }
 \arguments{
 \item{imageCol}{ee$ImageCollection}
@@ -12,9 +12,7 @@ ee_year_composite(imageCol, stat, start_date, end_date, ...)
 \item{stat}{A \code{character} indicating what to reduce the imageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
-\item{start_date}{\code{character} format date, e.g. "2018-10-23".}
-
-\item{end_date}{\code{character} format date, e.g. "2018-10-23".}
+\item{year}{\code{numeric} vector containing years (i.e c(2001,2002,2003))}
 
 \item{...}{other arguments}
 }

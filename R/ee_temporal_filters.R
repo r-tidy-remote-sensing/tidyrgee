@@ -2,6 +2,7 @@
 #' ee_year_filter
 #'
 #' @param imageCol ee$ImageCollection
+#' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
 #' @param ... other arguments
 #'
 #' @return ee$ImageCollection or ee$Image filtered by year
@@ -28,7 +29,7 @@ ee_year_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 
   # should make assertion for no duplicates
 
-  ee_year_list <- ee$List(year) # switched from ee$List$sequence - let the user make sequence in R or suppply raw
+  ee_year_list <- rgee::ee$List(year) # switched from ee$List$sequence - let the user make sequence in R or suppply raw
 
   ic_list <-
     ee_year_list$map(rgee::ee_utils_pyfunc(function (y) {
@@ -48,25 +49,20 @@ ee_year_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 #' ee_month_filter
 #'
 #' @param imageCol ee$ImageCollection
+#' @param month \code{numeric} vector containing month values (1-12)
 #' @param ... other arguments
 #'
 #' @return ee$ImageCollection or ee$Image filtered by year
 #' @export
 
 ee_month_filter <- function(imageCol,month,...){
-
   UseMethod('ee_month_filter')
-
 }
 
 
 #' @export
-
-
 ee_month_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
                                                                 month,
-
-
                                                                ...){
 
   stopifnot(!is.null(imageCol), inherits(imageCol, "ee.imagecollection.ImageCollection"))
@@ -77,7 +73,7 @@ ee_month_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 
   # should make assertion for no duplicates
 
-  ee_month_list <- ee$List(month) # switched from ee$List$sequence - let the user make sequence in R or suppply raw
+  ee_month_list <- rgee::ee$List(month) # switched from ee$List$sequence - let the user make sequence in R or suppply raw
 
   ic_list <-
     ee_month_list$map(rgee::ee_utils_pyfunc(function (m) {
@@ -111,7 +107,6 @@ ee_year_month_filter <- function(imageCol,year, month,...){
 
 
 #' @export
-
 
 ee_year_month_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
                                                                      year,

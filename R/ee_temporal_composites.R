@@ -2,8 +2,8 @@
 #' @param imageCol ee$ImageCollection
 #' @param stat A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
-#' @param start_date \code{character} format date, e.g. "2018-10-23".
-#' @param end_date \code{character} format date, e.g. "2018-10-23".
+#' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
+
 #' @param ... other arguments
 #' @export
 #'
