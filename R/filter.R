@@ -26,7 +26,7 @@ filter.ee.imagecollection.ImageCollection <- function(x,...){
 
   user_call <- vector_func(quo_chr)
 
-  filter_setup <- tibble(conditions,
+  filter_setup <- tidyr::tibble(conditions,
                          arguments,
                          user_call) %>%
                   dplyr::mutate(rowid = dplyr::row_number()) %>%
