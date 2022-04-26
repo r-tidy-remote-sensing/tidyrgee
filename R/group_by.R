@@ -2,8 +2,8 @@
 
 #' group_by
 #'
-#' @param x ee$ImageCollection
-#' @param ... group_by variables  (must be "month", "year" or combination of the two)
+#' @param x ee$ImageCollection or tidyee object
+#' @param ... group_by variables
 #'
 #' @return ee$ImageCollection with grouped_vars attribute
 #' @export
@@ -39,3 +39,14 @@ group_by.ee.imagecollection.ImageCollection <- function(x,...){
   return(x)
 
 }
+
+
+#' @export
+group_by.tidyee <- function(x,...){
+  vrt <- x$vrt |>
+    dplyr::group_by(...)
+  create_tidyee(x$ee_ob,vrt)
+}
+
+
+

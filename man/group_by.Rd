@@ -7,9 +7,9 @@
 group_by(x, ...)
 }
 \arguments{
-\item{x}{ee$ImageCollection}
+\item{x}{ee$ImageCollection or tidyee object}
 
-\item{...}{group_by variables  (must be "month", "year" or combination of the two)}
+\item{...}{group_by variables}
 }
 \value{
 ee$ImageCollection with grouped_vars attribute

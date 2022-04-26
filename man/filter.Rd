@@ -7,7 +7,7 @@
 filter(x, ...)
 }
 \arguments{
-\item{x}{imageCollection}
+\item{x}{imageCollection or tidyee class object}
 
 \item{...}{other arguments}
 }
@@ -26,5 +26,15 @@ ee_Initialize()
 l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
 l8 |>
     filter(date>"2016-01-01",date<"2016-03-04")
-    }
+
+
+ # example with tidyee ckass
+modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+modis_ic_tidy <- as_tidyee(modis_ic)
+
+# filter by month
+modis_march_april <- modis_ic_tidy |>
+filter(month \%in\% c(3,4))
+}
+
 }

@@ -1,0 +1,105 @@
+---
+title: "ab-tidyee-class-framework"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ab-tidyee-class-framework}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyrgee)
+library(rgee)
+library(dplyr)
+ee_Initialize()
+```
+
+## Intro
+
+In addition to building nice dplyresque/tidy syntax wrappers around `rgee/GEE` functions. We have decided to explore the possibility of introducing a new framework which includes a new class object: "tidyee". While this framework
+
+To use this framework your `ImageCollection` or `Image` has to be loaded using the new `as_tidy_ee` function as shown below:
+
+```{r}
+modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+modis_ic_tidy <- as_tidyee(modis_ic)
+```
+
+As you can see below the new object (`modis_ic_tidy`) is a named list containing (of class "tidyee"):
+
+1. `ee_ob`: the original ee_object (in this case `ImageCollection`)
+2. `vrt`: virtual table holding key properties of the original ee_object
+
+```{r}
+modis_ic_tidy$ee_ob
+modis_ic_tidy$vrt
+```
+
+The virtual table data.frame allows us to leverage all the power and functionality of dplyr to filter, mutate,group, etc. An S3 class method filter.tidyee has been written which essentially first filter the `vrt` based on any predefined (date, year, month), or any later mutated (i.e week, growing season) column. The ee_ob (ImageCollection) is then filtered/subset based on the filtered `vrt`
+
+Below is an example using months to filter
+
+```{r}
+# library(tidyverse)
+# library(tidyrgee)
+# filter |> debugonce()
+
+modis_march_april <- modis_ic_tidy |> 
+  tidyrgee::filter(month %in% c(3,4))
+
+
+modis_march_april$vrt |> nrow()
+
+
+
+```
+
+Now we show an example of mutating a new category and then filtering the `tidyee` by that column
+```{r}
+
+modis_filt_growing_season <- modis_ic_tidy |> 
+  tidyrgee::mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  tidyrgee::filter(crop_cycle=="planting")
+
+
+
+```
+
+## Limitations/Next Steps
+
+Below I list properties of this approach that could be considered potential downsides and list potential ways to circumvent or minimize these downsides.
+
+**1. The new `tidyee` object reduces interoperability with `rgee`**
+
+Some potential ideas to improve:
+
+a. maybe very simple functions to switch resulting `tidyee` object back to `ee$ImageCollection` or `ee$Image` (maybe `as_ic` `as_img`)
+b.add option to make `tidyee` on fly from `ee$Image`/`ee$ImageCollection` and then also include something like `return_ic`as a logical switch which will just return `ee$Image` or `ee$ImageCollection` instead of `tidyee` class.
+
+So far I lean towards option a
+
+**2. as_tidyee makes the process take slightly longer**
+
+a. Since `as_tidyee` relies on client-side operation (primarily `rgee::ee_get_date_ic`) this function requires some start-up time investment. However, I am thinking that this one-time investment will actually save time since when using the `tidyee` object we will have constantly updating data.frame which is basically updated instantaneously as we filter and process the `ImageCollection`. This could allow nice print methods and querying without having to perform the `rgee`/client side functions like `rgee::ee_print` and `getInfo` repeatedly in work-flows which take just as much time as `as_tidyee` every time they are run.
+b. To make sure these percieved benefits are actual benefits we should: 1) include checks/assertions at the end of each process to ensure the `ee_ob` and `vrt` are in perfect agreement, 2) think about including more information (bands, properties) in the the print methods for tidyee
+
+
+Might be worth prefixing `dplyr` functions with `ee_` to avoid conflicts?
+
+
+
+
