@@ -23,16 +23,16 @@ ee_Initialize()
 
 ## Intro
 
-In addition to building nice dplyresque/tidy syntax wrappers around `rgee/GEE` functions. We have decided to explore the possibility of introducing a new framework which includes a new class object: "tidyee". While this framework
+In addition to building nice dplyresque/tidy syntax wrappers around `rgee/GEE` functions. We have decided to explore the possibility of introducing a new framework which includes a new class object: "tidyee". 
 
-To use this framework your `ImageCollection` or `Image` has to be loaded using the new `as_tidy_ee` function as shown below:
+To use this framework your `ImageCollection` or `Image` has to be converted to `tidyee` class using the new `as_tidy_ee` function as shown below:
 
 ```{r}
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 modis_ic_tidy <- as_tidyee(modis_ic)
 ```
 
-As you can see below the new object (`modis_ic_tidy`) is a named list containing (of class "tidyee"):
+As you can see below the new object (`modis_ic_tidy`) is a named list (of class "tidyee") containing :
 
 1. `ee_ob`: the original ee_object (in this case `ImageCollection`)
 2. `vrt`: virtual table holding key properties of the original ee_object
@@ -42,7 +42,7 @@ modis_ic_tidy$ee_ob
 modis_ic_tidy$vrt
 ```
 
-The virtual table data.frame allows us to leverage all the power and functionality of dplyr to filter, mutate,group, etc. An S3 class method filter.tidyee has been written which essentially first filter the `vrt` based on any predefined (date, year, month), or any later mutated (i.e week, growing season) column. The ee_ob (ImageCollection) is then filtered/subset based on the filtered `vrt`
+The virtual table (`vrt`) data.frame allows us to leverage all the power and functionality of dplyr to filter, mutate,group, etc. An S3 class method `filter.tidyee` has been written which, essentially, first filters the `vrt` based on conditions supplied to the `filter` arugment and then uses the filtered data.frame (vrt) to filter/subset the `ImageCollection`. The vrt comes with several pre-defined  columns useful for filtering(date, year, month), but `mutate` can be used to add any new columns/categories for filtering.  
 
 Below is an example using months to filter
 
@@ -55,7 +55,7 @@ modis_march_april <- modis_ic_tidy |>
   tidyrgee::filter(month %in% c(3,4))
 
 
-modis_march_april$vrt |> nrow()
+
 
 
 
