@@ -48,6 +48,9 @@ filter.tidyee <- function(x,...){
     )
     )
   ic_filt = x$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
+  # adding this assertion add 1-2 secs onto the process-- maybe should just be a test....
+  # assertthat::assert_that(nrow(vrt)==ic_filt$size()$getInfo(),
+  #                         msg = "mismatch in vrt and ee_ob - check function and objects" )
 
   return(create_tidyee(x=ic_filt,vrt=vrt))
 }
