@@ -39,3 +39,51 @@ summarise.grouped_imageCol <-  function(x,stat,...){
   }
 
 }
+
+#' @export
+summarise.tidyee <-  function(x,stat,...){
+  group_vars_chr <- dplyr::group_vars(x$vrt)
+  if(length(group_vars_chr)==0){
+    ee_reducer <-  stat_to_reducer_full(stat)
+    ic_summarised <-  ee_reducer(x$ee_ob)
+    vrt_summarised <- x$vrt |>
+      dplyr::mutate(min_date = min(date),
+                    max_date = max(date),
+                    date_range= glue::glue("{min_date}-{max_date}")
+                    ) |>
+      nest(data = c(id, time_start, date, month, year, idx)) |>
+      dplyr::mutate(type= "summarised composite")
+    tidyee_output <- create_tidyee(x = ic_summarised,vrt = vrt_summarised)
+  }
+  if(length(group_vars_chr)>0){
+
+    # as.character(range(x$vrt$date))
+
+    years_unique_chr <- unique(x$vrt$year) |> sort()
+    months_unique_chr <- unique(x$vrt$month) |> sort()
+
+
+    if(length(group_vars_chr)==1 & group_vars_chr=="year"){
+      ee_year_composite(imageCol = x,year = years_unique_chr,stat = stat)
+      # summarise vrt
+    }
+    if(length(group_vars_chr)==1 & group_vars_chr=="month"){
+      ee_month_composite(imageCol = x,mont=months_unique_chr,stat = stat)
+      # summarise vrt
+    }
+    if(length(group_vars_chr)==2 & all(c("month","year")%in%group_vars_chr)){
+      ee_year_month_composite(imageCol = x,year = year,stat = stat)
+      # summarise vrt
+
+    }
+
+
+
+
+
+
+  }
+
+
+
+}
