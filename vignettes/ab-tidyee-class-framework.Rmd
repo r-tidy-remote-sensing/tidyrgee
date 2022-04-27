@@ -80,9 +80,9 @@ modis_filt_growing_season <- modis_ic_tidy |>
 
 ```{r}
 
-wtf <- modis_ic_tidy |> 
-  group_by(year,month) |> 
-  summarise(stat = "mean")
+modis_yr_mo <- modis_ic_tidy |> 
+  tidyrgee::group_by(year,month) |> 
+  tidyrgee::summarise(stat = "mean")
 
 
 
