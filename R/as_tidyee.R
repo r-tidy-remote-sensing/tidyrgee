@@ -5,6 +5,7 @@
 #' as a "virtual data.frame (vrt)" which is a data.frame holding key properties of the
 #' ee$Image/ee$ImageCollection. The returned list has been assigned a new class "tidyee".
 #' @return tidyee class object which contains a list with two components ("x","vrt")
+#' @importFrom rlang .data
 #' @export
 #'
 #' @examples \dontrun{
@@ -20,7 +21,7 @@
 as_tidyee <-  function(x){
   vrt<-  rgee::ee_get_date_ic(x) |>
     dplyr::mutate(
-      date = time_start,
+      date = .data$time_start,
       month=lubridate::month(date),
       year= lubridate::year(date),
       idx= dplyr::row_number()-1

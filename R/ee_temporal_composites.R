@@ -264,28 +264,28 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
   years_unique_chr <- unique(x$vrt$year) |> sort()
   months_unique_chr <- unique(x$vrt$month) |> sort()
 
-  ee_years_list = ee$List(years_unique_chr)
-  ee_months_list = ee$List(months_unique_chr)
+  ee_years_list = rgee::ee$List(years_unique_chr)
+  ee_months_list = rgee::ee$List(months_unique_chr)
 
   ee_reducer <-  stat_to_reducer_full(stat)
 
-  ic_summarised <- ee$ImageCollection(ee$FeatureCollection(ee_years_list$map(rgee::ee_utils_pyfunc(function (y) {
+  ic_summarised <- rgee::ee$ImageCollection(rgee::ee$FeatureCollection(ee_years_list$map(rgee::ee_utils_pyfunc(function (y) {
 
-    yearCollection = x$ee_ob$filter(ee$Filter$calendarRange(y, y, 'year'))
+    yearCollection = x$ee_ob$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
 
-    ee$ImageCollection$fromImages(
+    rgee::ee$ImageCollection$fromImages(
 
       ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
 
-        indexString = ee$Number(m)$format('%03d')
-        ic_temp_filtered <- yearCollection$filter(ee$Filter$calendarRange(m, m, 'month'))
+        indexString = rgee::ee$Number(m)$format('%03d')
+        ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
         ee_reducer(ic_temp_filtered)$
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
           set('date',ee$Date$fromYMD(y,m,1))$
           # set('system:time_start',ee$Date$fromYMD(y,m,1))$
-          set('system:time_start',ee$Date$millis(ee$Date$fromYMD(y,m,1)))
+          set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,m,1)))
 
       }))
     )
