@@ -57,8 +57,6 @@ modis_march_april <- modis_ic_tidy |>
 
 
 
-
-
 ```
 
 Now we show an example of mutating a new category and then filtering the `tidyee` by that column
@@ -74,6 +72,17 @@ modis_filt_growing_season <- modis_ic_tidy |>
       )
            ) |> 
   tidyrgee::filter(crop_cycle=="planting")
+
+
+
+```
+
+
+```{r}
+
+wtf <- modis_ic_tidy |> 
+  group_by(year,month) |> 
+  summarise(stat = "mean")
 
 
 

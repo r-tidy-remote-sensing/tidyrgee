@@ -63,19 +63,22 @@ summarise.tidyee <-  function(x,stat,...){
     months_unique_chr <- unique(x$vrt$month) |> sort()
 
 
-    if(length(group_vars_chr)==1 & group_vars_chr=="year"){
-      ee_year_composite(imageCol = x,year = years_unique_chr,stat = stat)
+    if(length(group_vars_chr)==1){
+      if(group_vars_chr=="year"){
+      tidyee_output <-  ee_year_composite(x,stat = stat)
       # summarise vrt
     }
-    if(length(group_vars_chr)==1 & group_vars_chr=="month"){
-      ee_month_composite(imageCol = x,mont=months_unique_chr,stat = stat)
+      if(group_vars_chr=="month"){
+      tidyee_output <- ee_month_composite(x,stat = stat)
       # summarise vrt
+      }
     }
     if(length(group_vars_chr)==2 & all(c("month","year")%in%group_vars_chr)){
-      ee_year_month_composite(imageCol = x,year = year,stat = stat)
+      tidyee_output <- ee_year_month_composite(x,stat = stat)
       # summarise vrt
 
     }
+    return(tidyee_output)
 
 
 
