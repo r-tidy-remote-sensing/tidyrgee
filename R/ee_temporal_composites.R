@@ -119,23 +119,23 @@ ee_month_composite <- function(imageCol,stat,month, ...){
 
 ee_month_composite.ee.imagecollection.ImageCollection <- function(imageCol, stat, month, ...){
 
-  ee_month_list = ee$List(month)
+  ee_month_list = rgee::ee$List(month)
 
   stopifnot(!is.null(imageCol), inherits(imageCol, "ee.imagecollection.ImageCollection"))
 
-  ee_reducer <- stat_to_reducer(stat)
+  ee_reducer <- stat_to_reducer_full(stat)
 
-  ee$ImageCollection$fromImages(
+  rgee::ee$ImageCollection$fromImages(
     ee_month_list$map(rgee::ee_utils_pyfunc(function (m) {
-      indexString = ee$Number(m)$format('%03d')
-      ic_temp_filtered <- imageCol$filter(ee$Filter$calendarRange(m, m, 'month'))
+      indexString = rgee::ee$Number(m)$format('%03d')
+      ic_temp_filtered <- imageCol$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
         set('system:index', indexString)$
         set('year',0000)$
         set('month',m)$
-        set('date',ee$Date$fromYMD(1,m,1))$
+        set('date',rgee::ee$Date$fromYMD(1,m,1))$
         # set('system:time_start',ee$Date$fromYMD(y,m,1))$
-        set('system:time_start',ee$Date$millis(ee$Date$fromYMD(1,m,1)))
+        set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(1,m,1)))
     }
     )))
 
@@ -150,21 +150,21 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
   stopifnot(!is.null(x), inherits(x, "tidyee"))
   months_unique_chr <- unique(x$vrt$month) |> sort()
-  ee_months_list = ee$List(months_unique_chr)
+  ee_months_list = rgee::ee$List(months_unique_chr)
 
   ee_reducer <- stat_to_reducer_full(stat)
 
-  ic_summarised <- ee$ImageCollection$fromImages(
+  ic_summarised <- rgee::ee$ImageCollection$fromImages(
     ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
-      indexString = ee$Number(m)$format('%03d')
-      ic_temp_filtered <- x$ee_ob$filter(ee$Filter$calendarRange(m, m, 'month'))
+      indexString = rgee::ee$Number(m)$format('%03d')
+      ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
         set('system:index', indexString)$
         set('year',0000)$
         set('month',m)$
-        set('date',ee$Date$fromYMD(1,m,1))$
+        set('date',rgee::ee$Date$fromYMD(1,m,1))$
         # set('system:time_start',ee$Date$fromYMD(y,m,1))$
-        set('system:time_start',ee$Date$millis(ee$Date$fromYMD(1,m,1)))
+        set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(1,m,1)))
     }
     )))
 
@@ -208,29 +208,29 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol
   startYear = lubridate::year(startDate)
   endYear = lubridate::year(endDate)
 
-  years = ee$List$sequence(startYear, endYear)
+  years = rgee::ee$List$sequence(startYear, endYear)
 
-  months = ee$List$sequence(months[1], months[2])
+  months = rgee::ee$List$sequence(months[1], months[2])
 
-  ee_reducer <-  stat_to_reducer(stat)
+  ee_reducer <-  stat_to_reducer_full(stat)
 
-  ee$ImageCollection(ee$FeatureCollection(years$map(rgee::ee_utils_pyfunc(function (y) {
+  rgee::ee$ImageCollection(rgee::ee$FeatureCollection(years$map(rgee::ee_utils_pyfunc(function (y) {
 
-    yearCollection = imageCol$filter(ee$Filter$calendarRange(y, y, 'year'))
+    yearCollection = imageCol$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
 
-    ee$ImageCollection$fromImages(
+    rgee::ee$ImageCollection$fromImages(
 
       months$map(rgee::ee_utils_pyfunc(function (m) {
 
-        indexString = ee$Number(m)$format('%03d')
-        ic_temp_filtered <- yearCollection$filter(ee$Filter$calendarRange(m, m, 'month'))
+        indexString = rgee::ee$Number(m)$format('%03d')
+        ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
         ee_reducer(ic_temp_filtered)$
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
-          set('date',ee$Date$fromYMD(y,m,1))$
+          set('date',ree::ee$Date$fromYMD(y,m,1))$
           # set('system:time_start',ee$Date$fromYMD(y,m,1))$
-          set('system:time_start',ee$Date$millis(ee$Date$fromYMD(y,m,1)))
+          set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,m,1)))
 
       }))
     )
