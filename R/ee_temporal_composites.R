@@ -283,7 +283,7 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
-          set('date',ee$Date$fromYMD(y,m,1))$
+          set('date',rgee::ee$Date$fromYMD(y,m,1))$
           # set('system:time_start',ee$Date$fromYMD(y,m,1))$
           set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,m,1)))
 
