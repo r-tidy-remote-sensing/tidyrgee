@@ -26,11 +26,11 @@ as_tidyee <-  function(x){
       year= lubridate::year(date),
       idx= dplyr::row_number()-1
     )
+  attr(vrt,"band_names") <- x$first()$bandNames()$getInfo()
 
-  create_tidyee(x = x,vrt = vrt)
+  tidyrgee:::create_tidyee(x = x,vrt = vrt)
 
 }
-
 
 
 
@@ -41,6 +41,7 @@ as_tidyee <-  function(x){
 #' @description helper function to assign new tidyee when running `as_tidyee`
 #'
 #' @return tidyee class list object
+#' @export
 
 create_tidyee <- function(x,vrt){
   ee_tidy_ob <- list(ee_ob=x,vrt=vrt)
