@@ -66,6 +66,7 @@ summarise.tidyee <-  function(x,stat,...){
       # summarise vrt
     }
       if(group_vars_chr=="month"){
+
       tidyee_output <- ee_month_composite(x,stat = stat)
       # summarise vrt
       }

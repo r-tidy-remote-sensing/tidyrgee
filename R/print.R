@@ -13,5 +13,26 @@ print <-  function(x){
 #' @export
 print.tidyee <-  function(x){
   cat(crayon::green("band names: [",glue::glue_collapse(attributes(x$vrt)$band_names,sep = ", "),"]","\n\n"))
-  print(head(x$vrt))
+
+
+   NextMethod()
+
+
+
+
+
 }
+
+
+# print.tidyee <-  function(x){
+#   cat(crayon::green("band names: [",glue::glue_collapse(attributes(x$vrt)$band_names,sep = ", "),"]","\n\n"))
+#   if(inherits(x$vrt,"tbl_df")){
+#   NextMethod()
+#   }else{
+#     printme <-  x$vrt[1:10,]
+#     print.data.frame(printme)
+#     }
+#   invisible(x$vrt)
+# }
+
+

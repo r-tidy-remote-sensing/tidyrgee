@@ -172,13 +172,15 @@ ee_month_composite.tidyee <- function(x, stat, ...){
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
     )
+  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
+  attr(vrt_summarised,"band_names") <-  client_bandnames
   create_tidyee(ic_summarised,vrt_summarised)
 
 }
 
 
 
-ee_year_month_composite <- function(imageCol, ...){
+ee_year_month_composite <- function(x, ...){
 
   UseMethod('ee_year_month_composite')
 
@@ -239,16 +241,7 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol
 }
 
 
-#' @name ee_year_month_composite
-#' @param stat A \code{character} indicating what to reduce the imageCollection by,
-#'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
-#' @param startDate \code{character} format date, e.g. "2018-10-23".
-#' @param endDate \code{character} format date, e.g. "2018-10-23".
-#' @param months \code{numeric} vector, e.g. c(1,12).
 #' @export
-#'
-#'
-
 ee_year_month_composite.tidyee <-  function(x,stat,...
 ){
 
@@ -300,6 +293,8 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
     )
+  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
+  attr(vrt_summarised,"band_names") <-  client_bandnames
 
   create_tidyee(ic_summarised,vrt_summarised)
 
