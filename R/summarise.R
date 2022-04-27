@@ -47,12 +47,9 @@ summarise.tidyee <-  function(x,stat,...){
     ee_reducer <-  stat_to_reducer_full(stat)
     ic_summarised <-  ee_reducer(x$ee_ob)
     vrt_summarised <- x$vrt |>
-      dplyr::mutate(min_date = min(date),
-                    max_date = max(date),
-                    date_range= glue::glue("{min_date}-{max_date}")
-                    ) |>
-      nest(data = c(id, time_start, date, month, year, idx)) |>
-      dplyr::mutate(type= "summarised composite")
+      summarise(
+        dates_summarised= list(date),.groups = "drop"
+        )
     tidyee_output <- create_tidyee(x = ic_summarised,vrt = vrt_summarised)
   }
   if(length(group_vars_chr)>0){

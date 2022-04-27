@@ -228,7 +228,7 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
-          set('date',ree::ee$Date$fromYMD(y,m,1))$
+          set('date',rgee::ee$Date$fromYMD(y,m,1))$
           # set('system:time_start',ee$Date$fromYMD(y,m,1))$
           set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,m,1)))
 
@@ -253,6 +253,14 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
 ){
 
   stopifnot(!is.null(x), inherits(x, "tidyee"))
+
+
+  # after running the calendarRange maps there is a strange behavior which
+  # warrants the need to post-filter.
+  start_post_filter <- lubridate::floor_date(min(x$vrt$date),"month") |> as.character()
+  end_post_filter <- max(x$vrt$date) |> as.character()
+
+
   years_unique_chr <- unique(x$vrt$year) |> sort()
   months_unique_chr <- unique(x$vrt$month) |> sort()
 
@@ -283,6 +291,10 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
     )
 
   })))$flatten())
+
+  # Need to filter yrmo composite to original date range or you can end up with empty slots
+  # for months that didn't occur yet
+  ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
   vrt_summarised <- x$vrt |>
     # nest(data=date)
     dplyr::summarise(
