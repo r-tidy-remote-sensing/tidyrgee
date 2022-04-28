@@ -2,26 +2,15 @@
 % Please edit documentation in R/ee_temporal_composites.R
 \name{ee_month_composite}
 \alias{ee_month_composite}
-\alias{ee_month_composite.ee.imagecollection.ImageCollection}
-\alias{ee_month_composite.tidyee}
-\title{Filter by Month}
+\title{Pixel-level composite by month}
 \usage{
 ee_month_composite(imageCol, stat, month, ...)
-
-\method{ee_month_composite}{ee.imagecollection.ImageCollection}(imageCol, stat, month, ...)
-
-\method{ee_month_composite}{tidyee}(x, stat, ...)
 }
 \arguments{
 \item{imageCol}{An earth engine ImageCollection}
 
-\item{stat}{A \code{character} indicating what to reduce the imageCollection by,
-e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
-
 \item{...}{extra args to pass on}
-
-\item{months}{\code{numeric} vector, e.g. c(1,12).}
 }
 \description{
-Filter by Month
+Pixel-level composite by month
 }

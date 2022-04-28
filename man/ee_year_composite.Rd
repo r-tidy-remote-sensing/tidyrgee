@@ -2,7 +2,7 @@
 % Please edit documentation in R/ee_temporal_composites.R
 \name{ee_year_composite}
 \alias{ee_year_composite}
-\title{ee_year_composite}
+\title{Pixel level composite by year}
 \usage{
 ee_year_composite(imageCol, stat, year, ...)
 }
@@ -17,5 +17,5 @@ e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 \item{...}{other arguments}
 }
 \description{
-ee_year_composite
+Pixel level composite by year
 }

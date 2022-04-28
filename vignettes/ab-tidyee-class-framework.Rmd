@@ -19,6 +19,7 @@ library(tidyrgee)
 library(rgee)
 library(dplyr)
 ee_Initialize()
+
 ```
 
 ## Intro
@@ -93,7 +94,7 @@ modis_monthly_baseline_mean <- modis_ic_tidy |>
   filter(year %in% 2000:2015) |> 
   group_by(month) |> 
   summarise(stat="mean")
-
+modis_monthly_baseline_mean$ee_ob |> ee_print()
 
 
 modis_monthly_baseline_sd <- modis_ic_tidy |> 
@@ -109,6 +110,26 @@ modis_monthly_baseline
 
 ```
 
+```{r}
+
+point_sample_buffered <- tidyrgee::bgd_msna |> 
+  sample_n(3) |> 
+  sf::st_as_sf(coords=c("_gps_reading_longitude",
+                        "_gps_reading_latitude"), crs=4326) |>
+  sf::st_transform(crs=32646) |> 
+  sf::st_buffer(dist = 500) |> 
+  dplyr::select(`_uuid`) 
+
+
+ndvi_monthly_mean_at_pt<- modis_monthly_baseline_mean |> 
+  ee_extract(y = point_sample_buffered, 
+             fun="mean",
+             scale = 500)
+
+
+
+```
+
 
 ## Limitations/Next Steps
 
@@ -118,10 +139,17 @@ Below I list properties of this approach that could be considered potential down
 
 Some potential ideas to improve:
 
-a. maybe very simple functions to switch resulting `tidyee` object back to `ee$ImageCollection` or `ee$Image` (maybe `as_ic` `as_img`)
+a. maybe very simple functions to switch resulting `tidyee` object back to `ee$ImageCollection` or `ee$Image` (maybe `as_ic`, `as_img`,`as_ee`)
 b.add option to make `tidyee` on fly from `ee$Image`/`ee$ImageCollection` and then also include something like `return_ic`as a logical switch which will just return `ee$Image` or `ee$ImageCollection` instead of `tidyee` class.
 
-So far I lean towards option a
+So far I lean towards **a** and just create a `as_ee` function to implement it.
+
+
+```{r}
+modis_ic_tidy |> 
+  as_ee()
+
+```
 
 **2. as_tidyee makes the process take slightly longer**
 

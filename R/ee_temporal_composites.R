@@ -1,4 +1,6 @@
-#' ee_year_composite
+#' Pixel level composite by year
+#' @name ee_year_composite
+#' @rdname ee_year_composite
 #' @param imageCol ee$ImageCollection
 #' @param stat A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
@@ -95,7 +97,7 @@ ee_year_composite.tidyee<-  function(x,
 
 
 
-#' @title Filter by Month
+#' @title Pixel-level composite by month
 #' @param imageCol An earth engine ImageCollection
 #' @param ... extra args to pass on
 #' @export
@@ -111,12 +113,7 @@ ee_month_composite <- function(imageCol,stat,month, ...){
 
 
 
-#' @name ee_month_composite
-#' @param stat A \code{character} indicating what to reduce the imageCollection by,
-#'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
-#' @param months \code{numeric} vector, e.g. c(1,12).
 #' @export
-
 ee_month_composite.ee.imagecollection.ImageCollection <- function(imageCol, stat, month, ...){
 
   ee_month_list = rgee::ee$List(month)
@@ -140,12 +137,8 @@ ee_month_composite.ee.imagecollection.ImageCollection <- function(imageCol, stat
     )))
 
 }
-#' @name ee_month_composite
-#' @param stat A \code{character} indicating what to reduce the imageCollection by,
-#'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
-#' @param months \code{numeric} vector, e.g. c(1,12).
-#' @export
 
+#' @export
 ee_month_composite.tidyee <- function(x, stat, ...){
 
   stopifnot(!is.null(x), inherits(x, "tidyee"))
@@ -159,6 +152,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
       indexString = rgee::ee$Number(m)$format('%03d')
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
+        set('system:id',indexString)$
         set('system:index', indexString)$
         set('year',0000)$
         set('month',m)$
@@ -179,14 +173,9 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 }
 
 
-
-ee_year_month_composite <- function(x, ...){
-
-  UseMethod('ee_year_month_composite')
-
-}
-
+#' Pixel-level composite by year and month
 #' @name ee_year_month_composite
+#' @rdname ee_year_month_composite
 #' @param stat A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param startDate \code{character} format date, e.g. "2018-10-23".
@@ -195,7 +184,14 @@ ee_year_month_composite <- function(x, ...){
 #' @export
 #'
 #'
+ee_year_month_composite <- function(x, ...){
 
+  UseMethod('ee_year_month_composite')
+
+}
+
+
+#' @export
 ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol,
                                                                      stat,
                                                                      startDate,
@@ -273,6 +269,7 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
         indexString = rgee::ee$Number(m)$format('%03d')
         ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
         ee_reducer(ic_temp_filtered)$
+          set('ID',indexString)$
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
