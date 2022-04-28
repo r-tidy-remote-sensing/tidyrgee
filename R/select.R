@@ -1,33 +1,3 @@
-#' Select bands
-#'
-#' @param x tidyee class object containing ee$ImageCollection or ee$Image
-#' @param ... one or more quoted or unquoted expressions separated by commas.
-#'
-#' @return tidyee class object with specified (...) bands selected
-#' @export
-#'
-#' @examples \dontrun{
-#' library(tidyrgee)
-#' ee_Initialize()
-#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
-#' modis_ic_tidy <- as_tidyee(modis_ic)
-#'
-#' # select NDVI band
-#' modis_ndvi <- modis_ic_tidy |>
-#'    select("NDVI")
-#'
-#' # select NDVI band, but change band to new name
-#' modis_ndvi_renamed <- modis_ic_tidy |>
-#'    select(ndvi_new= "NDVI")
-#'
-#'
-#' }
-
-
-select <- function(x,...){
-  UseMethod("select")
-}
-
 #' @export
 select.tidyee <-  function(x,...){
   dots <- list(...)
@@ -52,3 +22,33 @@ select.tidyee <-  function(x,...){
   }
   tidyrgee:::create_tidyee(ic_selected, x$vrt)
 }
+
+#' Select bands from ee$Image or ee$ImageCollection
+#' @name select
+#' @rdname select
+#' @param x tidyee class object containing ee$ImageCollection or ee$Image
+#' @param ... one or more quoted or unquoted expressions separated by commas.
+#' @return tidyee class object with specified (...) bands selected
+#' @examples \dontrun{
+#' library(tidyrgee)
+#' ee_Initialize()
+#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+#' modis_ic_tidy <- as_tidyee(modis_ic)
+#'
+#' # select NDVI band
+#' modis_ndvi <- modis_ic_tidy |>
+#'    select("NDVI")
+#'
+#' # select NDVI band, but change band to new name
+#' modis_ndvi_renamed <- modis_ic_tidy |>
+#'    select(ndvi_new= "NDVI")
+#'
+#'
+#' }
+#' @seealso \code{\link[dplyr]{select}} for information about select on normal data tables.
+#' @export
+#' @importFrom dplyr select
+NULL
+
+
+

@@ -52,7 +52,7 @@ Below is an example using months to filter
 # filter |> debugonce()
 
 modis_march_april <- modis_ic_tidy |> 
-  tidyrgee::filter(month %in% c(3,4))
+  filter(month %in% c(3,4))
 
 
 
@@ -63,7 +63,7 @@ Now we show an example of mutating a new category and then filtering the `tidyee
 ```{r}
 
 modis_filt_growing_season <- modis_ic_tidy |> 
-  tidyrgee::mutate(crop_cycle= case_when( 
+  mutate(crop_cycle= case_when( 
     month %in% c(4,5)~ "land prep",
     month %in% c(6,7)~ "planting",
     month %in% c(8,9,10)~"growing",
@@ -71,7 +71,7 @@ modis_filt_growing_season <- modis_ic_tidy |>
     TRUE ~ "other"
       )
            ) |> 
-  tidyrgee::filter(crop_cycle=="planting")
+  filter(crop_cycle=="planting")
 
 
 
@@ -81,7 +81,7 @@ modis_filt_growing_season <- modis_ic_tidy |>
 ```{r}
 
 modis_yr_mo <- modis_ic_tidy |> 
-  tidyrgee::group_by(year,month) |> 
+  group_by(year,month) |> 
   summarise(stat = "mean")
 ```
 
@@ -97,10 +97,10 @@ modis_monthly_baseline_mean <- modis_ic_tidy |>
 
 
 modis_monthly_baseline_sd <- modis_ic_tidy |> 
-  tidyrgee::select("NDVI") |> 
-  tidyrgee::filter(year %in% 2000:2015) |> 
-  tidyrgee::group_by(month) |> 
-  tidyrgee::summarise(stat="sd")
+  select("NDVI") |> 
+  filter(year %in% 2000:2015) |> 
+  group_by(month) |> 
+  summarise(stat="sd")
 
 modis_monthly_baseline <- modis_monthly_baseline_mean |> 
   inner_join(modis_monthly_baseline_sd, by="month")

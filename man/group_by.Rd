@@ -2,9 +2,10 @@
 % Please edit documentation in R/group_by.R
 \name{group_by}
 \alias{group_by}
-\title{group_by}
+\alias{group_by.ee.imagecollection.ImageCollection}
+\title{Group an imageCollection or tidyee object with Imagecollections by a parameter}
 \usage{
-group_by(x, ...)
+\method{group_by}{ee.imagecollection.ImageCollection}(x, ...)
 }
 \arguments{
 \item{x}{ee$ImageCollection or tidyee object}
@@ -15,7 +16,7 @@ group_by(x, ...)
 ee$ImageCollection with grouped_vars attribute
 }
 \description{
-group_by
+Group an imageCollection or tidyee object with Imagecollections by a parameter
 }
 \examples{
 \dontrun{

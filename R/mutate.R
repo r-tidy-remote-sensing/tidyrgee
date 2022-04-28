@@ -1,11 +1,16 @@
-#' mutate
-#'
+#' @export
+mutate.tidyee <- function(x,...){
+  vrt <- x$vrt |>
+    dplyr::mutate(...)
+  create_tidyee(x$ee_ob,vrt)
+}
+
+#' mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection
+#' @name mutate
+#' @rdname mutate
 #' @param x tidyee class object (list of ee_ob, vrt)
 #' @param ... mutate arguments
-#'
 #' @return tidyee object with vrt component containing new mutated cols
-#' @export
-#'
 #' @examples \dontrun{
 #'library(tidyrgee)
 #' library(rgee)
@@ -14,13 +19,7 @@
 #' modis_ic_tidy <- as_tidyee(modis_ic)
 #'}
 
-mutate <-  function(x, ...){
-  UseMethod("mutate")
-}
-
+#' @seealso \code{\link[dplyr]{mutate}} for information about mutate on normal data tables.
 #' @export
-mutate.tidyee <- function(x,...){
-  vrt <- x$vrt |>
-    dplyr::mutate(...)
-  create_tidyee(x$ee_ob,vrt)
-}
+#' @importFrom dplyr mutate
+NULL

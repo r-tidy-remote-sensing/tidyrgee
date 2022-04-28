@@ -2,10 +2,7 @@
 % Please edit documentation in R/mutate.R
 \name{mutate}
 \alias{mutate}
-\title{mutate}
-\usage{
-mutate(x, ...)
-}
+\title{mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection}
 \arguments{
 \item{x}{tidyee class object (list of ee_ob, vrt)}
 
@@ -15,7 +12,7 @@ mutate(x, ...)
 tidyee object with vrt component containing new mutated cols
 }
 \description{
-mutate
+mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection
 }
 \examples{
 \dontrun{
@@ -25,4 +22,7 @@ ee_Initialize()
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 modis_ic_tidy <- as_tidyee(modis_ic)
 }
+}
+\seealso{
+\code{\link[dplyr]{mutate}} for information about mutate on normal data tables.
 }

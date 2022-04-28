@@ -6,17 +6,16 @@
 #' @return printed tidyee object
 #' @export
 
-print <-  function(x){
-  UseMethod("print")
-}
+# print <-  function(x){
+#   UseMethod("print")
+# }
 
-#' @export
+
 print.tidyee <-  function(x){
   cat(crayon::green("band names: [",glue::glue_collapse(attributes(x$vrt)$band_names,sep = ", "),"]","\n\n"))
 
 
    NextMethod()
-
 
 
 

@@ -2,10 +2,7 @@
 % Please edit documentation in R/select.R
 \name{select}
 \alias{select}
-\title{Select bands}
-\usage{
-select(x, ...)
-}
+\title{Select bands from ee$Image or ee$ImageCollection}
 \arguments{
 \item{x}{tidyee class object containing ee$ImageCollection or ee$Image}
 
@@ -15,7 +12,7 @@ select(x, ...)
 tidyee class object with specified (...) bands selected
 }
 \description{
-Select bands
+Select bands from ee$Image or ee$ImageCollection
 }
 \examples{
 \dontrun{
@@ -34,4 +31,7 @@ modis_ndvi_renamed <- modis_ic_tidy |>
 
 
 }
+}
+\seealso{
+\code{\link[dplyr]{select}} for information about select on normal data tables.
 }

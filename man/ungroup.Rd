@@ -3,9 +3,6 @@
 \name{ungroup}
 \alias{ungroup}
 \title{ungroup}
-\usage{
-ungroup(x, ...)
-}
 \arguments{
 \item{x}{tidyee object}
 
@@ -13,4 +10,7 @@ ungroup(x, ...)
 }
 \description{
 ungroup
+}
+\seealso{
+\code{\link[dplyr]{ungroup}} for information about ungroup on normal data tables.
 }

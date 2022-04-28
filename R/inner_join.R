@@ -1,24 +1,4 @@
-
-
-#' ic_join_bands
-#' @param x,y	A pair of tidyee objects containing ee$ImageCollections
-#' @param by A character vector of variables to join by.
-#' @return
-#' An object of the same type as `x`. The output has the following properties:
-#' Same number of images as `x`
-#' Total number of bands equal the number of bands in `x` plus the number of bands in `y`
-#' @importFrom rgee ee
 #' @export
-
-inner_join <- function(x,y,by){
-  UseMethod("inner_join")
-}
-
-
-
-
-#' @export
-
 inner_join.tidyee<- function(x, y, by){
   x_ic <- x$ee_ob
   y_ic <- y$ee_ob
@@ -44,3 +24,17 @@ inner_join.tidyee<- function(x, y, by){
   attributes(x$vrt)$band_names <-  joined_band_names
   create_tidyee(ic_inner_joined,x$vrt)
 }
+
+#' inner_join bands from different image/ImageCollections based on shared property
+#' @name inner_join
+#' @param x,y	A pair of tidyee objects containing ee$ImageCollections
+#' @param by A character vector of variables to join by.
+#' @return
+#' An object of the same type as `x`. The output has the following properties:
+#' Same number of images as `x`
+#' Total number of bands equal the number of bands in `x` plus the number of bands in `y`
+#' @seealso \code{\link[dplyr]{inner_join}} for information about inner_join on normal data tables.
+#' @export
+#' @importFrom rgee ee
+#' @importFrom dplyr inner_join
+NULL

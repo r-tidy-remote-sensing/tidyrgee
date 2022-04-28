@@ -2,10 +2,7 @@
 % Please edit documentation in R/inner_join.R
 \name{inner_join}
 \alias{inner_join}
-\title{ic_join_bands}
-\usage{
-inner_join(x, y, by)
-}
+\title{inner_join bands from different image/ImageCollections based on shared property}
 \arguments{
 \item{x, y}{A pair of tidyee objects containing ee$ImageCollections}
 
@@ -17,5 +14,8 @@ Same number of images as \code{x}
 Total number of bands equal the number of bands in \code{x} plus the number of bands in \code{y}
 }
 \description{
-ic_join_bands
+inner_join bands from different image/ImageCollections based on shared property
+}
+\seealso{
+\code{\link[dplyr]{inner_join}} for information about inner_join on normal data tables.
 }

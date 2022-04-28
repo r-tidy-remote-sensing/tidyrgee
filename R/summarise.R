@@ -1,30 +1,3 @@
-#' summarise (method for imageCollections)
-#'
-#' @param x ee$Image or ee$ImageCollection
-#' @param stat stat/function to apply
-#' @param ... other arguments
-#'
-#' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
-#' @export
-#'
-#' @examples \dontrun{
-#' library(tidyrgee)
-#' ee_Initialize()
-#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
-#' modis_ic |>
-#'    filter(date>="2016-01-01",date<="2019-12-31") |>
-#'    group_by(year) |>
-#'    summarise(stat="max")
-#' }
-#'
-
-summarise <-  function(x, stat,...){
-  UseMethod('summarise')
-
-}
-
-
-
 
 #' @export
 summarise.grouped_imageCol <-  function(x,stat,...){
@@ -47,7 +20,7 @@ summarise.tidyee <-  function(x,stat,...){
     ee_reducer <-  stat_to_reducer_full(stat)
     ic_summarised <-  ee_reducer(x$ee_ob)
     vrt_summarised <- x$vrt |>
-      summarise(
+      dplyr::summarise(
         dates_summarised= list(date),.groups = "drop"
         )
     tidyee_output <- create_tidyee(x = ic_summarised,vrt = vrt_summarised)
@@ -77,14 +50,28 @@ summarise.tidyee <-  function(x,stat,...){
 
     }
     return(tidyee_output)
-
-
-
-
-
-
   }
-
-
-
 }
+
+
+#' Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
+#' @rdname summarise
+#' @name summarise
+#' @param x ee$Image or ee$ImageCollection
+#' @param stat stat/function to apply
+#' @param ... other arguments
+#' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
+#' @examples \dontrun{
+#' library(tidyrgee)
+#' ee_Initialize()
+#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+#' modis_ic |>
+#'    filter(date>="2016-01-01",date<="2019-12-31") |>
+#'    group_by(year) |>
+#'    summarise(stat="max")
+#' }
+#' @seealso \code{\link[dplyr]{summarise}} for information about summarise on normal data tables.
+#' @export
+#' @importFrom dplyr summarise
+NULL
+

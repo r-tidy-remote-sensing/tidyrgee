@@ -2,10 +2,7 @@
 % Please edit documentation in R/filter.R
 \name{filter}
 \alias{filter}
-\title{filter}
-\usage{
-filter(x, ...)
-}
+\title{filter ee$ImageCollections or tidyee objects that contain imageCollections}
 \arguments{
 \item{x}{imageCollection or tidyee class object}
 
@@ -15,7 +12,7 @@ filter(x, ...)
 filtered image or imageCollection form filtered imageCollection
 }
 \description{
-filter
+filter ee$ImageCollections or tidyee objects that contain imageCollections
 }
 \examples{
 \dontrun{
@@ -36,5 +33,7 @@ modis_ic_tidy <- as_tidyee(modis_ic)
 modis_march_april <- modis_ic_tidy |>
 filter(month \%in\% c(3,4))
 }
-
+}
+\seealso{
+\code{\link[dplyr]{filter}} for information about filter on normal data tables.
 }
