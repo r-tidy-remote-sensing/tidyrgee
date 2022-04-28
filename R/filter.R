@@ -1,32 +1,26 @@
 
-
-
-
-
-#' filter
-#'
-#' @param x imageCollection
-#' @param ... other arguments
-#'
-#' @return filtered image or imageCollection form filtered imageCollection
 #' @export
-#'
-#' @examples \dontrun{
-#'
-#' library(rgee)
-#' library(tidyrgee)
-#' ee_Initialize()
-#' l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
-#' l8 |>
-#'     filter(date>"2016-01-01",date<"2016-03-04")
-#'     }
+filter.tidyee <- function(x,...){
+  vrt <- x$vrt |>
+    dplyr::filter(...)
+  date_chr <-  vrt$date |>
+    lubridate::as_date() |>
+    as.character()
 
-filter <- function(x, ...){
+  ee_date_list = rgee::ee$List(date_chr)$
+    map(rgee::ee_utils_pyfunc(
+      function(date){
+        rgee::ee$Date$millis(date)
+      }
+    )
+    )
+  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
+  # adding this assertion add 1-2 secs onto the process-- maybe should just be a test....
+  # assertthat::assert_that(nrow(vrt)==ic_filt$size()$getInfo(),
+  #                         msg = "mismatch in vrt and ee_ob - check function and objects" )
 
-  UseMethod('filter')
-
+  return(create_tidyee(x=ic_filt,vrt=vrt))
 }
-
 
 
 #' @export
@@ -71,60 +65,35 @@ filter.ee.imagecollection.ImageCollection <- function(x,...){
 
 }
 
+#' filter ee$ImageCollections or tidyee objects that contain imageCollections
+#' @name filter
+#' @rdname filter
+#' @param x imageCollection or tidyee class object
+#' @param ... other arguments
+#' @return filtered image or imageCollection form filtered imageCollection
+#' @examples \dontrun{
+#'
+#' library(rgee)
+#' library(tidyrgee)
+#' ee_Initialize()
+#' l8 = ee$ImageCollection('LANDSAT/LC08/C01/T1_SR')
+#' l8 |>
+#'     filter(date>"2016-01-01",date<"2016-03-04")
+#'
+#'
+#'  # example with tidyee ckass
+#
+#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+#' modis_ic_tidy <- as_tidyee(modis_ic)
+#'
+#' # filter by month
+#' modis_march_april <- modis_ic_tidy |>
+#' filter(month %in% c(3,4))
+#' }
+#' @seealso \code{\link[dplyr]{filter}} for information about filter on normal data tables.
+#' @importFrom dplyr filter
+#' @export
 
-extract_condition <- function(expr_split){
-  assertthat::assert_that(length(expr_split) %in% c(3,4),msg = "something wrong with conditional logic")
-  if(length(expr_split)==3){
-    cond <-  expr_split[2]
-  }
-  if(length(expr_split)==4){
-    cond <- paste0(expr_split[2],expr_split[3])
-  }
-  return(cond)
-
-
-}
-extract_date <- function(expr_split){
-  assertthat::assert_that(length(expr_split) %in% c(3,4),msg = "something wrong with conditional logic")
-  if(length(expr_split)==3){
-    date_component <-  expr_split[3]
-  }
-  if(length(expr_split)==4){
-    date_component <- expr_split[4]
-  }
-  date_component_fmt <- stringr::str_remove_all(date_component,"\\\"") |> readr::parse_date()
-  cond <- extract_condition(expr_split)
-  if(cond==">"){
-    date_component_adjusted <- lubridate::ymd(date_component_fmt)+1
-  }
-  if(cond=="<"){
-    date_component_adjusted <- lubridate::ymd(date_component_fmt)-1
-  }
-  else{
-    date_component_adjusted <-  lubridate::ymd(date_component_fmt)
-  }
-  return(date_component_adjusted)
-}
-
-
-filter_type<- function(x){
-  ymd_boolean<- stringr::str_detect(string = x, pattern = "date")
-  month_boolean <- stringr::str_detect(string = x, pattern = "month")
-  year_boolean <- stringr::str_detect(string = x, pattern = "year")
-  if(any(ymd_boolean)){
-    assertthat::assert_that(length(ymd_boolean)==2 & all(ymd_boolean==T),
-                            msg = "if date (YMD) is being used there should be 2 dates supplied")
-  }
-  if(any(month_boolean)){
-    assertthat::assert_that(all(month_boolean==T),
-                            msg = "if filtering by month...")
-  }
-
-  filter_index <-  c(all(ymd_boolean),all(month_boolean),all(year_boolean))
-  filter_type <-  c("ymd","month","year")
-  filter_type[filter_index]
-}
-
-
+NULL
 
 

@@ -1,13 +1,12 @@
 
-
-#' group_by
-#'
-#' @param x ee$ImageCollection
-#' @param ... group_by variables  (must be "month", "year" or combination of the two)
-#'
+#' Group an imageCollection or tidyee object with Imagecollections by a parameter
+#' @name group_by
+#' @rdname group_by
+#' @param x ee$ImageCollection or tidyee object
+#' @param ... group_by variables
 #' @return ee$ImageCollection with grouped_vars attribute
 #' @export
-#'
+#' @importFrom dplyr group_by
 #' @examples \dontrun{
 #' library(tidyrgee)
 #' ee_Initialize()
@@ -17,13 +16,13 @@
 #'    group_by(year)
 #' }
 
-group_by <-  function(x, ...){
-  UseMethod('group_by')
+# group_by <-  function(x, ...){
+#   UseMethod('group_by')
+#
+# }
 
-}
 
 
-#' @export
 group_by.ee.imagecollection.ImageCollection <- function(x,...){
 
   new_groups <- rlang::enquos(..., .ignore_empty = "all")
@@ -39,3 +38,14 @@ group_by.ee.imagecollection.ImageCollection <- function(x,...){
   return(x)
 
 }
+
+
+#' @export
+group_by.tidyee <- function(x,...){
+  vrt <- x$vrt |>
+    dplyr::group_by(...)
+  create_tidyee(x$ee_ob,vrt)
+}
+
+
+

@@ -2,10 +2,7 @@
 % Please edit documentation in R/summarise.R
 \name{summarise}
 \alias{summarise}
-\title{summarise (method for imageCollections)}
-\usage{
-summarise(x, stat, ...)
-}
+\title{Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections}
 \arguments{
 \item{x}{ee$Image or ee$ImageCollection}
 
@@ -17,7 +14,7 @@ summarise(x, stat, ...)
 ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 }
 \description{
-summarise (method for imageCollections)
+Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
 }
 \examples{
 \dontrun{
@@ -29,5 +26,7 @@ modis_ic |>
    group_by(year) |>
    summarise(stat="max")
 }
-
+}
+\seealso{
+\code{\link[dplyr]{summarise}} for information about summarise on normal data tables.
 }

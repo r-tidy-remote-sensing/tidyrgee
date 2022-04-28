@@ -72,3 +72,16 @@ date_range_imageCol <-  function(x){
 
 
 }
+
+
+
+# logicals ---------------------------------------------------------------
+
+#' geometry_type_is_unique
+#' @param x sf object
+#' @return \code{logical} indicating whether geometry type is unique in sf object
+
+geometry_type_is_unique <- function(x){
+  length(unique(sf::st_geometry_type(x)))==1
+}
+

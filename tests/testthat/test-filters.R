@@ -1,6 +1,7 @@
+library(rgee)
+ee_Initialize()
+
 test_that("ee_year_filter works", {
-  library(rgee)
-  ee_Initialize()
 
   modis_ic <- rgee::ee$ImageCollection("MODIS/006/MOD13Q1")
 
