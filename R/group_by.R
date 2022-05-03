@@ -1,28 +1,6 @@
 
-#' Group an imageCollection or tidyee object with Imagecollections by a parameter
-#' @name group_by
-#' @rdname group_by
-#' @param x ee$ImageCollection or tidyee object
-#' @param ... group_by variables
-#' @return ee$ImageCollection with grouped_vars attribute
+
 #' @export
-#' @importFrom dplyr group_by
-#' @examples \dontrun{
-#' library(tidyrgee)
-#' ee_Initialize()
-#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
-#' modis_ic |>
-#'    filter(date>="2016-01-01",date<="2019-12-31") |>
-#'    group_by(year)
-#' }
-
-# group_by <-  function(x, ...){
-#   UseMethod('group_by')
-#
-# }
-
-
-
 group_by.ee.imagecollection.ImageCollection <- function(x,...){
 
   new_groups <- rlang::enquos(..., .ignore_empty = "all")
@@ -49,3 +27,21 @@ group_by.tidyee <- function(x,...){
 
 
 
+#' Group an imageCollection or tidyee object with Imagecollections by a parameter
+#' @name group_by
+#' @rdname group_by
+#' @param x ee$ImageCollection or tidyee object
+#' @param ... group_by variables
+#' @return ee$ImageCollection with grouped_vars attribute
+#' @examples \dontrun{
+#' library(tidyrgee)
+#' ee_Initialize()
+#' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+#' modis_ic |>
+#'    filter(date>="2016-01-01",date<="2019-12-31") |>
+#'    group_by(year)
+#' }
+#' @seealso \code{\link[dplyr]{group_by}} for information about group_by on normal data tables.
+#' @importFrom dplyr group_by
+#' @export
+NULL

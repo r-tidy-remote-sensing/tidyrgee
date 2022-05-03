@@ -2,11 +2,7 @@
 % Please edit documentation in R/group_by.R
 \name{group_by}
 \alias{group_by}
-\alias{group_by.ee.imagecollection.ImageCollection}
 \title{Group an imageCollection or tidyee object with Imagecollections by a parameter}
-\usage{
-\method{group_by}{ee.imagecollection.ImageCollection}(x, ...)
-}
 \arguments{
 \item{x}{ee$ImageCollection or tidyee object}
 
@@ -27,4 +23,7 @@ modis_ic |>
    filter(date>="2016-01-01",date<="2019-12-31") |>
    group_by(year)
 }
+}
+\seealso{
+\code{\link[dplyr]{group_by}} for information about group_by on normal data tables.
 }
