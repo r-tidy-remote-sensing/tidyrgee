@@ -13,6 +13,24 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{css, echo = FALSE}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 24px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
 # tidyrgee
 
 <!-- badges: start -->
@@ -21,7 +39,14 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of tidyrgee is to create tidyverse style methods (filter, group_by, summarise, etc) for Google Earth Engine (GEE) Images and ImageCollections. 
+
+tidyrgee brings components of [dplyr's](https://github.com/tidyverse/dplyr/) syntax to remote sensing analysis, using the [rgee](https://github.com/r-spatial/rgee) package. 
+
+rgee is an R-API for the [Google Earth Engine (GEE)](https://earthengine.google.com/) which provides R support to the methods/functions available in the JavaScript code editor and python API in a syntax very similar to the GEE Javascript/python. This syntax can feel unnatural and difficult at times to users less background in GEE. Additionally, simple concepts that are easy express verbally can be cumbersome even to advanced users (see working examples). The `tidyverse` has provided principals and concepts that help data scientists efficiently write and communicate there code in a clear and concise manner. `tidyrgee` uses brings these principals to GEE and remote sensing analysis.
+
+tidyrgee provides the convenience of pipe-able dplyr style methods such as `filter`, `group_by`, `summarise`, `select`,`mutate`,etc. using [rlang's](https://github.com/r-lib/rlang) style of non-standard evaluation (NSE)
+
+You can try it out:
 
 ## Installation
 
@@ -31,35 +56,150 @@ You can install the development version of tidyrgee from [GitHub](https://github
 # install.packages("devtools")
 devtools::install_github("r-tidy-remote-sensing/tidyrgee")
 ```
+It is important to note that to use tidyrgee you must bee signed up fo GEE developer account. Additionally you must install the rgee package following there [installation and setup instructions here](https://github.com/r-spatial/rgee)
 
-## Example
+## Syntax Comparison
+Below is a quick example demonstrating the simplified syntax. Note that the `rgee` syntax is very similar to the syntax in the Javascript code editor.
 
-This is a basic example which shows you how to solve a common problem: filter an ImageCollection by date and then group by year and month and then take the mean.  
+<table class='table' width="100%">
+<tr> 
+<th>rgee (similar to Javascript)</th>
+<th>tidyrgee</th> <tr>
+<tr>
+<td>
+```{r, eval=F}
 
-### load and initialize
-```{r example}
+modis <- ee$ImageCollection( "MODIS/006/MOD13Q1")
+modis_ndvi <-  modis$select("NDVI")
+month_list <- ee$List$sequence(1,12)
+year_list <- ee$List$sequence(2000,2015)
+  
+  
+mean_ndvi <- ee$ImageCollection$fromImages(
+    year_list$map(
+      ee_utils_pyfunc(function (y) {
+        month_list$map(
+          ee_utils_pyfunc(function (m) {
+            # dat_pre_filt <- 
+            modis_ndvi$
+              filter(ee$Filter$calendarRange(y, y, 'year'))$
+              filter(ee$Filter$calendarRange(m, m, 'month'))$
+              mean()$
+              set('year',y)$
+              set('month',m)$
+              set('date',ee$Date$fromYMD(y,m,1))$
+              set('system:time_start',ee$Date$millis(ee$Date$fromYMD(y,m,1)))
+              
+            
+          })
+        )
+      }))$flatten())
+```
+</td>
+<td>
+```{r,eval =F}
+modis <- ee$ImageCollection( "MODIS/006/MOD13Q1")
+modis_tidy <-  as_tidyee(modis) 
 
+mean_ndvi <-  modis_tidy |> 
+  select("NDVI") |> 
+  filter(year %in% 2000:2015) |> 
+  group_by(year, month) |> 
+  summarise(stat= "mean")
+```
+</td>
+<tr>
+</table>
+
+## Example usage
+Below are a couple examples showing some of the functionality available 
+
+
+First you must follow standard procedures of:
+
+- loading libraries
+- initializing the GEE session
+- loading an `ee$ImageCollection`
+
+```{r example, eval=T}
 library(tidyrgee)
 library(rgee)
 ee_Initialize()
+
+modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
+```
+]
+
+Once the above steps have been performed you can convert the `ee$ImageCollection` to a `tidyee` object with the function `as_tidyee`.  The tidyee object contains stores the original `ee$ImageCollection` and `ee_ob` (for earth engine object) and produces as virtual table/data.frame stored as `vrt`. This vrt allows not only facilitates the use of dplyr/tidyverse methods, but also allows the user to better view the data stored in the accompanying imageCollection
+
+```{r, eval=T}
+modis_tidy <-  as_tidyee(modis_ic)
 ```
 
-### dplyresque syntax
-
-In this example, by piping in  `filter`, `group_by` , `summarise`  just as you would for a data.frame you are sequentially:
-
-1. filtering the ImageCollection by date
-2. grouping the filtered ImageCollection  by year
-3. summarizing each pixel by year. In this case, taking the mean NDVI value from all images in each year.
-
-The result will be an `ImageCollection` with the one `Image` per year that holds the mean pixel values
+the `vrt` comes with a few built in columns which you can use off the bat for filtering and grouping, but you can also `mutate` additional info for filtering and grouping (i.e using  `lubridate` to create new temporal groupings)
 
 ```{r}
-modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
-
-modis_mean_ndvi_yearly <- modis_ic$select("NDVI") %>% # still rgee/GEE syntax
-   filter(date>="2016-01-01",date<="2019-12-31") %>%
-   group_by(year) %>%
-   summarise(stat="mean")
+knitr::kable(modis_tidy$vrt |> head())
 ```
 
+Next we demonstrate filtering by date, month, and year. The `vrt` and `ee_ob` are always filtered together
+
+- **by date**
+```{r}
+modis_tidy   |> 
+  filter(date>="2021-06-01")
+```
+
+- **by year**
+```{r}
+modis_tidy   |> 
+  filter(year%in% 2010:2011)
+```
+- **by month**
+```{r}
+modis_tidy   |> 
+  filter(month%in% c(7,8))
+```
+
+### Putting a dplyr chain together:
+
+In this next example we pipe together multiple functions (`select`, `filter`, `group_by`, `summarise`) to
+
+1. select the `NDVI` band from the ImageCollection
+2. filter the imageCollection to a desired date range
+2. grouping the filtered ImageCollection  by month
+3. summarizing each pixel by year and month.
+
+The result will be an `ImageCollection` with the one `Image` per month (12 images) where each pixel in each image represents the average NDVI value for that month calculated using monthly data from 2000 2015. 
+
+```{r}
+
+modis_tidy |> 
+  select("NDVI") |> 
+  filter(year %in% 2000:2015) |> 
+  group_by(month) |> 
+  summarise(stat= "mean")
+```
+
+You can easily `group_by` more than 1 property to calculate different summary stats. Below we
+
+1. filter to only data from 2021-2022
+2. group by year, month and calculate the median NDVI pixel value
+
+As we are using the MODIS 16-day composite we summarising approximate 2 images per month to create median composite image fo reach month in the specified years. The `vrt` holds  a `list-col` containing all the dates summarised per new composite image.
+
+```{r}
+modis_tidy |> 
+  select("NDVI") |> 
+  filter(year %in% 2021:2022) |> 
+  group_by(year,month) |> 
+  summarise(stat= "median")
+
+
+```
+
+To improve enhance backward compatibility we `rgee` we have included the `as_ee` function to return the `tidyee` object back to `rgee` style if needed
+
+```{r,eval=T}
+modis_ic <- modis_tidy |> as_ee()
+```
