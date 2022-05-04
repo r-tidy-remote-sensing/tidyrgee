@@ -12,7 +12,8 @@ select.tidyee <-  function(x,...){
         unname() |>
         unlist()
     )
-    name_lookup <- name_lookup |> dplyr::mutate(new_name=dplyr::if_else(new_name=="",old_name,new_name))
+    name_lookup <- name_lookup |>
+      dplyr::mutate(new_name=dplyr::if_else(new_name=="",.data$old_name,.data$new_name))
     ic_selected <- x$ee_ob$map(
       function(img){
         img$select(unname(dots))$rename(name_lookup$new_name)
@@ -48,6 +49,7 @@ select.tidyee <-  function(x,...){
 #' @seealso \code{\link[dplyr]{select}} for information about select on normal data tables.
 #' @export
 #' @importFrom dplyr select
+#' @importFrom rlang .data
 NULL
 
 
