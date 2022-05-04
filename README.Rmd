@@ -12,25 +12,6 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-
-```{css, echo = FALSE}
-.remark-slide-content {
-  font-size: 28px;
-  padding: 20px 80px 20px 80px;
-}
-.remark-code, .remark-inline-code {
-  background: #f0f0f0;
-}
-.remark-code {
-  font-size: 24px;
-}
-.huge .remark-code { /*Change made here*/
-  font-size: 200% !important;
-}
-.tiny .remark-code { /*Change made here*/
-  font-size: 50% !important;
-}
-```
 # tidyrgee
 
 <!-- badges: start -->
