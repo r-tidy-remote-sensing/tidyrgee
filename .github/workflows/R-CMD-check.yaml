@@ -2,53 +2,53 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  branches: [main, master]
+pull_request:
+  branches: [main, master]
 
 name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.config.os }}
+  runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+name: OS=${{ matrix.config.os }} R=${{ matrix.config.r }} py=${{ matrix.config.python }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - {os: macOS-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+timeout-minutes: 30
 
-    env:
-    # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+strategy:
+  fail-fast: false
+matrix:
+  config:
+  - {os: macOS-latest,   r: 'release', python: '3.8'}
+- {os: windows-latest, r: 'release', python: '3.8'}
+- {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', python: '3.8'}
+- {os: ubuntu-latest,   r: 'oldrel-1', python: '3.8'}
+- {os: ubuntu-latest,   r: 'release', python: '3.8'}
+- {os: ubuntu-latest,   r: 'release', python: '3.9'}
+- {os: ubuntu-latest,   r: 'release', python: '3.10'}
 
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      R_KEEP_PKG_SOURCE: yes
+env:
+  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+R_KEEP_PKG_SOURCE: yes
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.8.10'
-          architecture: 'x64'
+steps:
+  - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-pandoc@v1
+- uses: r-lib/actions/setup-pandoc@v2
 
-      - uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
-          use-public-rspm: true
+- uses: r-lib/actions/setup-r@v2
+with:
+  r-version: ${{ matrix.config.r }}
+http-user-agent: ${{ matrix.config.http-user-agent }}
+use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v1
-        with:
-          extra-packages: rcmdcheck
+- uses: actions/setup-python@v3
+with:
+  python-version: ${{ matrix.config.python }}
 
-      - uses: r-lib/actions/check-r-package@v1
+- uses: r-lib/actions/setup-r-dependencies@v2
+with:
+  extra-packages: rcmdcheck
+
+- uses: r-lib/actions/check-r-package@v2
