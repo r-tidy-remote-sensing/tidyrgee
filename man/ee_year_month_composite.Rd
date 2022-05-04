@@ -4,7 +4,7 @@
 \alias{ee_year_month_composite}
 \title{Pixel-level composite by year and month}
 \usage{
-ee_year_month_composite(x, ...)
+ee_year_month_composite(x, stat, ...)
 }
 \arguments{
 \item{stat}{A \code{character} indicating what to reduce the imageCollection by,

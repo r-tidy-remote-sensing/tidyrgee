@@ -184,7 +184,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 #' @export
 #'
 #'
-ee_year_month_composite <- function(x, ...){
+ee_year_month_composite <- function(x,stat, ...){
 
   UseMethod('ee_year_month_composite')
 
@@ -298,4 +298,48 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
 }
 
 
+
+#' ee_composite
+#'
+#' @param x tidyee object containing `ee$ImageCollection`
+#' @param stat  A \code{character} indicating what to reduce the imageCollection by,
+#'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
+#' @param ... other arguments
+#'
+#' @return
+#' @export
+#'
+
+
+ee_composite <-  function(x,stat,...){
+  UseMethod("ee_composite")
+}
+
+
+#' @export
+ee_composite.tidyee <-  function(x, stat){
+
+  ee_reducer <-  stat_to_reducer_full(stat)
+  ic_summarised <- ee_reducer(x$ee_ob)
+  min_year <- min(x$vrt$year)
+  min_month <- min(x$vrt$month)
+
+  ic_summarised <- ic_summarised$
+    set('year',min_year)$
+    set('month',min_month)$
+    set('date',rgee::ee$Date$fromYMD(min_year,min_month,1))$
+    set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,1)))
+
+  vrt_summarised <- x$vrt |>
+    dplyr::tibble() |>
+    dplyr::summarise(
+      dates_summarised= list(date),.groups = "drop"
+    )
+  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
+  attr(vrt_summarised,"band_names") <-  client_bandnames
+
+  create_tidyee(ic_summarised,vrt_summarised)
+
+
+}
 

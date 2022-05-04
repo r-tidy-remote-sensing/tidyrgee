@@ -17,13 +17,14 @@ summarise.grouped_imageCol <-  function(x,stat,...){
 summarise.tidyee <-  function(x,stat,...){
   group_vars_chr <- dplyr::group_vars(x$vrt)
   if(length(group_vars_chr)==0){
-    ee_reducer <-  stat_to_reducer_full(stat)
-    ic_summarised <-  ee_reducer(x$ee_ob)
-    vrt_summarised <- x$vrt |>
-      dplyr::summarise(
-        dates_summarised= list(date),.groups = "drop"
-        )
-    tidyee_output <- create_tidyee(x = ic_summarised,vrt = vrt_summarised)
+    # ee_reducer <-  stat_to_reducer_full(stat)
+    # ic_summarised <-  ee_reducer(x$ee_ob)
+    # vrt_summarised <- x$vrt |>
+    #   dplyr::summarise(
+    #     dates_summarised= list(date),.groups = "drop"
+    #     )
+    # tidyee_output <- create_tidyee(x = ic_summarised,vrt = vrt_summarised)
+    tidyee_output <- ee_composite(x = x,stat = stat)
   }
   if(length(group_vars_chr)>0){
 
@@ -49,8 +50,9 @@ summarise.tidyee <-  function(x,stat,...){
       # summarise vrt
 
     }
-    return(tidyee_output)
+
   }
+  return(tidyee_output)
 }
 
 
