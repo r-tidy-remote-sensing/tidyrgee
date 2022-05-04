@@ -2,7 +2,6 @@
 #' @export
 ee_extract.tidyee <-  function(x,
                                y,
-                               y_cols=NULL,
                                stat="mean",
                                scale,
                                via="getInfo",
@@ -10,10 +9,7 @@ ee_extract.tidyee <-  function(x,
                                sf=TRUE,
                                lazy=FALSE,
                                quiet=FALSE,...){
-  if(is.null(y_cols)){
-    y_cols <- colnames(y)
 
-  }
 
   if( any(c("sfc","sf") %in% class(y))){
     assertthat::assert_that(
@@ -21,9 +17,11 @@ ee_extract.tidyee <-  function(x,
       msg = "Currently we can only handle a single geometry types"
     )
     cat("uploading sf to ee object\n")
+    y_ee <- rgee::sf_as_ee(y)
 
-    y_ee <- rgee::sf_as_ee(y[y_cols])
-
+  }
+  if("ee.featurecollection.FeatureCollection" %in% class(y)){
+    y_ee <- y
   }
 
   cat("renaming bands with dates\n")

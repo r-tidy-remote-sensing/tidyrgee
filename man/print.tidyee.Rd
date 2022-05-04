@@ -4,10 +4,12 @@
 \alias{print.tidyee}
 \title{print tidyee}
 \usage{
-\method{print}{tidyee}(x)
+\method{print}{tidyee}(x, ...)
 }
 \arguments{
 \item{x}{tidyee object}
+
+\item{...}{additional argumetns}
 }
 \value{
 printed tidyee object

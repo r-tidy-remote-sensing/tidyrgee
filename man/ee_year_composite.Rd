@@ -4,10 +4,10 @@
 \alias{ee_year_composite}
 \title{Pixel level composite by year}
 \usage{
-ee_year_composite(imageCol, stat, year, ...)
+ee_year_composite(x, stat, year, ...)
 }
 \arguments{
-\item{imageCol}{ee$ImageCollection}
+\item{x}{ee$ImageCollection}
 
 \item{stat}{A \code{character} indicating what to reduce the imageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}

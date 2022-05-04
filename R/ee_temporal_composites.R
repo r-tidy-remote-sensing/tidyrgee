@@ -1,7 +1,7 @@
 #' Pixel level composite by year
 #' @name ee_year_composite
 #' @rdname ee_year_composite
-#' @param imageCol ee$ImageCollection
+#' @param x ee$ImageCollection
 #' @param stat A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
@@ -10,19 +10,15 @@
 #' @export
 #'
 
-
-
-ee_year_composite <- function(imageCol,stat,year, ...){
-
+ee_year_composite <- function(x,stat,year, ...){
   UseMethod('ee_year_composite')
-
 }
 
 
 
 #' @export
 ee_year_composite.ee.imagecollection.ImageCollection<-  function(imageCol,
-                              stat,
+                              x,
                               year,
                               ...){
 
@@ -317,7 +313,7 @@ ee_composite <-  function(x,stat,...){
 
 
 #' @export
-ee_composite.tidyee <-  function(x, stat){
+ee_composite.tidyee <-  function(x, stat,...){
 
   ee_reducer <-  stat_to_reducer_full(stat)
   ic_summarised <- ee_reducer(x$ee_ob)

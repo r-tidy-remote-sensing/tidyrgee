@@ -6,3 +6,4 @@
 ^LICENSE\.md$
 ^doc$
 ^Meta$
+^vignettes/aa-tidyverbs\.Rmd$

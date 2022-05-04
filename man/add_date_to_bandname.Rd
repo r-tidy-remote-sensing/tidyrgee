@@ -4,12 +4,10 @@
 \alias{add_date_to_bandname}
 \title{add_date_to_band_name}
 \usage{
-add_date_to_bandname(x, ...)
+add_date_to_bandname(x)
 }
 \arguments{
 \item{x}{ee$ImageCollection or ee$Image}
-
-\item{...}{additional arguments}
 }
 \description{
 of the bands as well as the date.

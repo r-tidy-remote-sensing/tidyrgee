@@ -1,10 +1,16 @@
 Package: tidyrgee
-Title: What the Package Does (One Line, Title Case)
+Title: Bring tidy/dplyr-like methods for performing remote sensing analysis using Google Earthe Engine and rgee
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    c(person(given = "Zack",
+             family = "Arno",
+             role = c("aut","cre"),
+             email = "zackarno@gmail.com"),
+      person(given = "Josh",
+             family = "Erickson",
+            role = c("aut"),
+           email = "joshualerickson@gmail.com"))
+Description: The tidyrgee packae provides dplyr-like methods for wrangling and analyzing GEE images and imageCollections loading using GEE.
 License: MIT + file LICENSE
 Depends: 
     R (>= 2.10)
