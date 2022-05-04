@@ -4,6 +4,7 @@
 #' @description
 #' of the bands as well as the date.
 #' @param x ee$ImageCollection or ee$Image
+#' @param ... additional arguments
 #' @export
 
 add_date_to_bandname <- function(x, ...) {

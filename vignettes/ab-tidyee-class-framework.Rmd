@@ -110,10 +110,10 @@ modis_monthly_baseline
 
 ```
 
-```{r}
+```{r,eval =F}
 
 point_sample_buffered <- tidyrgee::bgd_msna |> 
-  sample_n(3) |> 
+  dplyr::sample_n(3) |> 
   sf::st_as_sf(coords=c("_gps_reading_longitude",
                         "_gps_reading_latitude"), crs=4326) |>
   sf::st_transform(crs=32646) |> 

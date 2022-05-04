@@ -22,7 +22,7 @@ ee_extract.tidyee <-  function(x,
     )
     cat("uploading sf to ee object\n")
 
-    y_ee <- sf_as_ee(y[y_cols])
+    y_ee <- rgee::sf_as_ee(y[y_cols])
 
   }
 
