@@ -56,7 +56,16 @@ here](https://github.com/r-spatial/rgee)
 
 Below is a quick example demonstrating the simplified syntax. Note that
 the `rgee` syntax is very similar to the syntax in the Javascript code
-editor.
+editor. In this example I want to simply calculate mean monthly NDVI
+(per pixel) for every year from 2000-2015. This is clearly a fairly
+simple analysis to verbalize/conceptualize. Yet, using using standard
+GEE conventions, the process is not so simple. Aside, from many
+peculiarities such as `flattening` a list and then calling and then
+rebuilding the `imageCollection` at the end, I also have to write and
+**think about** a double mapping statement using months and years (sort
+of like a double for-loop). By comparison the tidyrgee syntax removes
+the complexity and allows me to write the code in a more human
+readable/interpretable format.
 
 <table class='table' width="100%">
 <tr>
