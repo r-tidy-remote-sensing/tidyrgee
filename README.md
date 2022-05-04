@@ -18,22 +18,24 @@ analysis, using the [rgee](https://github.com/r-spatial/rgee) package.
 
 rgee is an R-API for the [Google Earth Engine
 (GEE)](https://earthengine.google.com/) which provides R support to the
-methods/functions available in the JavaScript code editor and python API
-in a syntax very similar to the GEE Javascript/python. This syntax can
-feel unnatural and difficult at times to users less background in GEE.
-Additionally, simple concepts that are easy express verbally can be
-cumbersome even to advanced users (see working examples). The
-`tidyverse` has provided principals and concepts that help data
-scientists efficiently write and communicate there code in a clear and
-concise manner. `tidyrgee` uses brings these principals to GEE and
-remote sensing analysis.
+methods/functions available in the JavaScript code editor and python
+API. The `rgee` syntax was written to be very similar to the GEE
+Javascript/python. However, this syntax can feel unnatural and difficult
+at times especially to users with less experience in GEE. Simple
+concepts that are easy express verbally can be cumbersome even to
+advanced users (see *Syntax Comparison*). The `tidyverse` has provided
+[principals and
+concepts](https://tidyr.tidyverse.org/articles/tidy-data.html) that help
+data scientists/R-users efficiently write and communicate there code in
+a clear and concise manner. `tidyrgee` aims to bring these principals to
+GEE-remote sensing analyses.
 
 tidyrgee provides the convenience of pipe-able dplyr style methods such
 as `filter`, `group_by`, `summarise`, `select`,`mutate`,etc. using
 [rlang’s](https://github.com/r-lib/rlang) style of non-standard
 evaluation (NSE)
 
-You can try it out:
+try it out!
 
 ## Installation
 
@@ -146,8 +148,6 @@ ee_Initialize()
 
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 ```
-
-\]
 
 Once the above steps have been performed you can convert the
 `ee$ImageCollection` to a `tidyee` object with the function `as_tidyee`.
@@ -384,7 +384,7 @@ modis_tidy   |>
 #> [1] "tidyee"
 ```
 
-### Putting a dplyr chain together:
+### Putting a dplyr-like chain together:
 
 In this next example we pipe together multiple functions (`select`,
 `filter`, `group_by`, `summarise`) to
@@ -475,9 +475,9 @@ modis_tidy |>
 #> [1] "tidyee"
 ```
 
-To improve enhance backward compatibility we `rgee` we have included the
-`as_ee` function to return the `tidyee` object back to `rgee` style if
-needed
+To improve enhance backward compatibility with `rgee` we have included
+the `as_ee` function to return the `tidyee` object back to `rgee`
+classes where/if necessary
 
 ``` r
 modis_ic <- modis_tidy |> as_ee()
