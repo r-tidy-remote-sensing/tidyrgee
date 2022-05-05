@@ -8,19 +8,25 @@ ee_extract.tidyee <-  function(x,
                                container="rgee_backup",
                                sf=TRUE,
                                lazy=FALSE,
-                               quiet=FALSE,...){
+                               quiet=FALSE,
+                               rgee_issue_fixed=FALSE,
+                               ...){
 
+  if(rgee_issue_fixed){
+    if( any(c("sfc","sf") %in% class(y))){
+      assertthat::assert_that(
+        tidyrgee:::geometry_type_is_unique(y),
+        msg = "Currently we can only handle a single geometry types"
+      )
+      cat("uploading sf to ee object\n")
+      y_ee <- rgee::sf_as_ee(y)
 
-  if( any(c("sfc","sf") %in% class(y))){
-    assertthat::assert_that(
-      tidyrgee:::geometry_type_is_unique(y),
-      msg = "Currently we can only handle a single geometry types"
-    )
-    cat("uploading sf to ee object\n")
-    y_ee <- rgee::sf_as_ee(y)
-
+    }
+    if("ee.featurecollection.FeatureCollection" %in% class(y)){
+      y_ee <- y
+    }
   }
-  if("ee.featurecollection.FeatureCollection" %in% class(y)){
+  if(!rgee_issue_fixed){
     y_ee <- y
   }
 
