@@ -60,9 +60,11 @@ ee_extract.tidyee <-  function(x,
   extract_rgx <- band_names_cli[stringr::str_order(band_names_cli,decreasing=T)]
   extract_rgx <- glue::glue_collapse(extract_rgx,sep = "|")
 
+  names_pivot <- str_subset(colnames(ic_extracted_wide_sf),pattern = extract_rgx)
+
   ic_extracted_wide_sf |>
     sf::st_drop_geometry() |>
-    tidyr::pivot_longer(-1,names_to = "name") |>
+    tidyr::pivot_longer(cols = names_pivot,names_to = "name") |>
     mutate(
       parameter=stringr::str_extract(.data$name, pattern=extract_rgx),
       date= stringr::str_remove(string = .data$name, pattern = rm_rgx) |>
