@@ -39,7 +39,7 @@ ee_extract.tidyee <-  function(x,
 
 
   cat("starting ee_extract\n")
-  ic_extracted_wide_sf <- rgee::ee_extract(x = ic_renamed,
+  ic_extracted_wide <- rgee::ee_extract(x = ic_renamed,
                                            y=y_ee,
                                            scale=scale,
                                            fun= ee_reducer,
@@ -66,10 +66,13 @@ ee_extract.tidyee <-  function(x,
   extract_rgx <- band_names_cli[stringr::str_order(band_names_cli,decreasing=T)]
   extract_rgx <- glue::glue_collapse(extract_rgx,sep = "|")
 
-  names_pivot <- str_subset(colnames(ic_extracted_wide_sf),pattern = extract_rgx)
+  names_pivot <- str_subset(colnames(ic_extracted_wide),pattern = extract_rgx)
 
-  ic_extracted_wide_sf |>
-    sf::st_drop_geometry() |>
+  if(isTRUE(sf)){
+    ic_extracted_wide <- ic_extracted_wide |>
+      sf::st_drop_geometry()
+  }
+  ic_extracted_wide |>
     tidyr::pivot_longer(cols = names_pivot,names_to = "name") |>
     mutate(
       parameter=stringr::str_extract(.data$name, pattern=extract_rgx),
