@@ -43,7 +43,7 @@ modis_ic_tidy$ee_ob
 modis_ic_tidy$vrt
 ```
 
-The virtual table (`vrt`) data.frame allows us to leverage all the power and functionality of dplyr to filter, mutate,group, etc. An S3 class method `filter.tidyee` has been written which, essentially, first filters the `vrt` based on conditions supplied to the `filter` arugment and then uses the filtered data.frame (vrt) to filter/subset the `ImageCollection`. The vrt comes with several pre-defined  columns useful for filtering(date, year, month), but `mutate` can be used to add any new columns/categories for filtering.  
+The virtual table (`vrt`) data.frame allows us to leverage all the power and functionality of dplyr to filter, mutate,group, etc. An S3 class method `filter.tidyee` has been written which, essentially, first filters the `vrt` based on conditions supplied to the `filter` argument and then uses the filtered data.frame (vrt) to filter/subset the `ImageCollection`. The vrt comes with several pre-defined  columns useful for filtering(date, year, month), but `mutate` can be used to add any new columns/categories for filtering.  
 
 Below is an example using months to filter
 
