@@ -125,8 +125,6 @@ modis_monthly_baseline_mean <- modis_ic_tidy |>
   filter(year %in% 2000:2015) |> 
   group_by(month) |> 
   summarise(stat="mean")
-modis_monthly_baseline_mean$ee_ob |> ee_print()
-
 
 modis_monthly_baseline_sd <- modis_ic_tidy |> 
   select("NDVI") |> 
@@ -153,10 +151,26 @@ point_sample_buffered <- tidyrgee::bgd_msna |>
 
 
 ndvi_monthly_mean_at_pt<- modis_monthly_baseline_mean |> 
-  ee_extract(y = point_sample_buffered, 
+  ee_extract_tidy(y = point_sample_buffered, 
              fun="mean",
              scale = 500)
 
+# just to show that it also works on imageCollection
+modis_monthly_baseline_ic<- modis_monthly_baseline_mean |> 
+  as_ee()
+
+modis_monthly_baseline_ic |> 
+  ee_extract_tidy(y = point_sample_buffered, 
+             fun="mean",
+             scale = 500)
+
+# and image
+modis_monthly_baseline_img_first <-  modis_monthly_baseline_ic$first()
+
+modis_monthly_baseline_img_first |> 
+  ee_extract_tidy(y = point_sample_buffered, 
+             fun="mean",
+             scale = 500)
 
 
 ```
