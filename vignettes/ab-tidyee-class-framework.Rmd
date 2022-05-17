@@ -78,12 +78,43 @@ modis_filt_growing_season <- modis_ic_tidy |>
 
 ```
 
+Here we show how you can perform pixel-level summary statistics with `summarise` function. This is typically referred to as `compositing` in GEE documentation as well as other remote sensing literature.
 
 ```{r}
 
-modis_yr_mo <- modis_ic_tidy |> 
+modis_mean_by_yrmo <- modis_ic_tidy |> 
   group_by(year,month) |> 
   summarise(stat = "mean")
+
+modis_mean_by_year_mo
+```
+
+It's nice that you can summarise by multiple different statistics at once if you want.
+```{r}
+modis_mean_and_sd_by_yrmo <- modis_ic_tidy |> 
+  select("NDVI") |> 
+  group_by(year,month) |> 
+  summarise(stat = list("mean","sd"))
+
+modis_mean_and_sd_by_yrmo
+```
+
+Next we will show how you can mutate a new category and then group by and summarise to that category. This is nice and seems to be working well. However, we still need to work out to deal with disappearing attributes after running dplyr verbs like `group_split`. This does not seem to affect the results, but just the print methods. Could be a potential solution in `vctrs` package. However, it might make more sense to just store `band_names` as col/list-col instead of attribute.
+
+```{r}
+modis_ic_tidy |> 
+  mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  group_by(crop_cycle) |> 
+  summarise(
+    stat="mean"
+  )
 ```
 
 select & inner_join example

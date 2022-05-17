@@ -1,7 +1,8 @@
 #' @export
 group_split.tidyee <-  function(x,...){
   vrt_list <- x$vrt |>
-    group_split(...)
+    group_split(...,.keep=TRUE)# unfortunately drop attributes
+  # is there a way to figure this out with `vctrs` package?
 
   date_list <-  vrt_list |>
     purrr:::map(
@@ -20,7 +21,10 @@ group_split.tidyee <-  function(x,...){
     )
   )
   ic_filt_list<-purrr::map(ee_date_list,~ x$ee_ob$filter(ee$Filter$inList("system:time_start", .x)))
+
   purrr:::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y))
+
+
 }
 
 
@@ -54,5 +58,4 @@ group_split.tidyee <-  function(x,...){
 #' @export
 
 NULL
-
 
