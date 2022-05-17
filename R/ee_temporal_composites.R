@@ -327,9 +327,9 @@ ee_composite.tidyee <-  function(x, stat,...){
     set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,1)))
 
   vrt_summarised <- x$vrt |>
-    dplyr::tibble() |>
+    # dplyr::tibble() |>
     dplyr::summarise(
-      dates_summarised= list(date),.groups = "drop"
+      dates_summarised= list(date)
     )
   client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
   attr(vrt_summarised,"band_names") <-  client_bandnames
