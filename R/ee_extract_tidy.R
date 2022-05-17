@@ -98,6 +98,7 @@ ee_extract_tidy.ee.imagecollection.ImageCollection <-  function(x,
                                quiet=FALSE,
                                rgee_issue_fixed=FALSE,
                                ...){
+  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
 
   if(rgee_issue_fixed){
     if( any(c("sfc","sf") %in% class(y))){
@@ -180,6 +181,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
                                quiet=FALSE,
                                rgee_issue_fixed=FALSE,
                                ...){
+  stopifnot(!is.null(x), inherits(x, "ee.image.Image"))
 
   if(rgee_issue_fixed){
     if( any(c("sfc","sf") %in% class(y))){
