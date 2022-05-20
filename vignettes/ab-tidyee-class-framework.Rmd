@@ -204,6 +204,31 @@ b. To make sure these percieved benefits are actual benefits we should: 1) inclu
 
 Might be worth prefixing `dplyr` functions with `ee_` to avoid conflicts?
 
+```{r}
+
+modis_ndvi_baseline <- modis_ic_tidy |>
+  select("NDVI") |>
+  filter(year %in% c(2000:2015)) |> 
+  group_by(month) |>
+  summarise(stat = list("mean","sd"))
+
+modis_ndvi_current <- modis_ic_tidy |>
+  select("NDVI") |>
+  filter(year %in% c(2022)) |> 
+  group_by(month) |>
+  summarise(stat = "mean")
+
+modis_mean_and_sd_by_yrmo
+
+
+modis_monthly_baseline_current <- modis_ndvi_baseline |> 
+  inner_join(modis_ndvi_current |> select(NDVI_mean_current="NDVI"), by="month")
+
+modis_current_with_baseline <- modis_ndvi_current |>
+  select(NDVI_mean_current="NDVI") |> 
+  inner_join(modis_ndvi_baseline, by="month")
+
+```
 
 
 
