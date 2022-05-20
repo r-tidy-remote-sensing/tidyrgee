@@ -12,7 +12,10 @@
 
 
 print.tidyee <-  function(x,...){
-  cat(crayon::green("band names: [",glue::glue_collapse(attributes(x$vrt)$band_names,sep = ", "),"]","\n\n"))
+  band_names <- x$vrt |>
+    pull(band_names) |>
+    unique()
+  cat(crayon::green("band names: [",glue::glue_collapse(band_names,sep = ", "),"]","\n\n"))
 
 
    NextMethod()

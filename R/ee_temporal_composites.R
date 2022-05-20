@@ -157,13 +157,18 @@ ee_month_composite.tidyee <- function(x, stat, ...){
         set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(1,m,1)))
     }
     )))
+  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
+    ) |>
+    mutate(
+      band_names = list(client_bandnames)
     )
-  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
-  attr(vrt_summarised,"band_names") <-  client_bandnames
+
+
+
   create_tidyee(ic_summarised,vrt_summarised)
 
 }
@@ -293,13 +298,15 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
   # Need to filter yrmo composite to original date range or you can end up with empty slots
   # for months that didn't occur yet
   ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
+  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     # nest(data=date)
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
+    ) |>
+    mutate(
+      band_names= list(client_bandnames)
     )
-  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
-  attr(vrt_summarised,"band_names") <-  client_bandnames
 
   create_tidyee(ic_summarised,vrt_summarised)
 
@@ -338,13 +345,17 @@ ee_composite.tidyee <-  function(x, stat,...){
     set('date',rgee::ee$Date$fromYMD(min_year,min_month,1))$
     set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,1)))
 
+  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
+
   vrt_summarised <- x$vrt |>
     # dplyr::tibble() |>
     dplyr::summarise(
-      dates_summarised= list(date)
+      dates_summarised= list(date),.groups = "drop"
+    ) |>
+    mutate(
+      band_names= list(client_bandnames)
     )
-  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
-  attr(vrt_summarised,"band_names") <-  client_bandnames
+
 
   create_tidyee(ic_summarised,vrt_summarised)
 

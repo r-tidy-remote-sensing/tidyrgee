@@ -86,7 +86,12 @@ modis_mean_by_yrmo <- modis_ic_tidy |>
   group_by(year,month) |> 
   summarise(stat = "mean")
 
-modis_mean_by_year_mo
+modis_mean_by_yrmo <- modis_ic_tidy |> 
+  select("NDVI","EVI") |> 
+  group_by(year,month) |> 
+  summarise(stat = "mean")
+
+
 ```
 
 It's nice that you can summarise by multiple different statistics at once if you want.
