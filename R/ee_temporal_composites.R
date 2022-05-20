@@ -249,8 +249,20 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
   years_unique_chr <- unique(x$vrt$year) |> sort()
   months_unique_chr <- unique(x$vrt$month) |> sort()
 
-  ee_years_list = rgee::ee$List(years_unique_chr)
+  # if(length(years_unique_chr)==1){
+  #   ee_years_list = rgee::ee$List(ee$Number(years_unique_chr))
+  # }
+  # if(length(years_unique_chr)>1){
+  #   ee_years_list = rgee::ee$List(years_unique_chr)
+  # }
+  # if(length(months_unique_chr)==1){
+  #   ee_months_list = rgee::ee$List(ee$Number(months_unique_chr))
+  # }
+  # if(length(months_unique_chr)>1){
+  #   ee_months_list = rgee::ee$List(months_unique_chr)
+  # }
   ee_months_list = rgee::ee$List(months_unique_chr)
+  ee_years_list = rgee::ee$List(years_unique_chr)
 
   ee_reducer <-  stat_to_reducer_full(stat)
 

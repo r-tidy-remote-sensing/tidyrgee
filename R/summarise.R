@@ -17,10 +17,8 @@ summarise.tidyee <-  function(x,stat,...){
     tidyee_output <- ee_composite(x = x,stat = stat)
   }
   if(length(group_vars_chr)>0){
-
     years_unique_chr <- unique(x$vrt$year) |> sort()
     months_unique_chr <- unique(x$vrt$month) |> sort()
-
     if(length(group_vars_chr)==1){
       if(group_vars_chr=="year"){
       tidyee_output <-  ee_year_composite(x,stat = stat)
@@ -32,7 +30,6 @@ summarise.tidyee <-  function(x,stat,...){
     if(length(group_vars_chr)==2 & all(c("month","year")%in%group_vars_chr)){
       tidyee_output <- ee_year_month_composite(x,stat = stat)
     }
-
   }
   return(tidyee_output)
 }
@@ -59,7 +56,18 @@ if(all(group_vars_chr %in% c("year","month"))){
       }
     }
     if(length(group_vars_chr)==2 & all(c("month","year")%in%group_vars_chr)){
-      tidyee_output <- ee_year_month_composite(x,stat = stat)
+      # dont want to run year_month composite if there is only
+      # 1 month or 1 year in vrt... mapping over ee$List of 1 value throws error.
+      if(length(months_unique_chr)==1){
+        tidyee_output <-  ee_year_composite(x,stat = stat)
+      }
+      if(length(years_unique_chr)==1){
+        tidyee_output <- ee_month_composite(x,stat = stat)
+      }else{
+        tidyee_output <- ee_year_month_composite(x,stat = stat)
+      }
+
+
     }
   }
 }
