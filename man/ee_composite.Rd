@@ -2,20 +2,20 @@
 % Please edit documentation in R/ee_temporal_composites.R
 \name{ee_composite}
 \alias{ee_composite}
+\alias{ee_composite.tidyee}
 \title{ee_composite}
 \usage{
-ee_composite(x, stat, ...)
+ee_composite(x, ...)
+
+\method{ee_composite}{tidyee}(x, stat, ...)
 }
 \arguments{
 \item{x}{tidyee object containing \code{ee$ImageCollection}}
 
+\item{...}{other arguments}
+
 \item{stat}{A \code{character} indicating what to reduce the imageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
-
-\item{...}{other arguments}
-}
-\value{
-
 }
 \description{
 ee_composite

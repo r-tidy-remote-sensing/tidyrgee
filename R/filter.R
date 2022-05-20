@@ -7,14 +7,13 @@ filter.tidyee <- function(x,...){
     lubridate::as_date() |>
     as.character()
 
-  ee_date_list = rgee::ee$List(date_chr)$
-    map(rgee::ee_utils_pyfunc(
-      function(date){
-        rgee::ee$Date$millis(date)
-      }
-    )
-    )
-  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
+  add_date_meta_to_ic = function(x) {
+    return(x$set('Date', ee$Date(x$get('system:time_start'))$format("YYYY-MM-dd")))}
+
+  new_collection <- x$ee_ob$map(rgee::ee_utils_pyfunc(add_date_meta_to_ic))
+
+  ic_filt = new_collection$filter(ee$Filter$inList("Date", date_chr))
+
   # adding this assertion add 1-2 secs onto the process-- maybe should just be a test....
   # assertthat::assert_that(nrow(vrt)==ic_filt$size()$getInfo(),
   #                         msg = "mismatch in vrt and ee_ob - check function and objects" )

@@ -2,12 +2,22 @@
 % Please edit documentation in R/ee_temporal_composites.R
 \name{ee_year_month_composite}
 \alias{ee_year_month_composite}
+\alias{ee_year_month_composite.ee.imagecollection.ImageCollection}
+\alias{ee_year_month_composite.tidyee}
 \title{Pixel-level composite by year and month}
 \usage{
-ee_year_month_composite(x, stat, ...)
+ee_year_month_composite(x, ...)
+
+\method{ee_year_month_composite}{ee.imagecollection.ImageCollection}(x, stat, startDate, endDate, months, ...)
+
+\method{ee_year_month_composite}{tidyee}(x, stat, ...)
 }
 \arguments{
-\item{stat}{A \code{character} indicating what to reduce the imageCollection by,
+\item{x}{An earth engine ImageCollection or tidyee class.}
+
+\item{...}{args to pass on.}
+
+\item{stat}{A \code{character} indicating what to reduce the ImageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{startDate}{\code{character} format date, e.g. "2018-10-23".}

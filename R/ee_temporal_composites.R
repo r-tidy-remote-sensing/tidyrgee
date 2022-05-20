@@ -1,7 +1,6 @@
-#' Pixel level composite by year
-#' @name ee_year_composite
+#' @title Pixel level composite by year
 #' @rdname ee_year_composite
-#' @param x ee$ImageCollection
+#' @param x An earth engine ImageCollection or tidyee class.
 #' @param stat A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
@@ -10,19 +9,19 @@
 #' @export
 #'
 
-ee_year_composite <- function(x,stat,year, ...){
+ee_year_composite <- function(x,...){
   UseMethod('ee_year_composite')
 }
 
 
-
+#' @name ee_year_composite
 #' @export
-ee_year_composite.ee.imagecollection.ImageCollection<-  function(imageCol,
-                              x,
-                              year,
-                              ...){
+ee_year_composite.ee.imagecollection.ImageCollection<-  function(x,
+                                                                 stat,
+                                                                 year,
+                                                                 ...){
 
-  stopifnot(!is.null(imageCol), inherits(imageCol, "ee.imagecollection.ImageCollection"))
+  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
 
   # start_year = lubridate::year(start_date)
   # end_year = lubridate::year(end_date)
@@ -31,7 +30,7 @@ ee_year_composite.ee.imagecollection.ImageCollection<-  function(imageCol,
 
   # dont really think this pre-filter simplifies code or saves any time...leaving for now
 
-  ic_temp_pre_filt <- imageCol |>
+  ic_temp_pre_filt <- x |>
     ee_year_filter(year = year)
 
   rgee::ee$ImageCollection$fromImages(
@@ -51,6 +50,7 @@ ee_year_composite.ee.imagecollection.ImageCollection<-  function(imageCol,
   )
 }
 
+#' @name ee_year_composite
 #' @export
 ee_year_composite.tidyee<-  function(x,
                                      stat,
@@ -94,12 +94,16 @@ ee_year_composite.tidyee<-  function(x,
 
 
 #' @title Pixel-level composite by month
-#' @param imageCol An earth engine ImageCollection
+#' @rdname ee_month_composite
+#' @param x An earth engine ImageCollection or tidyee class.
+#' @param stat A \code{character} indicating what to reduce the imageCollection by,
+#'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
+#' @param months A vector of months, e.g. c(1, 12).
 #' @param ... extra args to pass on
 #' @export
 #'
 
-ee_month_composite <- function(imageCol,stat,month, ...){
+ee_month_composite <- function(x, ...){
 
   UseMethod('ee_month_composite')
 
@@ -108,20 +112,20 @@ ee_month_composite <- function(imageCol,stat,month, ...){
 
 
 
-
+#' @name ee_month_composite
 #' @export
-ee_month_composite.ee.imagecollection.ImageCollection <- function(imageCol, stat, month, ...){
+ee_month_composite.ee.imagecollection.ImageCollection <- function(x, stat, months, ...){
 
-  ee_month_list = rgee::ee$List(month)
+  ee_month_list = rgee::ee$List(months)
 
-  stopifnot(!is.null(imageCol), inherits(imageCol, "ee.imagecollection.ImageCollection"))
+  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
 
   ee_reducer <- stat_to_reducer_full(stat)
 
   rgee::ee$ImageCollection$fromImages(
     ee_month_list$map(rgee::ee_utils_pyfunc(function (m) {
       indexString = rgee::ee$Number(m)$format('%03d')
-      ic_temp_filtered <- imageCol$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
+      ic_temp_filtered <- x$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
         set('system:index', indexString)$
         set('year',0000)$
@@ -134,6 +138,7 @@ ee_month_composite.ee.imagecollection.ImageCollection <- function(imageCol, stat
 
 }
 
+#' @name ee_month_composite
 #' @export
 ee_month_composite.tidyee <- function(x, stat, ...){
 
@@ -169,26 +174,28 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 }
 
 
-#' Pixel-level composite by year and month
-#' @name ee_year_month_composite
+#' @title Pixel-level composite by year and month
 #' @rdname ee_year_month_composite
-#' @param stat A \code{character} indicating what to reduce the imageCollection by,
+#' @param x An earth engine ImageCollection or tidyee class.
+#' @param stat A \code{character} indicating what to reduce the ImageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param startDate \code{character} format date, e.g. "2018-10-23".
 #' @param endDate \code{character} format date, e.g. "2018-10-23".
 #' @param months \code{numeric} vector, e.g. c(1,12).
+#' @param ... args to pass on.
 #' @export
 #'
 #'
-ee_year_month_composite <- function(x,stat, ...){
+ee_year_month_composite <- function(x,
+                                    ...){
 
   UseMethod('ee_year_month_composite')
 
 }
 
-
+#' @name ee_year_month_composite
 #' @export
-ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol,
+ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(x,
                                                                      stat,
                                                                      startDate,
                                                                      endDate,
@@ -196,7 +203,7 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol
                                                                      ...
 ){
 
-  stopifnot(!is.null(imageCol), inherits(imageCol, "ee.imagecollection.ImageCollection"))
+  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
 
 
   startYear = lubridate::year(startDate)
@@ -210,7 +217,7 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol
 
   rgee::ee$ImageCollection(rgee::ee$FeatureCollection(years$map(rgee::ee_utils_pyfunc(function (y) {
 
-    yearCollection = imageCol$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
+    yearCollection = x$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
 
     rgee::ee$ImageCollection$fromImages(
 
@@ -232,9 +239,9 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(imageCol
   })))$flatten())
 }
 
-
+#' @name ee_year_month_composite
 #' @export
-ee_year_month_composite.tidyee <-  function(x,stat,...
+ee_year_month_composite.tidyee <-  function(x, stat, ...
 ){
 
   stopifnot(!is.null(x), inherits(x, "tidyee"))
@@ -295,25 +302,27 @@ ee_year_month_composite.tidyee <-  function(x,stat,...
 
 
 
-#' ee_composite
+#' @title ee_composite
 #'
 #' @param x tidyee object containing `ee$ImageCollection`
 #' @param stat  A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param ... other arguments
 #'
-#' @return
 #' @export
 #'
 
 
-ee_composite <-  function(x,stat,...){
+ee_composite <-  function(x,
+                          ...){
   UseMethod("ee_composite")
 }
 
-
+#' @name ee_composite
 #' @export
-ee_composite.tidyee <-  function(x, stat,...){
+ee_composite.tidyee <-  function(x,
+                                 stat,
+                                 ...){
 
   ee_reducer <-  stat_to_reducer_full(stat)
   ic_summarised <- ee_reducer(x$ee_ob)
@@ -327,9 +336,9 @@ ee_composite.tidyee <-  function(x, stat,...){
     set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,1)))
 
   vrt_summarised <- x$vrt |>
-    # dplyr::tibble() |>
+    dplyr::tibble() |>
     dplyr::summarise(
-      dates_summarised= list(date)
+      dates_summarised= list(date),.groups = "drop"
     )
   client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
   attr(vrt_summarised,"band_names") <-  client_bandnames
