@@ -73,7 +73,12 @@ date_range_imageCol <-  function(x){
 
 }
 
-
+vrt_band_names <-  function(x){
+  x$vrt |>
+    dplyr::pull(band_names) |>
+    unique() |>
+    unlist()
+}
 
 # logicals ---------------------------------------------------------------
 

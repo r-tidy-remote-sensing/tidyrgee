@@ -20,9 +20,12 @@ inner_join.tidyee<- function(x, y, by){
 
   # with rgee is seems necessary to explicitly convert
   ic_inner_joined <- rgee::ee$ImageCollection(joined_fc)
-  joined_band_names <- unique(c(attributes(x$vrt)$band_names,attributes(y$vrt)$band_names))
-  attributes(x$vrt)$band_names <-  joined_band_names
-  create_tidyee(ic_inner_joined,x$vrt)
+  joined_band_names <- unique(c(vrt_band_names(x),vrt_band_names(y)))
+  # joined_band_names <- unique(c(attributes(x$vrt)$band_names,attributes(y$vrt)$band_names))
+  # attributes(x$vrt)$band_names <-  joined_band_names
+  vrt_joined <- x$vrt |>
+    mutate(band_names= list(joined_band_names))
+  create_tidyee(ic_inner_joined,vrt_joined)
 }
 
 #' inner_join bands from different image/ImageCollections based on shared property

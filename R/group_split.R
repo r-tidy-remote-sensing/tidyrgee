@@ -3,6 +3,8 @@ group_split.tidyee <-  function(x,...){
   vrt_list <- x$vrt |>
     group_split(...,.keep=TRUE)# unfortunately drop attributes
   # is there a way to figure this out with `vctrs` package?
+  # fixed by moving band_naems to list-col instead of relying on attributes
+  # for print method
 
   date_list <-  vrt_list |>
     purrr:::map(

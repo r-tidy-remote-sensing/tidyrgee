@@ -26,7 +26,12 @@ as_tidyee <-  function(x){
       year= lubridate::year(date),
       idx= dplyr::row_number()-1
     )
-  attr(vrt,"band_names") <- x$first()$bandNames()$getInfo()
+  band_names <- x$first()$bandNames()$getInfo()
+  vrt <- vrt |>
+    mutate(
+      band_names = list(band_names)
+    ) |>
+    as_tibble()
 
   tidyrgee:::create_tidyee(x = x,vrt = vrt)
 

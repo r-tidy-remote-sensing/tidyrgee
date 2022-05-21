@@ -3,7 +3,9 @@ select.tidyee <-  function(x,...){
   dots <- list(...)
   if(is.null(names(dots))){
     ic_selected=x$ee_ob$select(unname(dots))
-    attributes(x$vrt)$band_names <- unname(dots)
+    # attributes(x$vrt)$band_names <- unname(dots)
+    x$vrt <- x$vrt |>
+      mutate(band_names = list( unname(dots) |> unlist()))
   }
   if(!is.null(names(dots))){
     name_lookup <- data.frame(
@@ -19,7 +21,8 @@ select.tidyee <-  function(x,...){
         img$select(unname(dots))$rename(name_lookup$new_name)
       }
     )
-    attributes(x$vrt)$band_names <- name_lookup$new_name
+    x$vrt <- x$vrt |>
+      mutate(band_names = list( name_lookup$new_name))
   }
   tidyrgee:::create_tidyee(ic_selected, x$vrt)
 }

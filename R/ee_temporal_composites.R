@@ -162,13 +162,18 @@ ee_month_composite.tidyee <- function(x, stat, ...){
         set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(1,m,1)))
     }
     )))
+  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
+    ) |>
+    mutate(
+      band_names = list(client_bandnames)
     )
-  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
-  attr(vrt_summarised,"band_names") <-  client_bandnames
+
+
+
   create_tidyee(ic_summarised,vrt_summarised)
 
 }
@@ -256,8 +261,20 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   years_unique_chr <- unique(x$vrt$year) |> sort()
   months_unique_chr <- unique(x$vrt$month) |> sort()
 
-  ee_years_list = rgee::ee$List(years_unique_chr)
+  # if(length(years_unique_chr)==1){
+  #   ee_years_list = rgee::ee$List(ee$Number(years_unique_chr))
+  # }
+  # if(length(years_unique_chr)>1){
+  #   ee_years_list = rgee::ee$List(years_unique_chr)
+  # }
+  # if(length(months_unique_chr)==1){
+  #   ee_months_list = rgee::ee$List(ee$Number(months_unique_chr))
+  # }
+  # if(length(months_unique_chr)>1){
+  #   ee_months_list = rgee::ee$List(months_unique_chr)
+  # }
   ee_months_list = rgee::ee$List(months_unique_chr)
+  ee_years_list = rgee::ee$List(years_unique_chr)
 
   ee_reducer <-  stat_to_reducer_full(stat)
 
@@ -288,13 +305,15 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   # Need to filter yrmo composite to original date range or you can end up with empty slots
   # for months that didn't occur yet
   ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
+  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     # nest(data=date)
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
+    ) |>
+    mutate(
+      band_names= list(client_bandnames)
     )
-  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
-  attr(vrt_summarised,"band_names") <-  client_bandnames
 
   create_tidyee(ic_summarised,vrt_summarised)
 
@@ -335,13 +354,17 @@ ee_composite.tidyee <-  function(x,
     set('date',rgee::ee$Date$fromYMD(min_year,min_month,1))$
     set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,1)))
 
+  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
+
   vrt_summarised <- x$vrt |>
     dplyr::tibble() |>
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
+    ) |>
+    mutate(
+      band_names= list(client_bandnames)
     )
-  client_bandnames<- paste0(attributes(x$vrt)$band_names,"_",stat)
-  attr(vrt_summarised,"band_names") <-  client_bandnames
+
 
   create_tidyee(ic_summarised,vrt_summarised)
 
