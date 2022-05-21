@@ -108,6 +108,7 @@ Next we will show how you can mutate a new category and then group by and summar
 
 ```{r}
 modis_ic_tidy |> 
+  # select("NDVI") |> 
   mutate(crop_cycle= case_when( 
     month %in% c(4,5)~ "land prep",
     month %in% c(6,7)~ "planting",
@@ -120,6 +121,8 @@ modis_ic_tidy |>
   summarise(
     stat="mean"
   )
+
+
 ```
 
 select & inner_join example
