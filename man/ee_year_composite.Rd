@@ -2,19 +2,25 @@
 % Please edit documentation in R/ee_temporal_composites.R
 \name{ee_year_composite}
 \alias{ee_year_composite}
+\alias{ee_year_composite.ee.imagecollection.ImageCollection}
+\alias{ee_year_composite.tidyee}
 \title{Pixel level composite by year}
 \usage{
-ee_year_composite(x, stat, year, ...)
+ee_year_composite(x, ...)
+
+\method{ee_year_composite}{ee.imagecollection.ImageCollection}(x, stat, year, ...)
+
+\method{ee_year_composite}{tidyee}(x, stat, ...)
 }
 \arguments{
-\item{x}{ee$ImageCollection}
+\item{x}{An earth engine ImageCollection or tidyee class.}
+
+\item{...}{other arguments}
 
 \item{stat}{A \code{character} indicating what to reduce the imageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{year}{\code{numeric} vector containing years (i.e c(2001,2002,2003))}
-
-\item{...}{other arguments}
 }
 \description{
 Pixel level composite by year
