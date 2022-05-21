@@ -87,7 +87,7 @@ modis_mean_by_yrmo <- modis_ic_tidy |>
   summarise(stat = "mean")
 
 modis_mean_by_yrmo <- modis_ic_tidy |> 
-  select("NDVI","EVI") |> 
+  select(NDVI,EVI) |> 
   group_by(year,month) |> 
   summarise(stat = "mean")
 
