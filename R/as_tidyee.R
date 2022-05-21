@@ -31,7 +31,7 @@ as_tidyee <-  function(x){
     mutate(
       band_names = list(band_names)
     ) |>
-    as_tibble()
+    dplyr::as_tibble()
 
   tidyrgee:::create_tidyee(x = x,vrt = vrt)
 
