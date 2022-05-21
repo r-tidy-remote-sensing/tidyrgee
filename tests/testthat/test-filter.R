@@ -12,6 +12,7 @@ test_that("testing filter() using year", {
 
   expect_equal(filter_year$ee_ob$size()$getInfo(), 23)
   expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
 
   # with %in% and : and year
   filter_year <- modis_ic %>%
@@ -22,6 +23,7 @@ test_that("testing filter() using year", {
 
   expect_equal(filter_year$ee_ob$size()$getInfo(), 69)
   expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
 
   # with non-sequential years
   filter_year <- modis_ic %>%
@@ -34,15 +36,11 @@ test_that("testing filter() using year", {
 
   expect_equal(filter_year$ee_ob$size()$getInfo(), 46)
   expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
 
   #with landsat T1/SR
 
-  roi <- ee$Geometry$Polygon(list(
-    c(-114.275, 45.891),
-    c(-108.275, 45.868),
-    c(-108.240, 48.868),
-    c(-114.240, 48.891)
-  ))
+  roi <- ee$Geometry$Point(-114.275, 45.891)
 
   ld_ic = ee$ImageCollection("LANDSAT/LC08/C01/T1_SR")$filterBounds(roi)
 
@@ -53,8 +51,8 @@ test_that("testing filter() using year", {
 
   ee_filter <- ld_ic$filterDate('2018-01-01', '2019-01-01')
 
-  expect_equal(filter_year$ee_ob$size()$getInfo(), 308)
   expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
 
   # with %in% and : and year
   filter_year <- ld_ic %>%
@@ -63,8 +61,8 @@ test_that("testing filter() using year", {
 
   ee_filter <- ld_ic$filterDate('2018-01-01', '2021-01-01')
 
-  expect_equal(filter_year$ee_ob$size()$getInfo(), 946)
   expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
 
   # with non-sequential years
   filter_year <- ld_ic %>%
@@ -75,7 +73,138 @@ test_that("testing filter() using year", {
   ee_filter2 <- ld_ic$filterDate('2021-01-01', '2022-01-01')
   ee_filter <- ee_filter1$merge(ee_filter2)
 
-  expect_equal(filter_year$ee_ob$size()$getInfo(), 660)
+  expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
+
+  #with sentinel
+  s_ic = ee$ImageCollection("COPERNICUS/S2")$filterBounds(roi)
+
+  # with == and year
+  filter_year <- s_ic %>%
+    as_tidyee() %>%
+    filter(year == 2018)
+
+  ee_filter <- s_ic$filterDate('2018-01-01', '2019-01-01')
+
+  expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
+
+  # with %in% and : and year
+  filter_year <- s_ic %>%
+    as_tidyee() %>%
+    filter(year %in% c(2018:2020))
+
+  ee_filter <- s_ic$filterDate('2018-01-01', '2021-01-01')
+
   expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
 
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
+
+  # with non-sequential years
+  filter_year <- s_ic %>%
+    as_tidyee() %>%
+    filter(year %in% c(2017,2021))
+
+  ee_filter1 <- s_ic$filterDate('2017-01-01', '2018-01-01')
+  ee_filter2 <- s_ic$filterDate('2021-01-01', '2022-01-01')
+  ee_filter <- ee_filter1$merge(ee_filter2)
+
+  expect_equal(filter_year$ee_ob$size()$getInfo(), ee_filter$size()$getInfo())
+
+  expect_equal(nrow(filter_year$vrt),filter_year$ee_ob$size()$getInfo())
+
 })
+
+test_that("testing filter() using month", {
+
+  # with MODIS
+  modis_ic <- rgee::ee$ImageCollection("MODIS/006/MOD13Q1")
+
+  month = c(8,10)
+  expect_equal({
+
+    ee_month_list <- rgee::ee$List(month) # switched from ee$List$sequence - let the user make sequence in R or suppply raw
+
+    ic_list <-
+      ee_month_list$map(rgee::ee_utils_pyfunc(function (m) {
+        modis_ic$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
+      }
+
+      ))
+
+    fc_from_ic_list <- rgee::ee$FeatureCollection(ic_list)
+    first_month_filter <- rgee::ee$ImageCollection(fc_from_ic_list$flatten())
+    first_month_filter$size()$getInfo()},
+    {
+      month_filter <- modis_ic %>%
+        as_tidyee() %>%
+        filter(month == c(8,10))
+
+      month_filter$ee_ob$size()$getInfo()
+    })
+
+  month = c(8,12)
+  expect_equal({
+
+    ee_month_list <- rgee::ee$List(month) # switched from ee$List$sequence - let the user make sequence in R or suppply raw
+
+    ic_list <-
+      ee_month_list$map(rgee::ee_utils_pyfunc(function (m) {
+        modis_ic$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
+      }
+
+      ))
+
+    fc_from_ic_list <- rgee::ee$FeatureCollection(ic_list)
+    first_month_filter <- rgee::ee$ImageCollection(fc_from_ic_list$flatten())
+    first_month_filter$size()$getInfo()},
+    {
+      month_filter <- modis_ic %>%
+        as_tidyee() %>%
+        filter(month == c(8,12))
+
+      month_filter$ee_ob$size()$getInfo()
+    })
+
+
+})
+
+
+test_that('year, month within filter'{
+
+  # with MODIS
+  modis_ic <- rgee::ee$ImageCollection("MODIS/006/MOD13Q1")
+
+  month = c(8,10)
+  year = c(2010,2011)
+
+  yr_ic <-  ee_year_filter(modis_ic,year = year)
+  yr_mo_ic <-  ee_month_filter(yr_ic,month=month)
+
+  filter_year <- modis_ic %>%
+    as_tidyee() %>%
+    filter(year %in% c(2010,2011),
+           month %in% c(8,10))
+
+  expect_equal(filter_year$ee_ob$size()$getInfo(), yr_mo_ic$size()$getInfo())
+
+  # with landsat 8 T1/SR
+
+  roi <- ee$Geometry$Point(-114.275, 45.891)
+
+  ld_ic = ee$ImageCollection("LANDSAT/LC08/C01/T1_SR")$filterBounds(roi)
+
+  month = c(8,10)
+  year = c(2018,2020)
+
+  yr_ic <-  ee_year_filter(ld_ic,year = year)
+  yr_mo_ic <-  ee_month_filter(yr_ic,month=month)
+
+  filter_year <- ld_ic %>%
+    as_tidyee() %>%
+    filter(year %in% c(2018,2020),
+           month %in% c(8,10))
+
+  expect_equal(filter_year$ee_ob$size()$getInfo(), yr_mo_ic$size()$getInfo())
+
+  })
