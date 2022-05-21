@@ -26,8 +26,7 @@ filter.tidyee <- function(x,...){
 #' @export
 filter.ee.imagecollection.ImageCollection <- function(x,...){
   stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
-  cat(crayon::yellow("Using tidyverse verbs directly on large imageCollectoins can be slow.\n
-      We recommend converting object to class tidyee with `as_tidyee(object)` first to save time")
+  cat(crayon::yellow("Using tidyverse verbs directly on large imageCollectoins can be slow.\nWe recommend converting object to class tidyee with `as_tidyee(object)` first to save time\n")
   )
   x_tidy <- as_tidyee(x)
   x_tidy |>
