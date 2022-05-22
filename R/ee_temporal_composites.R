@@ -81,7 +81,9 @@ ee_year_composite.tidyee<-  function(x,
   )
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
-      dates_summarised= list(date),.groups = "drop"
+      dates_summarised= list(date),
+      band_names= list(band_names), # this might be a better way than how it is for funcs below
+      groups = "drop"
     )
   create_tidyee(ic_summarised,vrt_summarised)
 }
