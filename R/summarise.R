@@ -93,8 +93,9 @@ summarise.tidyee <-  function(x,stat,...){
       ~x |>
       summarise_pixels(stat=.x)
       )
-  # summary_ics <- summary_list |>
-  #   purrr:::map("ee_ob")
+
+  # will this have issue when length(summary_list)==1? dont think so
+
   purrr::reduce(.x = summary_list,.f = inner_join,"system:time_start")
 
 
