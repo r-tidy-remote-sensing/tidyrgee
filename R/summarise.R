@@ -1,13 +1,13 @@
 
 #' @export
-summarise.grouped_imageCol <-  function(x,stat,...){
-  date_range <-  date_range_imageCol(x)
-  start_year <- lubridate::year(date_range[1])
-  end_year <- lubridate::year(date_range[2])
-  year <- c(start_year,end_year)
-  if(attributes(x)$grouped_vars =="year"){
-    ee_year_composite(imageCol = x,year = year,stat = stat)
-  }
+summarise.ee.imagecollection.ImageCollection <-  function(x,stat,...){
+  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+  convert_to_tidyee_warning()
+  x_tidy <- as_tidyee(x)
+  x_tidy |>
+    summarise(
+      stat=stat
+    )
 }
 
 #' @export
@@ -95,7 +95,6 @@ summarise.tidyee <-  function(x,stat,...){
       )
 
   # will this have issue when length(summary_list)==1? dont think so
-
   purrr::reduce(.x = summary_list,.f = inner_join,"system:time_start")
 
 
