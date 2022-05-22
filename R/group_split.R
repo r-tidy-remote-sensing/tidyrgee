@@ -1,3 +1,16 @@
+
+#' @export
+group_split.ee.imagecollection.ImageCollection <-  function(x,...){
+  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+  convert_to_tidyee_warning()
+
+  x_tidy <-  as_tidyee(x)
+  x_tidy |>
+    group_split(...)
+}
+
+
+
 #' @export
 group_split.tidyee <-  function(x,...){
   vrt_list <- x$vrt |>
