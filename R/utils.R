@@ -90,7 +90,11 @@ geometry_type_is_unique <- function(x){
   length(unique(sf::st_geometry_type(x)))==1
 }
 
+
 convert_to_tidyee_warning <- function(){
-  cat(crayon::yellow("Using `tidyee` `tidyverse`-style functions on `ee$ImageCollections` directly can be slow on large ImageCollections.\nWe recommend you always start your `tidyee` flow by first converting and storing your object to class `tidyee` with the function:"),crayon::green("`as_tidyee()`"))
+  cat(
+    crayon::yellow("We recommend you always start your `tidyee` flow by first converting and storing your object to class `tidyee` with the function:"),
+    crayon::green("`as_tidyee()`."),
+    crayon::yellow("Using `tidyverse/dplyr`-style functions on `ee$ImageCollections` directly can be slow on large ImageCollections.\n"))
 }
 
