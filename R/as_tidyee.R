@@ -19,12 +19,16 @@
 #' }
 
 as_tidyee <-  function(x){
+  # id_vec <- x$aggregate_array("system:id")$getInfo()
+  system_index_vec <-  x$aggregate_array("system:index")$getInfo()
   vrt<-  rgee::ee_get_date_ic(x) |>
     dplyr::mutate(
       date = .data$time_start,
       month=lubridate::month(date),
       year= lubridate::year(date),
-      idx= dplyr::row_number()-1
+      idx= dplyr::row_number()-1,
+      # system_id=id_vec,
+      system_index = system_index_vec
     )
   band_names <- x$first()$bandNames()$getInfo()
   vrt <- vrt |>
@@ -32,6 +36,7 @@ as_tidyee <-  function(x){
       band_names = list(band_names)
     ) |>
     dplyr::as_tibble()
+
 
   tidyrgee:::create_tidyee(x = x,vrt = vrt)
 

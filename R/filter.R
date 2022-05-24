@@ -3,18 +3,10 @@
 filter.tidyee <- function(x,...){
   vrt <- x$vrt |>
     dplyr::filter(...)
-  date_chr <-  vrt$date |>
-    lubridate::as_date() |>
-    as.character()
 
-  ee_date_list = rgee::ee$List(date_chr)$
-    map(rgee::ee_utils_pyfunc(
-      function(date){
-        rgee::ee$Date$millis(date)
-      }
-    )
-    )
-  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
+  ee_index_list <-  ee$List(vrt$system_index )
+  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:index", ee_index_list))
+
   # adding this assertion add 1-2 secs onto the process-- maybe should just be a test....
   # assertthat::assert_that(nrow(vrt)==ic_filt$size()$getInfo(),
   #                         msg = "mismatch in vrt and ee_ob - check function and objects" )
