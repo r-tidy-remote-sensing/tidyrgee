@@ -361,7 +361,7 @@ ee_composite.tidyee <-  function(x,
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
   vrt_summarised <- x$vrt |>
-    dplyr::tibble() |>
+    # dplyr::tibble() |>
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop"
     ) |>

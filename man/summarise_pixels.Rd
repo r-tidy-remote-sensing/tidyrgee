@@ -4,10 +4,10 @@
 \alias{summarise_pixels}
 \title{Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections}
 \usage{
-summarise_pixels(x, stat, ...)
+summarise_pixels(.data, stat, ...)
 }
 \arguments{
-\item{x}{ee$Image or ee$ImageCollection}
+\item{.data}{ee$Image or ee$ImageCollection}
 
 \item{stat}{stat/function to apply}
 

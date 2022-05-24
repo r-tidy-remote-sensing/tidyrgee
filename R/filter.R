@@ -1,11 +1,11 @@
 
 #' @export
-filter.tidyee <- function(x,...){
-  vrt <- x$vrt |>
+filter.tidyee <- function(.data,...){
+  vrt <- .data$vrt |>
     dplyr::filter(...)
 
   ee_index_list <-  ee$List(vrt$system_index )
-  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:index", ee_index_list))
+  ic_filt = .data$ee_ob$filter(ee$Filter$inList("system:index", ee_index_list))
 
   # adding this assertion add 1-2 secs onto the process-- maybe should just be a test....
   # assertthat::assert_that(nrow(vrt)==ic_filt$size()$getInfo(),
@@ -16,12 +16,12 @@ filter.tidyee <- function(x,...){
 
 
 #' @export
-filter.ee.imagecollection.ImageCollection <- function(x,...){
-  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+filter.ee.imagecollection.ImageCollection <- function(.data,...){
+  stopifnot(!is.null(.data), inherits(.data, "ee.imagecollection.ImageCollection"))
 
   convert_to_tidyee_warning()
 
-  x_tidy <- as_tidyee(x)
+  x_tidy <- as_tidyee(.data)
   x_tidy |>
     filter(...) |>
     as_ee()
@@ -33,7 +33,7 @@ filter.ee.imagecollection.ImageCollection <- function(x,...){
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name filter
 #' @rdname filter
-#' @param x imageCollection or tidyee class object
+#' @param .data imageCollection or tidyee class object
 #' @param ... other arguments
 #' @return filtered image or imageCollection form filtered imageCollection
 #' @examples \dontrun{

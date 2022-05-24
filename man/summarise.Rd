@@ -4,7 +4,7 @@
 \alias{summarise}
 \title{Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections}
 \arguments{
-\item{x}{ee$Image or ee$ImageCollection}
+\item{.data}{ee$Image or ee$ImageCollection}
 
 \item{stat}{\code{character} stat/function to apply}
 

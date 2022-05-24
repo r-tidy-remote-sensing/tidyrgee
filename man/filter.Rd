@@ -4,7 +4,7 @@
 \alias{filter}
 \title{filter ee$ImageCollections or tidyee objects that contain imageCollections}
 \arguments{
-\item{x}{imageCollection or tidyee class object}
+\item{.data}{imageCollection or tidyee class object}
 
 \item{...}{other arguments}
 }

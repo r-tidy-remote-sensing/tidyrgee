@@ -122,7 +122,6 @@ modis_ic_tidy |>
     stat="mean"
   )
 
-
 ```
 
 select & inner_join example

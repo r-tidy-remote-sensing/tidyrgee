@@ -1,10 +1,10 @@
 
 #' @export
-group_split.ee.imagecollection.ImageCollection <-  function(x,...){
-  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+group_split.ee.imagecollection.ImageCollection <-  function(.tbl,...){
+  stopifnot(!is.null(.tbl), inherits(.tbl, "ee.imagecollection.ImageCollection"))
   convert_to_tidyee_warning()
 
-  x_tidy <-  as_tidyee(x)
+  x_tidy <-  as_tidyee(.tbl)
   x_tidy |>
     group_split(...)
 }
@@ -12,30 +12,30 @@ group_split.ee.imagecollection.ImageCollection <-  function(x,...){
 
 
 #' @export
-group_split.tidyee <-  function(x,...){
-  vrt_list <- x$vrt |>
+group_split.tidyee <-  function(.tbl,...){
+  vrt_list <- .tbl$vrt |>
     group_split(...,.keep=TRUE)# unfortunately drop attributes
   # is there a way to figure this out with `vctrs` package?
   # fixed by moving band_naems to list-col instead of relying on attributes
   # for print method
 
-  date_list <-  vrt_list |>
+  # date_list <-  vrt_list |>
+  #   purrr::map(
+  #     ~.x$date |>
+  #       lubridate::as_date() |>
+  #       as.character()
+  #   )
+  index_list <- vrt_list |>
     purrr::map(
-      ~.x$date |>
-        lubridate::as_date() |>
-        as.character()
+      ~.x$system_index
     )
 
-  ee_date_list = purrr::map(date_list,
-                             ~rgee::ee$List(.x)$
-                               map(rgee::ee_utils_pyfunc(
-                                 function(date){
-                                   rgee::ee$Date$millis(date)
-      }
+  ee_index_list = purrr::map(index_list,
+                             ~rgee::ee$List(.x)
     )
-    )
-  )
-  ic_filt_list<-purrr::map(ee_date_list,~ x$ee_ob$filter(ee$Filter$inList("system:time_start", .x)))
+
+
+  ic_filt_list<-purrr::map(ee_index_list,~ .tbl$ee_ob$filter(ee$Filter$inList("system:index", .x)))
 
   purrr::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y))
 
@@ -46,7 +46,7 @@ group_split.tidyee <-  function(x,...){
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name group_split
 #' @rdname group_split
-#' @param x imageCollection or tidyee class object
+#' @param .tbl imageCollection or tidyee class object
 #' @param ... other arguments
 #' @return filtered image or imageCollection form filtered imageCollection
 #' @examples \dontrun{
