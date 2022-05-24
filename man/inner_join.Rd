@@ -4,7 +4,7 @@
 \alias{inner_join}
 \title{inner_join bands from different image/ImageCollections based on shared property}
 \arguments{
-\item{x, y}{A pair of tidyee objects containing ee$ImageCollections}
+\item{x, y}{A     pair of tidyee objects containing ee$ImageCollections}
 
 \item{by}{A character vector of variables to join by.}
 }

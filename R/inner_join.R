@@ -1,5 +1,5 @@
 #' @export
-inner_join.tidyee<- function(x, y, by){
+inner_join.tidyee<- function(x, y, by,...){
   x_ic <- x$ee_ob
   y_ic <- y$ee_ob
 
@@ -30,7 +30,7 @@ inner_join.tidyee<- function(x, y, by){
 
 #' inner_join bands from different image/ImageCollections based on shared property
 #' @name inner_join
-#' @param x,y	A pair of tidyee objects containing ee$ImageCollections
+#' @param x,y A	 pair of tidyee objects containing ee$ImageCollections
 #' @param by A character vector of variables to join by.
 #' @return
 #' An object of the same type as `x`. The output has the following properties:
