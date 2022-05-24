@@ -15,7 +15,7 @@ select.tidyee <-  function(x,...){
         unlist()
     )
     name_lookup <- name_lookup |>
-      dplyr::mutate(new_name=dplyr::if_else(new_name=="",.data$old_name,.data$new_name))
+      dplyr::mutate(new_name=dplyr::if_else(.data$new_name=="",.data$old_name,.data$new_name))
     ic_selected <- x$ee_ob$map(
       function(img){
         img$select(unname(dots))$rename(name_lookup$new_name)
@@ -24,7 +24,7 @@ select.tidyee <-  function(x,...){
     x$vrt <- x$vrt |>
       mutate(band_names = list( name_lookup$new_name))
   }
-  tidyrgee:::create_tidyee(ic_selected, x$vrt)
+  create_tidyee(ic_selected, x$vrt)
 }
 
 #' Select bands from ee$Image or ee$ImageCollection

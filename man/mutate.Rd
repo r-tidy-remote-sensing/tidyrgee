@@ -4,12 +4,29 @@
 \alias{mutate}
 \title{mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection}
 \arguments{
-\item{x}{tidyee class object (list of ee_ob, vrt)}
+\item{.data}{tidyee class object (list of ee_ob, vrt)}
 
 \item{...}{mutate arguments}
-}
-\value{
-tidyee object with vrt component containing new mutated cols
+
+\item{.keep}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Control which columns from \code{.data} are retained in the output. Grouping
+columns and columns created by \code{...} are always kept.
+\itemize{
+\item \code{"all"} retains all columns from \code{.data}. This is the default.
+\item \code{"used"} retains only the columns used in \code{...} to create new
+columns. This is useful for checking your work, as it displays inputs
+and outputs side-by-side.
+\item \code{"unused"} retains only the columns \emph{not} used in \code{...} to create new
+columns. This is useful if you generate new columns, but no longer need
+the columns used to generate them.
+\item \code{"none"} doesn't retain any extra columns from \code{.data}. Only the grouping
+variables and columns created by \code{...} are kept.
+}}
+
+\item{.before, .after}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns
+should appear (the default is to add to the right hand side). See
+\code{\link[=relocate]{relocate()}} for more details.}
 }
 \description{
 mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection

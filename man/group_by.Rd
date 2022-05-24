@@ -4,9 +4,21 @@
 \alias{group_by}
 \title{Group an imageCollection or tidyee object with Imagecollections by a parameter}
 \arguments{
-\item{x}{ee$ImageCollection or tidyee object}
+\item{.data}{ee$ImageCollection or tidyee object}
 
 \item{...}{group_by variables}
+
+\item{.add}{When \code{FALSE}, the default, \code{group_by()} will
+override existing groups. To add to the existing groups, use
+\code{.add = TRUE}.
+
+This argument was previously called \code{add}, but that prevented
+creating a new grouping variable called \code{add}, and conflicts with
+our naming conventions.}
+
+\item{.drop}{Drop groups formed by factor levels that don't appear in the
+data? The default is \code{TRUE} except when \code{.data} has been previously
+grouped with \code{.drop = FALSE}. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for details.}
 }
 \value{
 ee$ImageCollection with grouped_vars attribute

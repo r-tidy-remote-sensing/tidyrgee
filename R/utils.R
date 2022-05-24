@@ -73,9 +73,18 @@ date_range_imageCol <-  function(x){
 
 }
 
+
+
+#' vrt_band_names
+#'
+#' @param x tidyee class object
+#' @return a character vector of band_names
+#' @export
+#' @importFrom rlang .data
+
 vrt_band_names <-  function(x){
   x$vrt |>
-    dplyr::pull(band_names) |>
+    dplyr::pull(.data$band_names) |>
     unique() |>
     unlist()
 }

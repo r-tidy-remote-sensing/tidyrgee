@@ -20,13 +20,13 @@ group_split.tidyee <-  function(x,...){
   # for print method
 
   date_list <-  vrt_list |>
-    purrr:::map(
+    purrr::map(
       ~.x$date |>
         lubridate::as_date() |>
         as.character()
     )
 
-  ee_date_list = purrr:::map(date_list,
+  ee_date_list = purrr::map(date_list,
                              ~rgee::ee$List(.x)$
                                map(rgee::ee_utils_pyfunc(
                                  function(date){
@@ -37,7 +37,7 @@ group_split.tidyee <-  function(x,...){
   )
   ic_filt_list<-purrr::map(ee_date_list,~ x$ee_ob$filter(ee$Filter$inList("system:time_start", .x)))
 
-  purrr:::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y))
+  purrr::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y))
 
 
 }

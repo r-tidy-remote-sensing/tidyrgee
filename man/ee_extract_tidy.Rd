@@ -39,7 +39,7 @@ ee_extract_tidy(
 \item{...}{additional parameters}
 }
 \value{
-
+data.frame in long format with point estimates for each time-step and y feature based on statistic provided
 }
 \description{
 ee_extract_tidy

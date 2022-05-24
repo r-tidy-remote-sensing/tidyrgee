@@ -6,7 +6,7 @@
 \arguments{
 \item{x}{ee$Image or ee$ImageCollection}
 
-\item{stat}{stat/function to apply}
+\item{stat}{\code{character} stat/function to apply}
 
 \item{...}{other arguments}
 }
@@ -19,6 +19,7 @@ Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageC
 \examples{
 \dontrun{
 library(tidyrgee)
+library(rgee)
 ee_Initialize()
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 modis_ic |>

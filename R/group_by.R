@@ -1,20 +1,23 @@
 
 
 #' @export
-group_by.ee.imagecollection.ImageCollection <- function(x,...){
-  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+group_by.ee.imagecollection.ImageCollection <- function(.data,
+                                                        ...,
+                                                        .add=FALSE,
+                                                        .drop=dplyr::group_by_drop_default(.data)){
+  stopifnot(!is.null(.data), inherits(.data, "ee.imagecollection.ImageCollection"))
   convert_to_tidyee_warning()
-  x_tidy <- as_tidyee(x)
+  x_tidy <- as_tidyee(.data)
   x_tidy |>
     group_by(...)
 }
 
 
 #' @export
-group_by.tidyee <- function(x,...){
-  vrt <- x$vrt |>
+group_by.tidyee <- function(.data,...,.add=FALSE,.drop=dplyr::group_by_drop_default(.data)){
+  vrt <- .data$vrt |>
     dplyr::group_by(...)
-  create_tidyee(x$ee_ob,vrt)
+  create_tidyee(.data$ee_ob,vrt)
 }
 
 
@@ -22,8 +25,18 @@ group_by.tidyee <- function(x,...){
 #' Group an imageCollection or tidyee object with Imagecollections by a parameter
 #' @name group_by
 #' @rdname group_by
-#' @param x ee$ImageCollection or tidyee object
+#' @param .data ee$ImageCollection or tidyee object
 #' @param ... group_by variables
+#' @param .add When `FALSE`, the default, `group_by()` will
+#'   override existing groups. To add to the existing groups, use
+#'   `.add = TRUE`.
+#'
+#'   This argument was previously called `add`, but that prevented
+#'   creating a new grouping variable called `add`, and conflicts with
+#'   our naming conventions.
+#' @param .drop Drop groups formed by factor levels that don't appear in the
+#'   data? The default is `TRUE` except when `.data` has been previously
+#'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
 #' @return ee$ImageCollection with grouped_vars attribute
 #' @examples \dontrun{
 #' library(tidyrgee)

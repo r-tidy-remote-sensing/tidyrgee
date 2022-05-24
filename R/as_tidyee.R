@@ -38,7 +38,7 @@ as_tidyee <-  function(x){
     dplyr::as_tibble()
 
 
-  tidyrgee:::create_tidyee(x = x,vrt = vrt)
+  create_tidyee(x = x,vrt = vrt)
 
 }
 

@@ -15,7 +15,7 @@ ee_extract_tidy.tidyee <-  function(x,
   if(rgee_issue_fixed){
     if( any(c("sfc","sf") %in% class(y))){
       assertthat::assert_that(
-        tidyrgee:::geometry_type_is_unique(y),
+        geometry_type_is_unique(y),
         msg = "Currently we can only handle a single geometry types"
       )
       cat("uploading sf to ee object\n")
@@ -34,7 +34,7 @@ ee_extract_tidy.tidyee <-  function(x,
   ic_renamed<- x$ee_ob |>
     add_date_to_bandname()
 
-  ee_reducer <-  tidyrgee:::stat_to_reducer(fun = stat)
+  ee_reducer <-  stat_to_reducer(fun = stat)
 
 
 
@@ -122,7 +122,7 @@ ee_extract_tidy.ee.imagecollection.ImageCollection <-  function(x,
   ic_renamed<- x |>
     add_date_to_bandname()
 
-  ee_reducer <-  tidyrgee:::stat_to_reducer(fun = stat)
+  ee_reducer <-  stat_to_reducer(fun = stat)
 
 
 
@@ -205,7 +205,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
   ic_renamed<- x |>
     add_date_to_bandname()
 
-  ee_reducer <-  tidyrgee:::stat_to_reducer(fun = stat)
+  ee_reducer <-  stat_to_reducer(fun = stat)
 
 
 
@@ -268,7 +268,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
 #' @param quiet Logical. Suppress info message.
 #' @param ... additional parameters
 #'
-#' @return
+#' @return data.frame in long format with point estimates for each time-step and y feature based on statistic provided
 #'
 #' @examples \dontrun{
 #' library(rgee)

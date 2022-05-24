@@ -8,3 +8,6 @@
 ^Meta$
 ^vignettes/aa-tidyverbs\.Rmd$
 ^R/archive$
+^vignettes$
+^vignettes/*
+v
