@@ -15,7 +15,7 @@ select.tidyee <-  function(.data,...){
         unlist()
     )
     name_lookup <- name_lookup |>
-      dplyr::mutate(new_name=dplyr::if_else(.data$new_name=="",old_name,new_name))
+      dplyr::mutate(new_name=dplyr::if_else(.data$new_name=="",.data$old_name,.data$new_name))
     ic_selected <- .data$ee_ob$map(
       function(img){
         img$select(unname(dots))$rename(name_lookup$new_name)
