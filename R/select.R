@@ -1,10 +1,10 @@
 #' @export
-select.tidyee <-  function(x,...){
+select.tidyee <-  function(.data,...){
   dots <- list(...)
   if(is.null(names(dots))){
-    ic_selected=x$ee_ob$select(unname(dots))
+    ic_selected=.data$ee_ob$select(unname(dots))
     # attributes(x$vrt)$band_names <- unname(dots)
-    x$vrt <- x$vrt |>
+    .data$vrt <- .data$vrt |>
       mutate(band_names = list( unname(dots) |> unlist()))
   }
   if(!is.null(names(dots))){
@@ -16,21 +16,21 @@ select.tidyee <-  function(x,...){
     )
     name_lookup <- name_lookup |>
       dplyr::mutate(new_name=dplyr::if_else(.data$new_name=="",.data$old_name,.data$new_name))
-    ic_selected <- x$ee_ob$map(
+    ic_selected <- .data$ee_ob$map(
       function(img){
         img$select(unname(dots))$rename(name_lookup$new_name)
       }
     )
-    x$vrt <- x$vrt |>
+    .data$vrt <- .data$vrt |>
       mutate(band_names = list( name_lookup$new_name))
   }
-  create_tidyee(ic_selected, x$vrt)
+  create_tidyee(ic_selected, .data$vrt)
 }
 
 #' Select bands from ee$Image or ee$ImageCollection
 #' @name select
 #' @rdname select
-#' @param x tidyee class object containing ee$ImageCollection or ee$Image
+#' @param .data tidyee class object containing ee$ImageCollection or ee$Image
 #' @param ... one or more quoted or unquoted expressions separated by commas.
 #' @return tidyee class object with specified (...) bands selected
 #' @examples \dontrun{

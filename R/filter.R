@@ -1,11 +1,32 @@
 
 #' @export
-filter.tidyee <- function(x,...){
-  vrt <- x$vrt |>
+filter.tidyee <- function(.data,...,filter_with="time_start"){
+  vrt <- .data$vrt |>
     dplyr::filter(...)
+  #this is literally just a "hotfix" i need to make a training work tomorrow
+  # will delete this conditional fix after... filtering with index should be better
+  # but i think it requires some work on the temporal composite functions
+    if(filter_with=="time_start"){
+  date_chr <-  vrt$date |>
+    lubridate::as_date() |>
+    as.character()
+  ee_date_list = rgee::ee$List(date_chr)$
+    map(rgee::ee_utils_pyfunc(
+      function(date){
+        rgee::ee$Date$millis(date)
+      }
+    )
+    )
+  ic_filt = .data$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
+  }
+  else{
 
-  ee_index_list <-  ee$List(vrt$system_index )
-  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:index", ee_index_list))
+    ee_index_list <-  ee$List(vrt$system_index )
+    ic_filt = .data$ee_ob$filter(ee$Filter$inList("system:index", ee_index_list))
+  }
+
+
+
 
   # adding this assertion add 1-2 secs onto the process-- maybe should just be a test....
   # assertthat::assert_that(nrow(vrt)==ic_filt$size()$getInfo(),
@@ -16,12 +37,12 @@ filter.tidyee <- function(x,...){
 
 
 #' @export
-filter.ee.imagecollection.ImageCollection <- function(x,...){
-  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+filter.ee.imagecollection.ImageCollection <- function(.data,...){
+  stopifnot(!is.null(.data), inherits(.data, "ee.imagecollection.ImageCollection"))
 
   convert_to_tidyee_warning()
 
-  x_tidy <- as_tidyee(x)
+  x_tidy <- as_tidyee(.data)
   x_tidy |>
     filter(...) |>
     as_ee()
@@ -33,7 +54,7 @@ filter.ee.imagecollection.ImageCollection <- function(x,...){
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name filter
 #' @rdname filter
-#' @param x imageCollection or tidyee class object
+#' @param .data imageCollection or tidyee class object
 #' @param ... other arguments
 #' @return filtered image or imageCollection form filtered imageCollection
 #' @examples \dontrun{

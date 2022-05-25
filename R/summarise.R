@@ -1,9 +1,9 @@
 
 #' @export
-summarise.ee.imagecollection.ImageCollection <-  function(x,stat,...){
-  stopifnot(!is.null(x), inherits(x, "ee.imagecollection.ImageCollection"))
+summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
+  stopifnot(!is.null(.data), inherits(.data, "ee.imagecollection.ImageCollection"))
   convert_to_tidyee_warning()
-  x_tidy <- as_tidyee(x)
+  x_tidy <- as_tidyee(.data)
   x_tidy |>
     summarise(
       stat=stat
@@ -13,10 +13,10 @@ summarise.ee.imagecollection.ImageCollection <-  function(x,stat,...){
 
 
 #' @export
-summarise.tidyee <-  function(x,stat,...){
+summarise.tidyee <-  function(.data,stat,...){
   summary_list <- stat |>
     purrr::map(
-      ~x |>
+      ~.data |>
       summarise_pixels(stat=.x)
       )
 
@@ -30,7 +30,7 @@ summarise.tidyee <-  function(x,stat,...){
 #' Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
 #' @rdname summarise
 #' @name summarise
-#' @param x ee$Image or ee$ImageCollection
+#' @param .data ee$Image or ee$ImageCollection
 #' @param stat \code{character} stat/function to apply
 #' @param ... other arguments
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
@@ -56,42 +56,42 @@ NULL
 #' Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
 #' @rdname summarise_pixels
 #' @name summarise_pixels
-#' @param x ee$Image or ee$ImageCollection
+#' @param .data ee$Image or ee$ImageCollection
 #' @param stat stat/function to apply
 #' @param ... other arguments
 #' @export
 
-summarise_pixels <-  function(x,stat,...){
-  group_vars_chr <- dplyr::group_vars(x$vrt)
+summarise_pixels <-  function(.data,stat,...){
+  group_vars_chr <- dplyr::group_vars(.data$vrt)
 
-  assertthat::assert_that(all(group_vars_chr %in% names(x$vrt)))
+  assertthat::assert_that(all(group_vars_chr %in% names(.data$vrt)))
   if(all(group_vars_chr %in% c("year","month"))){
     if(length(group_vars_chr)==0){
-      tidyee_output <- ee_composite(x = x,stat = stat)
+      tidyee_output <- ee_composite(x = .data,stat = stat)
     }
     if(length(group_vars_chr)>0){
 
-      years_unique_chr <- unique(x$vrt$year) |> sort()
-      months_unique_chr <- unique(x$vrt$month) |> sort()
+      years_unique_chr <- unique(.data$vrt$year) |> sort()
+      months_unique_chr <- unique(.data$vrt$month) |> sort()
 
       if(length(group_vars_chr)==1){
         if(group_vars_chr=="year"){
-          tidyee_output <-  ee_year_composite(x,stat = stat)
+          tidyee_output <-  ee_year_composite(.data,stat = stat)
         }
         if(group_vars_chr=="month"){
-          tidyee_output <- ee_month_composite(x,stat = stat)
+          tidyee_output <- ee_month_composite(.data,stat = stat)
         }
       }
       if(length(group_vars_chr)==2 & all(c("month","year")%in%group_vars_chr)){
         # dont want to run year_month composite if there is only
         # 1 month or 1 year in vrt... mapping over ee$List of 1 value throws error.
         if(length(months_unique_chr)==1){
-          tidyee_output <-  ee_year_composite(x,stat = stat)
+          tidyee_output <-  ee_year_composite(.data,stat = stat)
         }
         if(length(years_unique_chr)==1){
-          tidyee_output <- ee_month_composite(x,stat = stat)
+          tidyee_output <- ee_month_composite(.data,stat = stat)
         }else{
-          tidyee_output <- ee_year_month_composite(x,stat = stat)
+          tidyee_output <- ee_year_month_composite(.data,stat = stat)
         }
 
 
@@ -100,7 +100,7 @@ summarise_pixels <-  function(x,stat,...){
   }
 
   if(!any(group_vars_chr %in% c("month","year"))& length(group_vars_chr)>0){
-    x_split_list <- x |>
+    x_split_list <- .data |>
       group_split()
     x_split_summaries <- x_split_list |>
       purrr::map( ~ee_composite(x = .x |>

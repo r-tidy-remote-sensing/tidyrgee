@@ -4,7 +4,7 @@
 \alias{select}
 \title{Select bands from ee$Image or ee$ImageCollection}
 \arguments{
-\item{x}{tidyee class object containing ee$ImageCollection or ee$Image}
+\item{.data}{tidyee class object containing ee$ImageCollection or ee$Image}
 
 \item{...}{one or more quoted or unquoted expressions separated by commas.}
 }

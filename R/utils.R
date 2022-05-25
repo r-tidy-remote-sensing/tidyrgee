@@ -76,11 +76,12 @@ date_range_imageCol <-  function(x){
 
 
 #' vrt_band_names
-#'
+#' @name vrt_band_names
+#' @rdname vrt_band_names
 #' @param x tidyee class object
 #' @return a character vector of band_names
-#' @export
 #' @importFrom rlang .data
+
 
 vrt_band_names <-  function(x){
   x$vrt |>
