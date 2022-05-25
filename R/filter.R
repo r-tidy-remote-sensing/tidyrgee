@@ -17,7 +17,7 @@ filter.tidyee <- function(.data,...,filter_with="time_start"){
       }
     )
     )
-  ic_filt = x$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
+  ic_filt = .data$ee_ob$filter(ee$Filter$inList("system:time_start", ee_date_list))
   }
   else{
 
