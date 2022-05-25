@@ -67,8 +67,10 @@ ee_year_composite.tidyee<-  function(x,
   ic_summarised <- rgee::ee$ImageCollection$fromImages(
     ee_years_list$map(rgee::ee_utils_pyfunc(function (y) {
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
-      indexString = rgee::ee$Number(y)$format('%03d')
+      indexString <-  rgee::ee$Number(y)$format('%03d')
+      idString <- ee$String("composited_yyyy_")$cat(indexString)
       ee_reducer(ic_temp_filtered)$
+        set('system:id',idString)$
         set('system:index', indexString)$
         set('year',y)$
         set('month',1)$
@@ -155,9 +157,10 @@ ee_month_composite.tidyee <- function(x, stat, ...){
   ic_summarised <- rgee::ee$ImageCollection$fromImages(
     ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
       indexString = rgee::ee$Number(m)$format('%03d')
+      idString <- ee$String("composited_mm_")$cat(indexString)
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
-        set('system:id',indexString)$
+        set('system:id',idString)$
         set('system:index', indexString)$
         set('year',0000)$
         set('month',m)$
@@ -282,18 +285,22 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
 
   ee_reducer <-  stat_to_reducer_full(stat)
 
-  ic_summarised <- rgee::ee$ImageCollection(rgee::ee$FeatureCollection(ee_years_list$map(rgee::ee_utils_pyfunc(function (y) {
+  ic_summarised <- rgee::ee$ImageCollection(
+    rgee::ee$FeatureCollection(ee_years_list$map(rgee::ee_utils_pyfunc(function (y) {
 
     yearCollection = x$ee_ob$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
 
     rgee::ee$ImageCollection$fromImages(
 
       ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
-
-        indexString = rgee::ee$Number(m)$format('%03d')
+        yearString <- rgee::ee$Number(y)$format('%04d')
+        monthString <- rgee::ee$Number(m)$format('%03d')
+        # indexString <-  rgee::ee$Number(m)$format('%03d')
+        indexString <-  yearString$cat(monthString)
+        idString <- ee$String("composited_yyyymmm_")$cat(indexString)
         ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
         ee_reducer(ic_temp_filtered)$
-          set('ID',indexString)$
+          set('system:id',idString)$
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
@@ -306,8 +313,26 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
 
   })))$flatten())
 
+
+  # think we could recreate the new index client side for filter with `system:index` eventually
+  # yrmo_combinations <- x$vrt |>
+  #   distinct(year,month) |>
+  #   dplyr::mutate(yrmo=paste0(year,month)) |>
+  #   pull(yrmo)
+  #
+  # index_vec <- years_unique_chr |>
+  #   expand.grid(months_unique_chr) |>
+  #   dplyr::mutate(
+  #     yrmo=paste0(Var1,Var2),
+  #     index_vec=paste0(Var1,sprintf("%03d",Var2))
+  #   ) |>
+  #   filter(yrmo %in% yrmo_combinations) |>
+  #   pull(index_vec)
+  #
+
   # Need to filter yrmo composite to original date range or you can end up with empty slots
   # for months that didn't occur yet
+
   ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
