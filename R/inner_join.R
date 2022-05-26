@@ -24,8 +24,9 @@ inner_join.tidyee<- function(x, y, by,...){
   # joined_band_names <- unique(c(attributes(x$vrt)$band_names,attributes(y$vrt)$band_names))
   # attributes(x$vrt)$band_names <-  joined_band_names
   vrt_joined <- x$vrt |>
-    mutate(band_names= list(joined_band_names))
-  create_tidyee(ic_inner_joined,vrt_joined)
+    dplyr::mutate(band_names= list(joined_band_names))
+  return(ic_inner_joined)
+  # create_tidyee(ic_inner_joined,vrt_joined)
 }
 
 #' inner_join bands from different image/ImageCollections based on shared property

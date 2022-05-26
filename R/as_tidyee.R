@@ -20,16 +20,16 @@
 
 as_tidyee <-  function(x){
   # id_vec <- x$aggregate_array("system:id")$getInfo()
-  # system_index_vec <-  x$aggregate_array("system:index")$getInfo()
+  system_index_vec <-  x$aggregate_array("system:index")$getInfo()
   vrt<-  rgee::ee_get_date_ic(x) |>
     dplyr::arrange(.data$time_start) |>
     dplyr::mutate(
       date = .data$time_start,
       month=lubridate::month(date),
-      year= lubridate::year(date)#,
+      year= lubridate::year(date),
 
       # system_id=id_vec,
-      # system_index = system_index_vec,
+      system_index = system_index_vec,
       # tidyee_index = system_index
     )
   band_names <- x$first()$bandNames()$getInfo()
@@ -75,11 +75,8 @@ create_tidyee <- function(x,vrt){
 
 
 
-set_idx <-  function(x,prop_name){
-  UseMethod("set_idx")
-}
 
-set_idx.ee.imagecollection.ImageCollection <-  function(x,idx_name="tidyee_index"){
+set_idx <-  function(x,idx_name="tidyee_index"){
   idx_list = ee$List$sequence(0,x$size()$subtract(1))
   ic_list = x$toList(x$size())
   ic_with_idx = ee$ImageCollection(

@@ -302,7 +302,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
         idString <- ee$String("composited_yyyymmm_")$cat(indexString)
         ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
         ee_reducer(ic_temp_filtered)$
-          set('system:id',idString)$
+          # set('system:id',idString)$
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$

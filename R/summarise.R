@@ -21,7 +21,10 @@ summarise.tidyee <-  function(.data,stat,...){
       )
 
   # will this have issue when length(summary_list)==1? dont think so
-  purrr::reduce(.x = summary_list,.f = inner_join,"system:time_start")
+  purrr::reduce(.x = summary_list,.f = inner_join,by="system:time_start")
+
+  # summary_list[[1]] |>
+    # inner_join(summary_list[[2]] , by="system:time_start")
 
 
 }
