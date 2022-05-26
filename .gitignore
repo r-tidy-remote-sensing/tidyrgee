@@ -6,3 +6,4 @@ data/dat.rda
 inst/doc
 /doc/
 /Meta/
+reprex/*
