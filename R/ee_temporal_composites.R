@@ -85,10 +85,12 @@ ee_year_composite.tidyee<-  function(x,
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
       dates_summarised= list(date),
-
       .groups = "drop"
     ) |>
-    mutate(band_names= list(client_bandnames))
+    mutate(
+      band_names= list(client_bandnames),
+      tidyee_index= dplyr::row_number()-1
+      )
   create_tidyee(ic_summarised,vrt_summarised)
 }
 
