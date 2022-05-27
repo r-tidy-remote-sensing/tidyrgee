@@ -75,18 +75,3 @@ create_tidyee <- function(x,vrt,tidyee_index=T){
 
 
 
-
-set_idx <-  function(x,idx_name="tidyee_index"){
-  idx_list = ee$List$sequence(0,x$size()$subtract(1))
-  ic_list = x$toList(x$size())
-  ic_with_idx = ee$ImageCollection(
-    idx_list$map(rgee::ee_utils_pyfunc(
-      function(idx){
-        img = ee$Image(ic_list$get(idx))
-        # // format number to string (system:index must be a string)
-        idx_string = ee$Number(idx)$format('%03d')
-        img$set(idx_name, idx_string)
-      }))
-  )
-  return(ic_with_idx)
-}
