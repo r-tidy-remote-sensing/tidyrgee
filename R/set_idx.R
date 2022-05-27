@@ -3,7 +3,11 @@
 set_idx.tidyee <- function(x,idx_name="tidyee_index"){
   ic_indexed <- set_idx(x$ee_ob, idx_name = idx_name)
   vrt_sorted <- x$vrt |>
-    dplyr::arrange(.data$time_start) |>
+    dplyr::arrange(
+      dplyr::across(
+        dplyr::any_of(c("time_start","year","month"))
+        )
+      ) |>
     dplyr::mutate(
       !!idx_name:=(dplyr::row_number()-1)
     )

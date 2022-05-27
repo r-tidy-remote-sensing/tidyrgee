@@ -2,11 +2,12 @@
 
 #' @export
 filter.tidyee <-  function(.data,...){
+  .data <- .data |> set_idx()
   vrt <- .data$vrt |>
     dplyr::filter(...)
   ee_index_list <-  ee$List(vrt$tidyee_index |> as.character())
   ic_filt = .data$ee_ob$filter(ee$Filter$inList("tidyee_index", ee_index_list))
-  return(create_tidyee(x=ic_filt,vrt=vrt))
+  return(create_tidyee(x=ic_filt,vrt=vrt,tidyee_index = F))
 }
 
 #' @export
