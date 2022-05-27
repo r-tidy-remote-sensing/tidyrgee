@@ -56,3 +56,5 @@ ic_with_tidyee_idx$aggregate_array("tidyee_index")$getInfo()
 create_tidyee(x = summarised_mean_sd$ee_ob ,vrt = summarised_mean_sd$vrt,tidyee_index = T)
 
 ```
+
+Although I don't understand this issue fully, perhaps a good/safe way forward would just be to set_idx whenever filter is called!!! as long as it doesnt hang
