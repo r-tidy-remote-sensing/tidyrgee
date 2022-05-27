@@ -54,12 +54,12 @@ as_tidyee <-  function(x){
 #' @return tidyee class list object
 #' @export
 
-create_tidyee <- function(x,vrt){
-
-  x <- x$sort("sytem:time_start") |>
-    set_idx()
+create_tidyee <- function(x,vrt,tidyee_index=T){
+  if(tidyee_index){
+    x <- x$sort("sytem:time_start") |>
+      set_idx()
+  }
   # time_start_vec <- x$aggregate_array("system:time_start")$getInfo
-
   vrt <- vrt |>
     # dplyr::arrange(time_start) |>
     dplyr::mutate(

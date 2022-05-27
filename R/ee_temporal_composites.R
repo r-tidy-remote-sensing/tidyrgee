@@ -159,10 +159,9 @@ ee_month_composite.tidyee <- function(x, stat, ...){
   ic_summarised <- rgee::ee$ImageCollection$fromImages(
     ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
       indexString = rgee::ee$Number(m)$format('%03d')
-      idString <- ee$String("composited_mm_")$cat(indexString)
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
-        set('system:id',idString)$
+        set('system:id',indexString)$
         set('system:index', indexString)$
         set('year',0000)$
         set('month',m)$
@@ -183,7 +182,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
 
 
-  create_tidyee(ic_summarised,vrt_summarised)
+  create_tidyee(ic_summarised,vrt_summarised,tidyee_index = F)
 
 }
 

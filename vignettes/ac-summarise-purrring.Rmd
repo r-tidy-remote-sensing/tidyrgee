@@ -1,0 +1,58 @@
+---
+title: "ac-summarise-purrring"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ac-summarise-purrring}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Setup
+```{r setup}
+
+library(rgee)
+library(tidyrgee)
+ee_Initialize()
+
+modis_link <- "MODIS/006/MOD13Q1"
+modisIC <- ee$ImageCollection(modis_link)
+modis_ndvi_tidy <- as_tidyee(modisIC) |> 
+  select("NDVI")
+```
+
+# Run summarise
+
+Currently it's now working with multiples statistics. I did a few changes:
+
+- I made an `inner_join` method for both `tidyee` and `ImageCollection`.  The one being utilized here inside of summarise is the `tidyee` method
+- I made the last step of the `inner_join` function `create_tidyee(..., tidyee_index=F)`. The **tidyee_index=F** seems to be the crucial to make this run without getting hung up giving the weird python "time has elapsed" error
+
+```{r}
+summarised_mean_sd <- modis_ndvi_tidy |> 
+  filter(year %in% 2000:2015) |> 
+  group_by(month) |> 
+  summarise(stat=list("mean","sd","min"))
+```
+
+- it is very odd why creating the index (with setting `tidyee=T`) causes this issue because **as you can see in the following chunk** I can easily use the `set_idx` function and have it run with no delay
+
+```{r}
+ic_with_tidyee_idx <- summarised_mean_sd$ee_ob |> 
+  tidyrgee:::set_idx()
+ic_with_tidyee_idx$aggregate_array("tidyee_index")$getInfo()
+```
+
+- Furthermore, after creating the summarised merged/joined tidyee imageCollection/vrt, I can run `create_tidyee` with `tidyee_index=T` and have it run instantly. Unforutunately no matter how i put this at the end of the `summarise` function it hangs.... WHY!?  
+
+```{r}
+create_tidyee(x = summarised_mean_sd$ee_ob ,vrt = summarised_mean_sd$vrt,tidyee_index = T)
+
+```
