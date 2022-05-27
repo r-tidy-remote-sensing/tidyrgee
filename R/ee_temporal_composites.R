@@ -85,10 +85,12 @@ ee_year_composite.tidyee<-  function(x,
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
       dates_summarised= list(date),
-
       .groups = "drop"
     ) |>
-    mutate(band_names= list(client_bandnames))
+    mutate(
+      band_names= list(client_bandnames),
+      tidyee_index= dplyr::row_number()-1
+      )
   create_tidyee(ic_summarised,vrt_summarised)
 }
 
@@ -157,10 +159,9 @@ ee_month_composite.tidyee <- function(x, stat, ...){
   ic_summarised <- rgee::ee$ImageCollection$fromImages(
     ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
       indexString = rgee::ee$Number(m)$format('%03d')
-      idString <- ee$String("composited_mm_")$cat(indexString)
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
-        set('system:id',idString)$
+        set('system:id',indexString)$
         set('system:index', indexString)$
         set('year',0000)$
         set('month',m)$
@@ -181,7 +182,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
 
 
-  create_tidyee(ic_summarised,vrt_summarised)
+  create_tidyee(ic_summarised,vrt_summarised,tidyee_index = F)
 
 }
 
@@ -300,7 +301,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
         idString <- ee$String("composited_yyyymmm_")$cat(indexString)
         ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
         ee_reducer(ic_temp_filtered)$
-          set('system:id',idString)$
+          # set('system:id',idString)$
           set('system:index', indexString)$
           set('year',y)$
           set('month',m)$
