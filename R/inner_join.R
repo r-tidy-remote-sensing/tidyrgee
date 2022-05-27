@@ -24,8 +24,42 @@ inner_join.tidyee<- function(x, y, by,...){
   # joined_band_names <- unique(c(attributes(x$vrt)$band_names,attributes(y$vrt)$band_names))
   # attributes(x$vrt)$band_names <-  joined_band_names
   vrt_joined <- x$vrt |>
-    mutate(band_names= list(joined_band_names))
-  create_tidyee(ic_inner_joined,vrt_joined)
+    dplyr::mutate(band_names= list(joined_band_names))
+  # return(ic_inner_joined)
+  # return(ic_inner_joined)
+  create_tidyee(ic_inner_joined,vrt_joined,tidyee_index = F)
+}
+
+#' @export
+inner_join.ee.imagecollection.ImageCollection<- function(x, y, by,...){
+  x_ic <- x
+  y_ic <- y
+
+  # Define an inner join
+  innerJoin = rgee::ee$Join$inner()
+
+  # Specify an equals filter for image timestamps.
+  filterEq <- rgee::ee$Filter$equals(leftField = by, rightField = by)
+
+  # Apply the join.
+  inner_join_output = innerJoin$apply(x_ic, y_ic, filterEq)
+
+  # Map a function to merge the results in the output FeatureCollection.
+  # in the JavaScript code-editor this seems to auto-convert/get coerced to ImageCollection
+  joined_fc = inner_join_output$map(function(feature)  {
+    ee$Image$cat(feature$get('primary'), feature$get('secondary'))
+  })
+
+  # with rgee is seems necessary to explicitly convert
+  ic_inner_joined <- rgee::ee$ImageCollection(joined_fc)
+  # joined_band_names <- unique(c(vrt_band_names(x),vrt_band_names(y)))
+  # joined_band_names <- unique(c(attributes(x$vrt)$band_names,attributes(y$vrt)$band_names))
+  # attributes(x$vrt)$band_names <-  joined_band_names
+  # vrt_joined <- x$vrt |>
+  #   dplyr::mutate(band_names= list(joined_band_names))
+  # # return(ic_inner_joined)
+  return(ic_inner_joined)
+  # create_tidyee(ic_inner_joined,vrt_joined,tidyee_index = F)
 }
 
 #' inner_join bands from different image/ImageCollections based on shared property
