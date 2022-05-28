@@ -182,7 +182,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
 
 
-  create_tidyee(ic_summarised,vrt_summarised,tidyee_index = F)
+  create_tidyee(ic_summarised,vrt_summarised)
 
 }
 

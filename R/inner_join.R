@@ -27,7 +27,7 @@ inner_join.tidyee<- function(x, y, by,...){
     dplyr::mutate(band_names= list(joined_band_names))
   # return(ic_inner_joined)
   # return(ic_inner_joined)
-  create_tidyee(ic_inner_joined,vrt_joined,tidyee_index = F)
+  create_tidyee(ic_inner_joined,vrt_joined)
 }
 
 #' @export
