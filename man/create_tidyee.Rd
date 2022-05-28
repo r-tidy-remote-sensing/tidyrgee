@@ -4,7 +4,7 @@
 \alias{create_tidyee}
 \title{create_tidyee}
 \usage{
-create_tidyee(x, vrt, tidyee_index = T)
+create_tidyee(x, vrt)
 }
 \arguments{
 \item{x}{ee$ImageCollection}
