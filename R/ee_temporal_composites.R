@@ -263,7 +263,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   # after running the calendarRange maps there is a strange behavior which
   # warrants the need to post-filter.
   start_post_filter <- lubridate::floor_date(min(x$vrt$date),"month") |> as.character()
-  end_post_filter <- max(x$vrt$date) |> as.character()
+  end_post_filter <- lubridate::as_date(max(x$vrt$date)) |> as.character()
 
 
   years_unique_chr <- unique(x$vrt$year) |> sort()
