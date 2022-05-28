@@ -37,4 +37,21 @@ test_that("working with summarise by filter and grouping", {
 
   meta <- filter_year_month$ee_ob$getInfo()
 
-})
+  expect_equal(length(meta[["features"]][[1]][["bands"]]), 24)
+
+  # with MODIS
+  modis_ic <- rgee::ee$ImageCollection("MODIS/006/MOD13Q1")
+
+  # with %in% and year
+  filter_year_month <- modis_ic %>%
+    as_tidyee() %>%
+    filter(year %in% c(2008:2015)) %>%
+    group_by(year, month) %>%
+    summarise(stat = c('mean', 'median'))
+
+
+  meta <- filter_year_month$ee_ob$getInfo()
+
+  expect_equal(length(meta[["features"]][[1]][["bands"]]), 24)
+
+  })
