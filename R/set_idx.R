@@ -26,7 +26,7 @@ set_idx.ee.imagecollection.ImageCollection <-  function(x,idx_name="tidyee_index
     idx_list$map(rgee::ee_utils_pyfunc(
       function(idx){
         img = ee$Image(ic_list$get(idx))
-        # // format number to string (system:index must be a string)
+        #create as string
         idx_string = ee$Number(idx)$format('%03d')
         img$set(idx_name, idx_string)
       }))
