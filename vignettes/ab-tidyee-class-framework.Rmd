@@ -75,6 +75,68 @@ modis_filt_growing_season <- modis_ic_tidy |>
   filter(crop_cycle=="planting")
 
 
+modis_split_crop_cycle <- modis_ic_tidy |> 
+  mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  group_by(crop_cycle) |> 
+  group_split()
+
+modis_split_crop_cycle[[2]]$ee_ob$aggregate_array("tidyee_index")$getInfo()
+modis_split_crop_cycle[[2]]$ee_ob$aggregate_array("system:time_start")$getInfo()
+modis_split_crop_cycle[[2]]$ee_ob$size()$getInfo()
+
+
+external_group_output <- modis_ic_tidy |> 
+  mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  group_by(crop_cycle) |> 
+  summarise(
+    stat="mean",join_bands=F
+  )
+
+
+external_group_output$ee_ob$size()$getInfo()
+
+external_group_output_multi <- modis_ic_tidy |> 
+  mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  group_by(crop_cycle) |> 
+  summarise(
+    stat=list("mean","sd","min"),join_bands=F
+  )
+
+
+external_group_output_multi_joined <- modis_ic_tidy |> 
+  mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  group_by(crop_cycle) |> 
+  summarise(
+    stat=list("mean","sd")
+  )
 
 ```
 

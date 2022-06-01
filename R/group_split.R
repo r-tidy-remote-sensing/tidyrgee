@@ -13,7 +13,9 @@ group_split.ee.imagecollection.ImageCollection <-  function(.tbl,...){
 
 #' @export
 group_split.tidyee <-  function(.tbl,...){
-  vrt_list <- .tbl$vrt |>
+  tidyee_ob <- .tbl |>
+    set_idx()
+  vrt_list <- tidyee_ob$vrt |>
     group_split(...,.keep=TRUE)# unfortunately drop attributes
   # is there a way to figure this out with `vctrs` package?
   # fixed by moving band_naems to list-col instead of relying on attributes
@@ -27,15 +29,16 @@ group_split.tidyee <-  function(.tbl,...){
   #   )
   index_list <- vrt_list |>
     purrr::map(
-      ~.x$system_index
+      ~.x$tidyee_index
     )
+
 
   ee_index_list = purrr::map(index_list,
-                             ~rgee::ee$List(.x)
+                             ~rgee::ee$List(as.character(.x))
     )
 
 
-  ic_filt_list<-purrr::map(ee_index_list,~ .tbl$ee_ob$filter(ee$Filter$inList("system:index", .x)))
+  ic_filt_list<-purrr::map(ee_index_list,~ tidyee_ob$ee_ob$filter(ee$Filter$inList("tidyee_index", .x)))
 
   purrr::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y))
 

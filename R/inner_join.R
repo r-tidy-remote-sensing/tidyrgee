@@ -1,12 +1,9 @@
 #' @export
 inner_join.tidyee<- function(x, y, by,...){
-
   x_ic <- x$ee_ob
   y_ic <- y$ee_ob
-
   if(inherits(x_ic,"ee.image.Image")) {x_ic <- ee$ImageCollection(x_ic)}
   if(inherits(y_ic,"ee.image.Image")) {y_ic <- ee$ImageCollection(y_ic)}
-
   # Define an inner join
   innerJoin = rgee::ee$Join$inner()
 

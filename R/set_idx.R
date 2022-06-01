@@ -1,16 +1,22 @@
 
 #' @export
 set_idx.tidyee <- function(x,idx_name="tidyee_index"){
+  group_vars_chr <- dplyr::group_vars(x$vrt)
   ic_indexed <- set_idx(x$ee_ob, idx_name = idx_name)
   vrt_sorted <- x$vrt |>
+    ungroup() |>
     dplyr::arrange(
       dplyr::across(
         dplyr::any_of(c("time_start","year","month"))
         )
       ) |>
     dplyr::mutate(
-      !!idx_name:=(dplyr::row_number()-1)
+      !!idx_name:=sprintf((dplyr::row_number()-1),fmt = "%03d")
     )
+  if(length(group_vars_chr)>0){
+    vrt_sorted <- vrt_sorted |>
+      group_by(!!!rlang::syms(group_vars_chr))
+  }
 
 
   create_tidyee(x = ic_indexed,vrt = vrt_sorted)
@@ -26,7 +32,7 @@ set_idx.ee.imagecollection.ImageCollection <-  function(x,idx_name="tidyee_index
     idx_list$map(rgee::ee_utils_pyfunc(
       function(idx){
         img = ee$Image(ic_list$get(idx))
-        # // format number to string (system:index must be a string)
+        #create as string
         idx_string = ee$Number(idx)$format('%03d')
         img$set(idx_name, idx_string)
       }))

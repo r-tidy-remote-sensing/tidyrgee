@@ -13,16 +13,26 @@ summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
 
 
 #' @export
-summarise.tidyee <-  function(.data,stat,...){
+summarise.tidyee <-  function(.data,stat,...,join_bands=T){
   summary_list <- stat |>
     purrr::map(
       ~.data |>
-        summarise_pixels(stat=.x)
-    )
-  # will this have issue when length(summary_list)==1? dont think so
-  purrr::reduce(.x = summary_list,.f = inner_join,"system:time_start")
-}
+      summarise_pixels(stat=.x)
+      )
+  if(length(summary_list)==1){
+    return(summary_list[[1]])
+  }
 
+  if(length(summary_list)>1 & isTRUE(join_bands)){
+  return(purrr::reduce(.x = summary_list,.f = inner_join,"system:time_start"))
+  }
+  if(length(summary_list)>1 & join_bands==F){
+    return(summary_list)
+  }
+
+
+
+}
 
 
 #' Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
@@ -31,6 +41,7 @@ summarise.tidyee <-  function(.data,stat,...){
 #' @param .data ee$Image or ee$ImageCollection
 #' @param stat \code{character} stat/function to apply
 #' @param ... other arguments
+#' @param join_bands \code{logical} (default= T) if multiple stats selected should bands be joined?
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 #' @examples \dontrun{
 #' library(tidyrgee)

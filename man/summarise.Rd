@@ -9,6 +9,8 @@
 \item{stat}{\code{character} stat/function to apply}
 
 \item{...}{other arguments}
+
+\item{join_bands}{\code{logical} (default= T) if multiple stats selected should bands be joined?}
 }
 \value{
 ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat

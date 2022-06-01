@@ -85,6 +85,9 @@ ee_year_composite.tidyee<-  function(x,
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
       dates_summarised= list(date),
+      number_images= n(),
+      time_start= min(time_start),
+      time_end= max(time_start),
       .groups = "drop"
     ) |>
     mutate(
@@ -174,7 +177,10 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
-      dates_summarised= list(date),.groups = "drop"
+      dates_summarised= list(date),.groups = "drop",
+      number_images= n(),
+      time_start= min(time_start),
+      time_end= max(time_start)
     ) |>
     mutate(
       band_names = list(client_bandnames)
@@ -339,7 +345,10 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   vrt_summarised <- x$vrt |>
     # nest(data=date)
     dplyr::summarise(
-      dates_summarised= list(date),.groups = "drop"
+      dates_summarised= list(date),.groups = "drop",
+      number_images= n(),
+      time_start= min(date),
+      time_end= max(date)
     ) |>
     mutate(
       band_names= list(client_bandnames)
