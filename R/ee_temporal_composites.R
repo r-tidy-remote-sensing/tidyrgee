@@ -312,7 +312,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
           set('year',y)$
           set('month',m)$
           set('date',rgee::ee$Date$fromYMD(y,m,1))$
-          # set('system:time_start',ee$Date$fromYMD(y,m,1))$
+           #set('system:time_start',ee$Date$fromYMD(y,m,1))$
           set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,m,1)))
 
       }))
@@ -340,7 +340,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   # Need to filter yrmo composite to original date range or you can end up with empty slots
   # for months that didn't occur yet
 
-  ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
+  #ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     # nest(data=date)

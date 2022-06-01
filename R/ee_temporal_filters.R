@@ -24,8 +24,6 @@ ee_year_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 
 
   stopifnot(!is.null(imageCol), inherits(imageCol, "ee.imagecollection.ImageCollection"))
-  assertthat::assert_that(is.numeric(year)&length(year)>1,
-                          msg = "month must be a numeric vector of lenght greater than 0")
 
   # should make assertion for no duplicates
 

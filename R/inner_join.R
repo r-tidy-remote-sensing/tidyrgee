@@ -31,6 +31,7 @@ inner_join.tidyee<- function(x, y, by,...){
   create_tidyee(ic_inner_joined,vrt_joined)
 }
 
+
 #' @export
 inner_join.ee.imagecollection.ImageCollection<- function(x, y, by,...){
   x_ic <- x
