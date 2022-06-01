@@ -37,7 +37,6 @@ test_that("working with summarise by filter and grouping", {
 
   meta <- filter_year_month$ee_ob$getInfo()
 
-<<<<<<< HEAD
   expect_equal(length(meta[["features"]][[1]][["bands"]]), 24)
 
   # with MODIS
@@ -56,6 +55,4 @@ test_that("working with summarise by filter and grouping", {
   expect_equal(length(meta[["features"]][[1]][["bands"]]), 24)
 
   })
-=======
-})
->>>>>>> 07ba9e7fa1cbb5914e77c628c3b9ca8d910c3d97
+
