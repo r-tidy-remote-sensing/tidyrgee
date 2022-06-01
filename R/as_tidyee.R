@@ -24,7 +24,7 @@ as_tidyee <-  function(x){
   vrt<-  rgee::ee_get_date_ic(x) |>
     dplyr::arrange(.data$time_start) |>
     dplyr::mutate(
-      date = .data$time_start,
+      date = lubridate::as_date(.data$time_start),
       month=lubridate::month(date),
       year= lubridate::year(date),
 
@@ -56,12 +56,12 @@ as_tidyee <-  function(x){
 
 create_tidyee <- function(x,vrt){
   # time_start_vec <- x$aggregate_array("system:time_start")$getInfo
-  vrt <- vrt |>
-    # dplyr::arrange(time_start) |>
-    dplyr::mutate(
-      tidyee_index= sprintf(dplyr::row_number()-1,fmt = "%03d")
-      # time_start= time_start_vec
-    )
+  # vrt <- vrt |>
+  #   # dplyr::arrange(time_start) |>
+  #   dplyr::mutate(
+  #     tidyee_index= sprintf(dplyr::row_number()-1,fmt = "%03d")
+  #     # time_start= time_start_vec
+  #   )
 
   ee_tidy_ob <- list(ee_ob=x,vrt=vrt)
   class(ee_tidy_ob)<-c("tidyee")
