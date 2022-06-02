@@ -113,7 +113,7 @@ summarise_pixels <-  function(.data,stat,...){
       purrr::map( ~ee_composite(x = .x |>
                                   group_by(!!!rlang::syms(group_vars_chr)),
                                 stat = stat))
-    tidyee_output <- bind_ics(x_split_summaries)
+    tidyee_output <- bind_ics(x=x_split_summaries)
 
 
   }
