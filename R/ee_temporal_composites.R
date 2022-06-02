@@ -386,12 +386,13 @@ ee_composite.tidyee <-  function(x,
   ic_summarised <- ee_reducer(x$ee_ob)
   min_year <- min(x$vrt$year)
   min_month <- min(x$vrt$month)
+  min_day <- lubridate::day(min(x$vrt$date))
 
   ic_summarised <- ic_summarised$
     set('year',min_year)$
     set('month',min_month)$
-    set('date',rgee::ee$Date$fromYMD(min_year,min_month,1))$
-    set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,1)))
+    set('date',rgee::ee$Date$fromYMD(min_year,min_month,min_day))$
+    set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,min_day)))
 
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
