@@ -103,7 +103,10 @@ summarise_pixels <-  function(.data,stat,...){
     }
   }
 
-  if(!any(group_vars_chr %in% c("month","year"))& length(group_vars_chr)>0){
+  if(
+    !all (group_vars_chr %in% c("month","year"))&
+      length(group_vars_chr)>0
+    ){
     x_split_list <- .data |>
       group_split()
     x_split_summaries <- x_split_list |>

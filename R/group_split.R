@@ -33,9 +33,15 @@ group_split.tidyee <-  function(.tbl,...){
     )
 
 
-  ee_index_list = purrr::map(index_list,
-                             ~rgee::ee$List(as.character(.x))
-    )
+  ee_index_list=purrr::map(index_list,
+                           function(x){ if(length(x)==1){
+                             out_list_component <-  ee$String(x)
+                           }else{
+                             out_list_component <- rgee::ee$List(as.character(x))
+                           }
+                             return(out_list_component)
+                           }
+  )
 
 
   ic_filt_list<-purrr::map(ee_index_list,~ tidyee_ob$ee_ob$filter(ee$Filter$inList("tidyee_index", .x)))
