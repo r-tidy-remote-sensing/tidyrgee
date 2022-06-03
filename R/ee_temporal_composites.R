@@ -340,7 +340,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   # Need to filter yrmo composite to original date range or you can end up with empty slots
   # for months that didn't occur yet
 
-  #ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
+  ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     # nest(data=date)
@@ -386,7 +386,7 @@ ee_composite.tidyee <-  function(x,
   ic_summarised <- ee_reducer(x$ee_ob)
   min_year <- min(x$vrt$year)
   min_month <- min(x$vrt$month)
-  min_day <- lubridate::day(min(x$vrt$date))
+  min_day <- lubridate::day(min(x$vrt$time_start))
 
   ic_summarised <- ic_summarised$
     set('year',min_year)$
