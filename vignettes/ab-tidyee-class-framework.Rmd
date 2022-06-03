@@ -138,6 +138,20 @@ external_group_output_multi_joined <- modis_ic_tidy |>
     stat=list("mean","sd")
   )
 
+modis_ic_tidy |> 
+  mutate(crop_cycle= case_when( 
+    month %in% c(4,5)~ "land prep",
+    month %in% c(6,7)~ "planting",
+    month %in% c(8,9,10)~"growing",
+    month ==11~ "harvesting",
+    TRUE ~ "other"
+      )
+           ) |> 
+  group_by(year,crop_cycle) |> 
+  summarise(
+    stat=list("mean","sd")
+  )
+
 ```
 
 Here we show how you can perform pixel-level summary statistics with `summarise` function. This is typically referred to as `compositing` in GEE documentation as well as other remote sensing literature.
@@ -149,7 +163,7 @@ modis_mean_by_yrmo <- modis_ic_tidy |>
   summarise(stat = "mean")
 
 modis_mean_by_yrmo <- modis_ic_tidy |> 
-  select(NDVI,EVI) |> 
+  select("NDVI","EVI") |> 
   group_by(year,month) |> 
   summarise(stat = "mean")
 ```
