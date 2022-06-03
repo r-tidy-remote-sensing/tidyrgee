@@ -107,13 +107,39 @@ summarise_pixels <-  function(.data,stat,...){
     !all (group_vars_chr %in% c("month","year"))&
       length(group_vars_chr)>0
     ){
-    x_split_list <- .data |>
-      group_split()
-    x_split_summaries <- x_split_list |>
-      purrr::map( ~ee_composite(x = .x |>
-                                  group_by(!!!rlang::syms(group_vars_chr)),
-                                stat = stat))
-    tidyee_output <- bind_ics(x=x_split_summaries)
+    # x_split_list <- .data |>
+    #   group_split()
+    # x_split_summaries <- x_split_list |>
+    #   purrr::map( ~ee_composite(x = .x |>
+    #                               group_by(!!!rlang::syms(group_vars_chr)),
+    #                             stat = stat))
+
+    tidyee_output <- .data |>
+      group_split() |>
+      purrr::map(
+        ~ee_composite(
+          .x |>
+          group_by(!!!rlang::syms(group_vars_chr)),
+          stat="sum")
+        ) |>
+      bind_ics()
+    #previously would just call this:
+    # tidyee_output <- bind_ics(x=x_split_summaries)
+    #however lets see if taking it out of function gets rid of error
+    # ic_only <- x_split_summaries |>
+    #   purrr::map("ee_ob")
+    # vrt_only <- x_split_summaries |>
+    #   purrr::map("vrt")
+    #
+    # vrt_together<- dplyr::bind_rows(vrt_only)
+    #
+    # ic_container = ee$ImageCollection(list())
+    # for(i in 1:length(ic_only)){
+    #   ic_container=ic_container$merge(ic_only[[i]])
+    #
+    # }
+    # tidyee_output <- create_tidyee(x = ic_container$sort(prop = "system:time_start"),vrt = vrt_together )
+
 
 
   }

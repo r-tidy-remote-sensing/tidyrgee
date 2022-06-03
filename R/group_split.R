@@ -12,11 +12,11 @@ group_split.ee.imagecollection.ImageCollection <-  function(.tbl,...){
 
 
 #' @export
-group_split.tidyee <-  function(.tbl,...){
+group_split.tidyee <-  function(.tbl,...,return_tidyee=T){
   tidyee_ob <- .tbl |>
     set_idx()
   vrt_list <- tidyee_ob$vrt |>
-    group_split(...,.keep=TRUE)# unfortunately drop attributes
+    dplyr::group_split(...,.keep=TRUE)# unfortunately drop attributes
   # is there a way to figure this out with `vctrs` package?
   # fixed by moving band_naems to list-col instead of relying on attributes
   # for print method
@@ -35,7 +35,7 @@ group_split.tidyee <-  function(.tbl,...){
 
   ee_index_list=purrr::map(index_list,
                            function(x){ if(length(x)==1){
-                             out_list_component <-  ee$String(x)
+                             out_list_component <-  ee$String(as.character(x))
                            }else{
                              out_list_component <- rgee::ee$List(as.character(x))
                            }
@@ -44,12 +44,18 @@ group_split.tidyee <-  function(.tbl,...){
   )
 
 
-  ic_filt_list<-purrr::map(ee_index_list,~ tidyee_ob$ee_ob$filter(ee$Filter$inList("tidyee_index", .x)))
+  ic_filt_list<-purrr::map(ee_index_list,~ tidyee_ob$ee_ob$filter(rgee::ee$Filter$inList("tidyee_index", .x)))
 
-  purrr::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y))
+  if(return_tidyee){
+    return(purrr::map2(.x = ic_filt_list,.y = vrt_list,.f = ~create_tidyee(.x,.y)))
+  }
+  if(!return_tidyee){
+    return(ic_filt_list)
+  }
 
 
 }
+
 
 
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
@@ -57,6 +63,7 @@ group_split.tidyee <-  function(.tbl,...){
 #' @rdname group_split
 #' @param .tbl imageCollection or tidyee class object
 #' @param ... other arguments
+#' @param return_tidyee \code{logical} return tidyee object(default =T), if FALSE - only return ee$ImageCollection
 #' @return filtered image or imageCollection form filtered imageCollection
 #' @examples \dontrun{
 #'
