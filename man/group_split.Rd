@@ -7,6 +7,8 @@
 \item{.tbl}{imageCollection or tidyee class object}
 
 \item{...}{other arguments}
+
+\item{return_tidyee}{\code{logical} return tidyee object(default =T), if FALSE - only return ee$ImageCollection}
 }
 \value{
 filtered image or imageCollection form filtered imageCollection
