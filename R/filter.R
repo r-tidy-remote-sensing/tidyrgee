@@ -5,8 +5,15 @@ filter.tidyee <-  function(.data,...){
   .data <- .data |> set_idx()
   vrt <- .data$vrt |>
     dplyr::filter(...)
-  ee_index_list <-  ee$List(vrt$tidyee_index |> as.character())
-  ic_filt = .data$ee_ob$filter(ee$Filter$inList("tidyee_index", ee_index_list))
+  if(length(vrt$tidyee_index)>1){
+    ee_index_list <-  ee$List(vrt$tidyee_index |> as.character())
+    ic_filt = .data$ee_ob$filter(ee$Filter$inList("tidyee_index", ee_index_list))
+  }
+  if(length(vrt$tidyee_index)==1){
+    ee_index <-  rgee::ee$String(vrt$tidyee_index |> as.character())
+    ic_filt = .data$ee_ob$filter(ee$Filter$eq('tidyee_index', ee_index))
+  }
+
   return(create_tidyee(x=ic_filt,vrt=vrt))
 }
 
