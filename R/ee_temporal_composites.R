@@ -396,14 +396,28 @@ ee_composite.tidyee <-  function(x,
 
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
-  vrt_summarised <- x$vrt |>
-    # dplyr::tibble() |>
-    dplyr::summarise(
-      dates_summarised= list(date),.groups = "drop"
-    ) |>
+
+  if("dates_summarised"%in% colnames(x$vrt)){
+    vrt_summarised <-x$vrt |>
+      tidyr::unnest(dates_summarised) |>
+      dplyr::summarise(
+        dates_summarised= list(dates_summarised),
+        .groups = "drop"
+      )
+  }
+  if(!"dates_summarised" %in% colnames(x$vrt)){
+    vrt_summarised <-x$vrt |>
+      # dplyr::tibble() |>
+      dplyr::summarise(
+        dates_summarised= list(date),
+        .groups = "drop"
+      )
+  }
+  vrt_summarised <-  vrt_summarised |>
     mutate(
       band_names= list(client_bandnames)
     )
+
 
 
   create_tidyee(ic_summarised,vrt_summarised)
