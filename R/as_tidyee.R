@@ -27,6 +27,7 @@ as_tidyee <-  function(x){
       date = lubridate::as_date(.data$time_start),
       month=lubridate::month(date),
       year= lubridate::year(date),
+      doy=lubridate::yday(date),
 
       # system_id=id_vec,
       system_index = system_index_vec,
