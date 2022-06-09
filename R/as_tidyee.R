@@ -20,20 +20,30 @@
 
 as_tidyee <-  function(x){
   # id_vec <- x$aggregate_array("system:id")$getInfo()
-  system_index_vec <-  x$aggregate_array("system:index")$getInfo()
-  vrt<-  rgee::ee_get_date_ic(x) |>
-    dplyr::arrange(.data$time_start) |>
+  if(inherits(x, "ee.image.Image")){
+    band_names <- x$bandNames()$getInfo()
+    vrt_base <- rgee::ee_get_date_img(x) |>
+      data.frame() |>
+      dplyr::tibble()
+  }
+  if(inherits(x, "ee.imagecollection.ImageCollection")){
+    band_names <- x$first()$bandNames()$getInfo()
+    system_index_vec <-  x$aggregate_array("system:index")$getInfo()
+    vrt_base<-  rgee::ee_get_date_ic(x) |>
+      dplyr::arrange(.data$time_start) |>
+      mutate(
+        system_index = system_index_vec
+      )
+  }
+
+  vrt<-  vrt_base |>
     dplyr::mutate(
       date = lubridate::as_date(.data$time_start),
       month=lubridate::month(date),
       year= lubridate::year(date),
-      doy=lubridate::yday(date),
-
-      # system_id=id_vec,
-      system_index = system_index_vec,
-      # tidyee_index = system_index
+      doy=lubridate::yday(date)
     )
-  band_names <- x$first()$bandNames()$getInfo()
+
   vrt <- vrt |>
     mutate(
       band_names = list(band_names)
