@@ -158,13 +158,19 @@ ee_month_composite.tidyee <- function(x, stat, ...){
   yrs_unique<- unique(lubridate::year(x$vrt$time_start))
   start_year <- min(yrs_unique)
   end_year <- max(yrs_unique)
+  end_day_of_month <- last_day_of_month(year = end_year,month_numeric = months_unique_chr)
+
 
   ee_months_list = rgee::ee$List(months_unique_chr)
+  ee_end_day_list = rgee::ee$List(end_day_of_month)
+  ee_composite_idx_list <- rgee::ee$List$sequence(0,ee_months_list$size()$subtract(1))
 
   ee_reducer <- stat_to_reducer_full(stat)
 
   ic_summarised <- rgee::ee$ImageCollection$fromImages(
-    ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
+    ee_composite_idx_list$map(rgee::ee_utils_pyfunc(function (idx) {
+      m <- ee_months_list$get(idx)
+      end_day <- ee_end_day_list$get(idx)
       indexString = rgee::ee$Number(m)$format('%03d')
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
@@ -175,7 +181,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
         set('date',rgee::ee$Date$fromYMD(1,m,1))$
         # set('system:time_start',ee$Date$fromYMD(y,m,1))$
         set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(start_year,m,1)))$
-        set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(end_year,m,1)))
+        set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(end_year,m,end_day)))
     }
     )))
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)

@@ -90,6 +90,25 @@ vrt_band_names <-  function(x){
     unlist()
 }
 
+
+
+#' last_day_of_month
+#'
+#' @param month_numeric \code{numeric} vector containing months of interest
+#'
+#' @return \code{numeric} vector which the last day of each month
+#'
+
+last_day_of_month <- function(year,month_numeric){
+  lubridate::day(
+    lubridate::ceiling_date(
+      lubridate::ymd(
+        glue::glue("{year}-{c(month_numeric)}-01")
+      ),"month"
+    )-lubridate::days(1)
+  )
+}
+
 # logicals ---------------------------------------------------------------
 
 #' geometry_type_is_unique
