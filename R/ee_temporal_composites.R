@@ -313,6 +313,8 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
       ee_months_list$map(rgee::ee_utils_pyfunc(function (m) {
         yearString <- rgee::ee$Number(y)$format('%04d')
         monthString <- rgee::ee$Number(m)$format('%03d')
+        start_date <- rgee::ee$Date$fromYMD(y,m,1)
+        end_date <- start_date$advance(1,"month")$advance(-1, "day")
         # indexString <-  rgee::ee$Number(m)$format('%03d')
         indexString <-  yearString$cat(monthString)
         idString <- ee$String("composited_yyyymmm_")$cat(indexString)
@@ -324,7 +326,8 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
           set('month',m)$
           set('date',rgee::ee$Date$fromYMD(y,m,1))$
            #set('system:time_start',ee$Date$fromYMD(y,m,1))$
-          set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,m,1)))
+          set('system:time_start',rgee::ee$Date$millis(start_date))$
+          set('system:time_end',rgee::ee$Date$millis(end_date))
 
       }))
     )
