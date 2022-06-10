@@ -19,7 +19,7 @@
 #' }
 
 as_tidyee <-  function(x){
-  # id_vec <- x$aggregate_array("system:id")$getInfo()
+
   if(inherits(x, "ee.image.Image")){
     band_names <- x$bandNames()$getInfo()
     vrt_base <- rgee::ee_get_date_img(x) |>
@@ -41,17 +41,12 @@ as_tidyee <-  function(x){
       date = lubridate::as_date(.data$time_start),
       month=lubridate::month(date),
       year= lubridate::year(date),
-      doy=lubridate::yday(date)
-    )
-
-  vrt <- vrt |>
-    mutate(
+      doy=lubridate::yday(date),
       band_names = list(band_names)
     ) |>
     dplyr::as_tibble()
 
   create_tidyee(x = x,vrt = vrt)
-
 }
 
 
