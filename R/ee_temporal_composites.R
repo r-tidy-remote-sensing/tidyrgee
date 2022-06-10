@@ -161,8 +161,8 @@ ee_month_composite.tidyee <- function(x, stat, ...){
   end_day_of_month <- last_day_of_month(year = end_year,month_numeric = months_unique_chr)
 
 
-  ee_months_list = rgee::ee$List(months_unique_chr)
-  ee_end_day_list = rgee::ee$List(end_day_of_month)
+  ee_months_list <-  rgee::ee$List(months_unique_chr)
+  ee_end_day_list <-  rgee::ee$List(end_day_of_month)
   ee_composite_idx_list <- rgee::ee$List$sequence(0,ee_months_list$size()$subtract(1))
 
   ee_reducer <- stat_to_reducer_full(stat)
@@ -171,7 +171,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
     ee_composite_idx_list$map(rgee::ee_utils_pyfunc(function (idx) {
       m <- ee_months_list$get(idx)
       end_day <- ee_end_day_list$get(idx)
-      indexString = rgee::ee$Number(m)$format('%03d')
+      indexString <-  rgee::ee$Number(m)$format('%03d')
       ic_temp_filtered <- x$ee_ob$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
       ee_reducer(ic_temp_filtered)$
         set('system:id',indexString)$
