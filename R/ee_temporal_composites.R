@@ -410,7 +410,7 @@ ee_composite.tidyee <-  function(x,
     set('month',min_month)$
     set('date',rgee::ee$Date$fromYMD(min_year,min_month,min_day))$
     set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,min_day)))$
-    set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(max_year,max_month,max_day)))
+    set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(max_year,max_month,max_day)))
 
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
