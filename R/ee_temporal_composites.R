@@ -155,6 +155,10 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
   stopifnot(!is.null(x), inherits(x, "tidyee"))
   months_unique_chr <- unique(x$vrt$month) |> sort()
+  yrs_unique<- unique(lubridate::year(x$vrt$time_start))
+  start_year <- min(yrs_unique)
+  end_year <- max(yrs_unique)
+
   ee_months_list = rgee::ee$List(months_unique_chr)
 
   ee_reducer <- stat_to_reducer_full(stat)
@@ -166,11 +170,12 @@ ee_month_composite.tidyee <- function(x, stat, ...){
       ee_reducer(ic_temp_filtered)$
         set('system:id',indexString)$
         set('system:index', indexString)$
-        set('year',0000)$
+        set('year',start_year)$
         set('month',m)$
         set('date',rgee::ee$Date$fromYMD(1,m,1))$
         # set('system:time_start',ee$Date$fromYMD(y,m,1))$
-        set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(1,m,1)))
+        set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(start_year,m,1)))$
+        set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(end_year,m,1)))
     }
     )))
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)

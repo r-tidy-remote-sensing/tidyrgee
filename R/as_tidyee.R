@@ -22,14 +22,14 @@ as_tidyee <-  function(x){
 
   if(inherits(x, "ee.image.Image")){
     band_names <- x$bandNames()$getInfo()
-    vrt_base <- rgee::ee_get_date_img(x) |>
+    vrt_base <- rgee::ee_get_date_img(x,time_end = T) |>
       data.frame() |>
       dplyr::tibble()
   }
   if(inherits(x, "ee.imagecollection.ImageCollection")){
     band_names <- x$first()$bandNames()$getInfo()
     system_index_vec <-  x$aggregate_array("system:index")$getInfo()
-    vrt_base<-  rgee::ee_get_date_ic(x) |>
+    vrt_base<-  rgee::ee_get_date_ic(x,time_end = T) |>
       dplyr::arrange(.data$time_start) |>
       mutate(
         system_index = system_index_vec
