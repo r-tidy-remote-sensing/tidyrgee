@@ -31,7 +31,6 @@ filter.ee.imagecollection.ImageCollection <- function(.data,...){
   }
 
 
-
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name filter
 #' @rdname filter
@@ -62,5 +61,8 @@ filter.ee.imagecollection.ImageCollection <- function(.data,...){
 #' @export
 
 NULL
+
+
+
 
 

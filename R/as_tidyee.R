@@ -1,6 +1,7 @@
 #' as_tidy_ee
 #'
 #' @param x ee$Image or ee$ImageCollection
+#' @param time_end \code{logical} include time_end ("system:time_end") in vrt (default=T)
 #' @description The function returns a list containing the original object (image/imageCollection)as well
 #' as a "virtual data.frame (vrt)" which is a data.frame holding key properties of the
 #' ee$Image/ee$ImageCollection. The returned list has been assigned a new class "tidyee".
@@ -18,18 +19,18 @@
 #'
 #' }
 
-as_tidyee <-  function(x){
+as_tidyee <-  function(x,time_end=TRUE){
 
   if(inherits(x, "ee.image.Image")){
     band_names <- x$bandNames()$getInfo()
-    vrt_base <- rgee::ee_get_date_img(x) |>
+    vrt_base <- rgee::ee_get_date_img(x,time_end = time_end) |>
       data.frame() |>
       dplyr::tibble()
   }
   if(inherits(x, "ee.imagecollection.ImageCollection")){
     band_names <- x$first()$bandNames()$getInfo()
     system_index_vec <-  x$aggregate_array("system:index")$getInfo()
-    vrt_base<-  rgee::ee_get_date_ic(x) |>
+    vrt_base<-  rgee::ee_get_date_ic(x,time_end = time_end) |>
       dplyr::arrange(.data$time_start) |>
       mutate(
         system_index = system_index_vec

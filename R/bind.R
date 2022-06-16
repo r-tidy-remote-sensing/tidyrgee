@@ -19,23 +19,18 @@
 #'
 
 bind_ics <- function(x){
-
   ic_only <- x |>
-    purrr::map("ee_ob")
+    purrr::map(~.x$ee_ob)
   vrt_only <- x |>
-    purrr::map("vrt")
+    purrr::map(~.x$vrt)
 
   vrt_together<- dplyr::bind_rows(vrt_only)
+  ic_container <- ee$ImageCollection(ee$List(ic_only))
 
-  ic_container = ee$ImageCollection(list())
-  for(i in 1:length(ic_only)){
-    ic_container=ic_container$merge(ic_only[[i]])
-
-  }
   create_tidyee(x = ic_container$sort(prop = "system:time_start"),vrt = vrt_together )
 
-}
 
-# bind_ics S3? ------------------------------------------------------------
+  }
+
 
 
