@@ -127,3 +127,26 @@ convert_to_tidyee_warning <- function(){
     crayon::yellow("Using `tidyverse/dplyr`-style functions on `ee$ImageCollections` directly can be slow on large ImageCollections.\n"))
 }
 
+
+#' theses `str` methods provide a work around for the "Error in .Call(_reticulate_py_str_impl, x) : reached elapsed time limit"  which was
+#' occuring due to the object not being able to render in the environment pane
+#' https://github.com/rstudio/reticulate/issues/1227#issue-1272278478
+
+#' @export
+str.ee.imagecollection.ImageCollection <- function(object) {
+  "A short description of x"
+  }
+
+#' @export
+str.ee.image.Image <- function(object) {
+  "A short description of x"
+  }
+
+#' Compactly Display the Structure of an Arbitrary R Object
+#' @name str
+#' @rdname str
+#' @param x imageCollection or tidyee class object
+#' @return return str
+#' @importFrom utils str
+#' @export
+NULL
