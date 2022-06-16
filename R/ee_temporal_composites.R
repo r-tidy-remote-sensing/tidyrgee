@@ -374,6 +374,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
 
 
 
+
 #' @title ee_composite
 #'
 #' @param x tidyee object containing `ee$ImageCollection`
