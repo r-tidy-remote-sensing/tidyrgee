@@ -25,7 +25,13 @@ bind_ics <- function(x){
     purrr::map(~.x$vrt)
 
   vrt_together<- dplyr::bind_rows(vrt_only)
-  ic_container <- ee$ImageCollection(ee$List(ic_only))
+  ic_container = ee$ImageCollection(list())
+
+  for(i in 1:length(ic_only)){
+    ic_container=ic_container$merge(ic_only[[i]])
+
+  }
+
 
   create_tidyee(x = ic_container$sort(prop = "system:time_start"),vrt = vrt_together )
 
