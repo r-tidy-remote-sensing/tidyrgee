@@ -4,12 +4,12 @@
 \alias{as_tidyee}
 \title{as_tidy_ee}
 \usage{
-as_tidyee(x, time_end = TRUE)
+as_tidyee(x, time_end = FALSE)
 }
 \arguments{
 \item{x}{ee$Image or ee$ImageCollection}
 
-\item{time_end}{\code{logical} include time_end ("system:time_end") in vrt (default=T)}
+\item{time_end}{\code{logical} include time_end ("system:time_end") in vrt (default=F)}
 }
 \value{
 tidyee class object which contains a list with two components ("x","vrt")

@@ -1,7 +1,7 @@
 #' as_tidy_ee
 #'
 #' @param x ee$Image or ee$ImageCollection
-#' @param time_end \code{logical} include time_end ("system:time_end") in vrt (default=T)
+#' @param time_end \code{logical} include time_end ("system:time_end") in vrt (default=F)
 #' @description The function returns a list containing the original object (image/imageCollection)as well
 #' as a "virtual data.frame (vrt)" which is a data.frame holding key properties of the
 #' ee$Image/ee$ImageCollection. The returned list has been assigned a new class "tidyee".
@@ -19,7 +19,7 @@
 #'
 #' }
 
-as_tidyee <-  function(x,time_end=TRUE){
+as_tidyee <-  function(x,time_end=FALSE){
 
   if(inherits(x, "ee.image.Image")){
     band_names <- x$bandNames()$getInfo()
