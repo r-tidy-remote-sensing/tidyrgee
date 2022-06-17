@@ -60,6 +60,14 @@ modis_march_april <- modis_ic_tidy |>
 
 ```
 
+**DEMO of Slice**
+slice respects R's 1-based indexing rather than GEE 0-based indexing
+```{r}
+modis_sliced <- modis_ic_tidy |> 
+  slice(1:2)
+# modis_sliced$ee_ob$size()$getInfo()
+```
+
 Now we show an example of mutating a new category and then filtering the `tidyee` by that column
 ```{r}
 
