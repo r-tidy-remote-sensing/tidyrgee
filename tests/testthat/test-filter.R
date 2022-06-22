@@ -138,7 +138,7 @@ test_that("testing filter() using month", {
     {
       month_filter <- modis_ic %>%
         as_tidyee() %>%
-        filter(month == c(8,10))
+        filter(month %in% c(8,10))
 
       month_filter$ee_ob$size()$getInfo()
     })
@@ -161,7 +161,7 @@ test_that("testing filter() using month", {
     {
       month_filter <- modis_ic %>%
         as_tidyee() %>%
-        filter(month == c(8,12))
+        filter(month %in% c(8,12))
 
       month_filter$ee_ob$size()$getInfo()
     })
