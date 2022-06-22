@@ -93,7 +93,7 @@ vrt_band_names <-  function(x){
 
 
 #' last_day_of_month
-#'
+#' @param year \code{numeric} year
 #' @param month_numeric \code{numeric} vector containing months of interest
 #'
 #' @return \code{numeric} vector which the last day of each month
@@ -145,7 +145,7 @@ str.ee.image.Image <- function(object) {
 #' Compactly Display the Structure of an Arbitrary R Object
 #' @name str
 #' @rdname str
-#' @param x imageCollection or tidyee class object
+#' @param object imageCollection or tidyee class object
 #' @return return str
 #' @importFrom utils str
 #' @export

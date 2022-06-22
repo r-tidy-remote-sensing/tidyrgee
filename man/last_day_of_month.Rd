@@ -7,6 +7,8 @@
 last_day_of_month(year, month_numeric)
 }
 \arguments{
+\item{year}{\code{numeric} year}
+
 \item{month_numeric}{\code{numeric} vector containing months of interest}
 }
 \value{

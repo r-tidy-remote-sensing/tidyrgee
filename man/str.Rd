@@ -4,7 +4,7 @@
 \alias{str}
 \title{Compactly Display the Structure of an Arbitrary R Object}
 \arguments{
-\item{x}{imageCollection or tidyee class object}
+\item{object}{imageCollection or tidyee class object}
 }
 \value{
 return str

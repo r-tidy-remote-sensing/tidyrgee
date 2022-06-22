@@ -6,6 +6,7 @@
 #' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
 
 #' @param ... other arguments
+#' @importFrom rlang .data
 #' @export
 #'
 
@@ -89,8 +90,8 @@ ee_year_composite.tidyee<-  function(x,
     dplyr::summarise(
       dates_summarised= list(date),
       number_images= dplyr::n(),
-      time_start= min(time_start),
-      time_end= max(time_start),
+      time_start= min(.data$time_start),
+      time_end= max(.data$time_start),
       .groups = "drop"
     ) |>
     mutate(
@@ -114,6 +115,7 @@ ee_year_composite.tidyee<-  function(x,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param months A vector of months, e.g. c(1, 12).
 #' @param ... extra args to pass on
+#' @importFrom rlang .data
 #' @export
 #'
 
@@ -190,8 +192,8 @@ ee_month_composite.tidyee <- function(x, stat, ...){
     dplyr::summarise(
       dates_summarised= list(date),.groups = "drop",
       number_images= dplyr::n(),
-      time_start= min(time_start),
-      time_end= max(time_start)
+      time_start= min(.data$time_start),
+      time_end= max(.data$time_start)
     ) |>
     mutate(
       band_names = list(client_bandnames)
@@ -381,7 +383,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
 #' @param stat  A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param ... other arguments
-#'
+#' @importFrom rlang .data
 #' @export
 #'
 
@@ -418,9 +420,9 @@ ee_composite.tidyee <-  function(x,
 
   if("dates_summarised"%in% colnames(x$vrt)){
     vrt_summarised <-x$vrt |>
-      tidyr::unnest(dates_summarised) |>
+      tidyr::unnest(.data$dates_summarised) |>
       dplyr::summarise(
-        dates_summarised= list(dates_summarised),
+        dates_summarised= list(.data$dates_summarised),
         .groups = "drop"
       )
   }
