@@ -170,7 +170,7 @@ test_that("testing filter() using month", {
 })
 
 
-test_that('year, month within filter'{
+test_that('year, month within filter',{
 
   # with MODIS
   modis_ic <- rgee::ee$ImageCollection("MODIS/006/MOD13Q1")
