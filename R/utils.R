@@ -34,6 +34,23 @@ stat_to_reducer_full <-  function(fun){switch(fun,
 }
 
 
+#' rstat_to_eestat - helper function - useful in ee_*_composite functions to get bandNames from vrt
+#' @param fun reducer/statistic using typical r-syntax (character)
+
+rstat_to_eestat <-  function(fun){switch(fun,
+
+                                              "mean" = "mean",
+                                              "max" = "max",
+                                              "min" = "min",
+                                              "median"= "median",
+                                              "sum"= "sum",
+                                              "sd" =  "stdDev",
+                                              NULL
+
+)
+}
+
+
 
 
 

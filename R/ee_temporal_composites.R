@@ -186,7 +186,9 @@ ee_month_composite.tidyee <- function(x, stat, ...){
         set('system:time_end',rgee::ee$Date$millis(last_date))
     }
     )))
-  client_bandnames<- paste0(vrt_band_names(x),"_",stat)
+
+  eestat <- stat |> purrr::map(~rstat_to_eestat(fun = .x)) |> unlist()
+  client_bandnames<- paste0(vrt_band_names(x),"_",eestat)
 
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
