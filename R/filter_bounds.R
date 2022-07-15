@@ -112,7 +112,6 @@ filter_bounds.ee.imagecollection.ImageCollection <-  function(x,y,use_tidyee_ind
     y <- sf::st_bbox(y) |>
       sf::st_as_sfc()
     y_ee <- rgee::sf_as_ee(y)
-    class(y_ee)
   }
   if(rlang::inherits_any(y,c("ee.geometry.Geometry",
                              "ee.featurecollection.FeatureCollection",
