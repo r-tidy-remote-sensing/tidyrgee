@@ -65,7 +65,7 @@ filter_bounds.tidyee <-  function(x,y,use_tidyee_index=F,return_tidyee=T){
   assertthat::assert_that(inherits(x, c("tidyee")))
 
   if(inherits(y,"sf")){
-    y <- sf::st_bbox(yex) |>
+    y <- sf::st_bbox(y) |>
       sf::st_as_sfc()
     y_ee <- rgee::sf_as_ee(y)
     class(y_ee)
@@ -109,7 +109,7 @@ filter_bounds.ee.imagecollection.ImageCollection <-  function(x,y,use_tidyee_ind
   assertthat::assert_that(inherits(x, c("ee.imagecollection.ImageCollection")))
 
   if(inherits(y,"sf")){
-    y <- sf::st_bbox(yex) |>
+    y <- sf::st_bbox(y) |>
       sf::st_as_sfc()
     y_ee <- rgee::sf_as_ee(y)
     class(y_ee)
