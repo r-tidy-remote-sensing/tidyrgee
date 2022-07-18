@@ -6,9 +6,15 @@ attachment::att_amend_desc()
 # Check the package
 devtools::check()
 
+# Run Tests
+library(testthat)
+library(tidyrgee)
+library(rgee)
+ee_Initialize()
 
+test_local()
 
-
+# Add this file 'dev_history.R' to ignore
 usethis::use_build_ignore("dev_history.R")
 
 # data set is a 2019 host community Multi-Sectoral Needs Assessment from Bangladesh.
