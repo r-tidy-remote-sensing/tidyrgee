@@ -5,6 +5,8 @@
 \title{Compactly Display the Structure of an Arbitrary R Object}
 \arguments{
 \item{object}{imageCollection or tidyee class object}
+
+\item{...}{potential further arguments (required for Method/Generic reasons).}
 }
 \value{
 return str

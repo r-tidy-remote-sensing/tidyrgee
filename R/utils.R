@@ -145,17 +145,17 @@ convert_to_tidyee_warning <- function(){
 }
 
 
-#' theses `str` methods provide a work around for the "Error in .Call(_reticulate_py_str_impl, x) : reached elapsed time limit"  which was
-#' occuring due to the object not being able to render in the environment pane
-#' https://github.com/rstudio/reticulate/issues/1227#issue-1272278478
+# theses `str` methods provide a work around for the "Error in .Call(_reticulate_py_str_impl, x) : reached elapsed time limit"  which was
+# occuring due to the object not being able to render in the environment pane
+# https://github.com/rstudio/reticulate/issues/1227#issue-1272278478
 
 #' @export
-str.ee.imagecollection.ImageCollection <- function(object) {
+str.ee.imagecollection.ImageCollection <- function(object,...) {
   "A short description of x"
   }
 
 #' @export
-str.ee.image.Image <- function(object) {
+str.ee.image.Image <- function(object,...) {
   "A short description of x"
   }
 
@@ -163,7 +163,9 @@ str.ee.image.Image <- function(object) {
 #' @name str
 #' @rdname str
 #' @param object imageCollection or tidyee class object
+#' @param ... potential further arguments (required for Method/Generic reasons).
 #' @return return str
+#' @seealso \code{\link[utils]{str}} for information about str on other R objects.
 #' @importFrom utils str
 #' @export
 NULL

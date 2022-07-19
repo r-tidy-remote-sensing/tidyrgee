@@ -6,7 +6,7 @@
 occuring due to the object not being able to render in the environment pane
 https://github.com/rstudio/reticulate/issues/1227#issue-1272278478}
 \usage{
-\method{str}{ee.imagecollection.ImageCollection}(object)
+\method{str}{ee.imagecollection.ImageCollection}(object, ...)
 }
 \description{
 theses \code{str} methods provide a work around for the "Error in .Call(_reticulate_py_str_impl, x) : reached elapsed time limit"  which was

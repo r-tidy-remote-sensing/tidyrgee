@@ -7,6 +7,7 @@
 #' @param return_tidyee \code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performace if set to F
 #'
 #' @return tidyee class or ee$ImageCollection class object with scenes filtered to bounding box of y geometry
+#' @importFrom rlang .data
 #' @export
 #'
 #' @examples \dontrun{
@@ -87,14 +88,14 @@ filter_bounds.tidyee <-  function(x,y,use_tidyee_index=F,return_tidyee=T){
   x_ee_spatial_filtered<- x$ee_ob$filterBounds(y_ee)
   x_ee_spatial_filtered_idx<- x_ee_spatial_filtered$aggregate_array("tidyee_index")$getInfo()
   vrt_spatial_filtered <- x$vrt |>
-    filter(tidyee_index %in%x_ee_spatial_filtered_idx )
+    filter(.data$tidyee_index %in%x_ee_spatial_filtered_idx )
   create_tidyee(x = x_ee_spatial_filtered,vrt = vrt_spatial_filtered)
   }
   if(!use_tidyee_index)
   x_ee_spatial_filtered<- x$ee_ob$filterBounds(y_ee)
   x_ee_spatial_filtered_idx <- x_ee_spatial_filtered$aggregate_array("system:index")$getInfo()
   vrt_spatial_filtered <- x$vrt |>
-      filter(system_index %in% x_ee_spatial_filtered_idx )
+      filter(.data$system_index %in% x_ee_spatial_filtered_idx )
   create_tidyee(x = x_ee_spatial_filtered,vrt = vrt_spatial_filtered)
   }
 
