@@ -14,3 +14,6 @@ return str
 \description{
 Compactly Display the Structure of an Arbitrary R Object
 }
+\seealso{
+\code{\link[utils]{str}} for information about str on other R objects.
+}
