@@ -1,4 +1,4 @@
-#' clip_tidy flexible wrapper for rgee::ee$Image$clip()
+#' clip flexible wrapper for rgee::ee$Image$clip()
 #' @description allows clipping of tidyee,ee$Imagecollection, or ee$Image classes. Also allows objects to be clipped to sf object in addition to ee$FeatureCollections/ee$Feature
 #' @param x object to be clipped (tidyee, ee$ImageCollection, ee$Image)
 #' @param y geometry object to clip to (sf, ee$Feature,ee$FeatureCollectio)
@@ -42,30 +42,30 @@
 #' #  return tidyee object
 #' ls_tidy |>
 #'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip_tidy(roi,return_tidyee = F)
+#'   clip(roi,return_tidyee = F)
 #'
 #' # pretty instant with return_tidyee=F
 #' ls_clipped_roi_ic <- ls_tidy |>
 #'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip_tidy(roi,return_tidyee = F)
+#'   clip(roi,return_tidyee = F)
 #'
 #' # takes more time with return_tidyee=T, but you get the vrt
 #' ls_clipped__roi_tidyee <- ls_tidy |>
 #'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip_tidy(roi,return_tidyee = T)
+#'   clip(roi,return_tidyee = T)
 #'
 #' # demonstrating on sf object
 #' ls_clipped_sf_ob_ic <- ls_tidy |>
 #'   filter_bounds(y = sf_ob,return_tidyee = F) |>
-#'   clip_tidy(roi,return_tidyee = F)
+#'   clip(roi,return_tidyee = F)
 #'
 #' ls_clipped_sf_ob_tidyee <- ls_tidy |>
 #'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip_tidy(roi,return_tidyee = T)
+#'   clip(roi,return_tidyee = T)
 #' }
 
-clip_tidy <-  function(x,y, return_tidyee=T){
-  UseMethod("clip_tidy")
+clip<-  function(x,y, return_tidyee=T){
+  UseMethod("clip")
 }
 
 
@@ -73,7 +73,7 @@ clip_tidy <-  function(x,y, return_tidyee=T){
 
 
 #' @export
-clip_tidy.tidyee <-  function(x,y,return_tidyee=T){
+clip.tidyee <-  function(x,y,return_tidyee=T){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
@@ -109,7 +109,7 @@ clip_tidy.tidyee <-  function(x,y,return_tidyee=T){
 }
 
 #' @export
-clip_tidy.ee.image.Image <-  function(x,y,return_tidyee=T){
+clip.ee.image.Image <-  function(x,y,return_tidyee=T){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
@@ -134,7 +134,7 @@ clip_tidy.ee.image.Image <-  function(x,y,return_tidyee=T){
 }
 
 #' @export
-clip_tidy.ee.imagecollection.ImageCollection <-  function(x,y,return_tidyee=T){
+clip.ee.imagecollection.ImageCollection <-  function(x,y,return_tidyee=T){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
