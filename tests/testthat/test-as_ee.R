@@ -1,3 +1,5 @@
+skip_if_no_pypkg()
+
 test_that("getting back ee object", {
 
   modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

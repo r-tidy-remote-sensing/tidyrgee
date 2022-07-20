@@ -1,3 +1,4 @@
+skip_if_no_pypkg()
 test_that("testing filter() using year", {
 
   # with MODIS
