@@ -1,3 +1,4 @@
+skip_if_no_pypkg()
 test_that("grouping by year", {
 
   #### group_by method doesn't do anything with ee.ImageCollection so

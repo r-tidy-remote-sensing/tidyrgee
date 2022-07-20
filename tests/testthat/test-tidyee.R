@@ -1,5 +1,5 @@
 
-
+skip_if_no_pypkg()
 test_that("initial tidyee objects are", {
   modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
   modis_ic_tidy <- tidyrgee::as_tidyee(modis_ic)

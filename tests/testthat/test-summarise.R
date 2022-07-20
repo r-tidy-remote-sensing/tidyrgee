@@ -1,3 +1,4 @@
+skip_if_no_pypkg()
 test_that("working with summarise by filter and grouping", {
 
   ## Landsat 8

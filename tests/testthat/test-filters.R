@@ -1,4 +1,4 @@
-
+skip_if_no_pypkg()
 test_that("ee_year_filter works", {
 
   # with MODIS
