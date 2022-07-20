@@ -2,7 +2,6 @@ library(testthat)
 library(tidyrgee)
 library(sf)
 library(rgee)
-ee_Initialize()
 
 
 Sys.setenv(EARTHENGINE_PYTHON="/usr/bin/python3")
