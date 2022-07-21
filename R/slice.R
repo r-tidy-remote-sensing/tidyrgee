@@ -13,7 +13,8 @@ slice.tidyee <- function(.data,...){
   }
   if(length(vrt$tidyee_index)==1){
     ee_index <-  rgee::ee$String(vrt$tidyee_index |> as.character())
-    ic_sliced = .data$ee_ob$filter(ee$Filter$eq('tidyee_index', ee_index))
+    ic_sliced <-  .data$ee_ob$filter(ee$Filter$eq('tidyee_index', ee_index))
+    ic_sliced <- rgee::ee$Image(ic_sliced$first())
   }
 
   return(create_tidyee(x=ic_sliced,vrt=vrt))
