@@ -12,3 +12,4 @@
 ^vignettes/*
 v
 ^reprex$
+^cran-comments\.md$
