@@ -10,7 +10,7 @@
 status](https://www.r-pkg.org/badges/version/tidyrgee)](https://CRAN.R-project.org/package=tidyrgee)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![codecov](https://codecov.io/gh/r-tidy-remote-sensing/tidyrgee/branch/main/graph/badge.svg)](https://app.codecov.io/gh/joshualerickson/whitewater)
+[![codecov](https://codecov.io/gh/r-tidy-remote-sensing/tidyrgee/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-tidy-remote-sensing/tidyrgee)
 [![contributions
 welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
