@@ -13,3 +13,4 @@
 v
 ^reprex$
 ^cran-comments\.md$
+^\.covrignore$

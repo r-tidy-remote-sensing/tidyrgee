@@ -10,6 +10,7 @@
 status](https://www.r-pkg.org/badges/version/tidyrgee)](https://CRAN.R-project.org/package=tidyrgee)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![codecov](https://codecov.io/gh/r-tidy-remote-sensing/tidyrgee/branch/main/graph/badge.svg)](https://app.codecov.io/gh/joshualerickson/whitewater)
 [![contributions
 welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
@@ -147,10 +148,10 @@ library(tidyrgee)
 #>     filter
 library(rgee)
 ee_Initialize()
-#> -- rgee 1.1.2.9000 ---------------------------------- earthengine-api 0.1.295 -- 
+#> -- rgee 1.1.2 --------------------------------------- earthengine-api 0.1.312 -- 
 #>  v user: not_defined
 #>  v Initializing Google Earth Engine: v Initializing Google Earth Engine:  DONE!
-#>  v Earth Engine account: users/zackarno 
+#>  v Earth Engine account: users/joshualerickson 
 #> --------------------------------------------------------------------------------
 
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
@@ -177,14 +178,14 @@ temporal groupings)
 knitr::kable(modis_tidy$vrt |> head())
 ```
 
-| id                           | time_start | date       | month | year | system_index | band_names                                                                                                                                              |
-|:-----------------------------|:-----------|:-----------|------:|-----:|:-------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| MODIS/006/MOD13Q1/2000_02_18 | 2000-02-18 | 2000-02-18 |     2 | 2000 | 2000_02_18   | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
-| MODIS/006/MOD13Q1/2000_03_05 | 2000-03-05 | 2000-03-05 |     3 | 2000 | 2000_03_05   | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
-| MODIS/006/MOD13Q1/2000_03_21 | 2000-03-21 | 2000-03-21 |     3 | 2000 | 2000_03_21   | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
-| MODIS/006/MOD13Q1/2000_04_06 | 2000-04-06 | 2000-04-06 |     4 | 2000 | 2000_04_06   | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
-| MODIS/006/MOD13Q1/2000_04_22 | 2000-04-22 | 2000-04-22 |     4 | 2000 | 2000_04_22   | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
-| MODIS/006/MOD13Q1/2000_05_08 | 2000-05-08 | 2000-05-08 |     5 | 2000 | 2000_05_08   | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
+| id                           | time_start | system_index | date       | month | year | doy | band_names                                                                                                                                              |
+|:-----------------------------|:-----------|:-------------|:-----------|------:|-----:|----:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MODIS/006/MOD13Q1/2000_02_18 | 2000-02-18 | 2000_02_18   | 2000-02-18 |     2 | 2000 |  49 | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
+| MODIS/006/MOD13Q1/2000_03_05 | 2000-03-05 | 2000_03_05   | 2000-03-05 |     3 | 2000 |  65 | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
+| MODIS/006/MOD13Q1/2000_03_21 | 2000-03-21 | 2000_03_21   | 2000-03-21 |     3 | 2000 |  81 | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
+| MODIS/006/MOD13Q1/2000_04_06 | 2000-04-06 | 2000_04_06   | 2000-04-06 |     4 | 2000 |  97 | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
+| MODIS/006/MOD13Q1/2000_04_22 | 2000-04-22 | 2000_04_22   | 2000-04-22 |     4 | 2000 | 113 | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
+| MODIS/006/MOD13Q1/2000_05_08 | 2000-05-08 | 2000_05_08   | 2000-05-08 |     5 | 2000 | 129 | NDVI , EVI , DetailedQA , sur_refl_b01 , sur_refl_b02 , sur_refl_b03 , sur_refl_b07 , ViewZenith , SolarZenith , RelativeAzimuth, DayOfYear , SummaryQA |
 
 Next we demonstrate filtering by date, month, and year. The `vrt` and
 `ee_ob` are always filtered together
@@ -199,20 +200,21 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 22 x 8
-#>    id         time_start          date       month  year system_index band_names
-#>    <chr>      <dttm>              <date>     <dbl> <dbl> <chr>        <list>    
-#>  1 MODIS/006~ 2021-06-10 00:00:00 2021-06-10     6  2021 2021_06_10   <chr [12]>
-#>  2 MODIS/006~ 2021-06-26 00:00:00 2021-06-26     6  2021 2021_06_26   <chr [12]>
-#>  3 MODIS/006~ 2021-07-12 00:00:00 2021-07-12     7  2021 2021_07_12   <chr [12]>
-#>  4 MODIS/006~ 2021-07-28 00:00:00 2021-07-28     7  2021 2021_07_28   <chr [12]>
-#>  5 MODIS/006~ 2021-08-13 00:00:00 2021-08-13     8  2021 2021_08_13   <chr [12]>
-#>  6 MODIS/006~ 2021-08-29 00:00:00 2021-08-29     8  2021 2021_08_29   <chr [12]>
-#>  7 MODIS/006~ 2021-09-14 00:00:00 2021-09-14     9  2021 2021_09_14   <chr [12]>
-#>  8 MODIS/006~ 2021-09-30 00:00:00 2021-09-30     9  2021 2021_09_30   <chr [12]>
-#>  9 MODIS/006~ 2021-10-16 00:00:00 2021-10-16    10  2021 2021_10_16   <chr [12]>
-#> 10 MODIS/006~ 2021-11-01 00:00:00 2021-11-01    11  2021 2021_11_01   <chr [12]>
-#> # ... with 12 more rows, and 1 more variable: tidyee_index <chr>
+#> # A tibble: 25 x 9
+#>    id              time_start          system_index date       month  year   doy
+#>    <chr>           <dttm>              <chr>        <date>     <dbl> <dbl> <dbl>
+#>  1 MODIS/006/MOD1~ 2021-06-10 00:00:00 2021_06_10   2021-06-10     6  2021   161
+#>  2 MODIS/006/MOD1~ 2021-06-26 00:00:00 2021_06_26   2021-06-26     6  2021   177
+#>  3 MODIS/006/MOD1~ 2021-07-12 00:00:00 2021_07_12   2021-07-12     7  2021   193
+#>  4 MODIS/006/MOD1~ 2021-07-28 00:00:00 2021_07_28   2021-07-28     7  2021   209
+#>  5 MODIS/006/MOD1~ 2021-08-13 00:00:00 2021_08_13   2021-08-13     8  2021   225
+#>  6 MODIS/006/MOD1~ 2021-08-29 00:00:00 2021_08_29   2021-08-29     8  2021   241
+#>  7 MODIS/006/MOD1~ 2021-09-14 00:00:00 2021_09_14   2021-09-14     9  2021   257
+#>  8 MODIS/006/MOD1~ 2021-09-30 00:00:00 2021_09_30   2021-09-30     9  2021   273
+#>  9 MODIS/006/MOD1~ 2021-10-16 00:00:00 2021_10_16   2021-10-16    10  2021   289
+#> 10 MODIS/006/MOD1~ 2021-11-01 00:00:00 2021_11_01   2021-11-01    11  2021   305
+#> # ... with 15 more rows, and 2 more variables: band_names <list>,
+#> #   tidyee_index <chr>
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -228,20 +230,21 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 46 x 8
-#>    id         time_start          date       month  year system_index band_names
-#>    <chr>      <dttm>              <date>     <dbl> <dbl> <chr>        <list>    
-#>  1 MODIS/006~ 2010-01-01 00:00:00 2010-01-01     1  2010 2010_01_01   <chr [12]>
-#>  2 MODIS/006~ 2010-01-17 00:00:00 2010-01-17     1  2010 2010_01_17   <chr [12]>
-#>  3 MODIS/006~ 2010-02-02 00:00:00 2010-02-02     2  2010 2010_02_02   <chr [12]>
-#>  4 MODIS/006~ 2010-02-18 00:00:00 2010-02-18     2  2010 2010_02_18   <chr [12]>
-#>  5 MODIS/006~ 2010-03-06 00:00:00 2010-03-06     3  2010 2010_03_06   <chr [12]>
-#>  6 MODIS/006~ 2010-03-22 00:00:00 2010-03-22     3  2010 2010_03_22   <chr [12]>
-#>  7 MODIS/006~ 2010-04-07 00:00:00 2010-04-07     4  2010 2010_04_07   <chr [12]>
-#>  8 MODIS/006~ 2010-04-23 00:00:00 2010-04-23     4  2010 2010_04_23   <chr [12]>
-#>  9 MODIS/006~ 2010-05-09 00:00:00 2010-05-09     5  2010 2010_05_09   <chr [12]>
-#> 10 MODIS/006~ 2010-05-25 00:00:00 2010-05-25     5  2010 2010_05_25   <chr [12]>
-#> # ... with 36 more rows, and 1 more variable: tidyee_index <chr>
+#> # A tibble: 46 x 9
+#>    id              time_start          system_index date       month  year   doy
+#>    <chr>           <dttm>              <chr>        <date>     <dbl> <dbl> <dbl>
+#>  1 MODIS/006/MOD1~ 2010-01-01 00:00:00 2010_01_01   2010-01-01     1  2010     1
+#>  2 MODIS/006/MOD1~ 2010-01-17 00:00:00 2010_01_17   2010-01-17     1  2010    17
+#>  3 MODIS/006/MOD1~ 2010-02-02 00:00:00 2010_02_02   2010-02-02     2  2010    33
+#>  4 MODIS/006/MOD1~ 2010-02-18 00:00:00 2010_02_18   2010-02-18     2  2010    49
+#>  5 MODIS/006/MOD1~ 2010-03-06 00:00:00 2010_03_06   2010-03-06     3  2010    65
+#>  6 MODIS/006/MOD1~ 2010-03-22 00:00:00 2010_03_22   2010-03-22     3  2010    81
+#>  7 MODIS/006/MOD1~ 2010-04-07 00:00:00 2010_04_07   2010-04-07     4  2010    97
+#>  8 MODIS/006/MOD1~ 2010-04-23 00:00:00 2010_04_23   2010-04-23     4  2010   113
+#>  9 MODIS/006/MOD1~ 2010-05-09 00:00:00 2010_05_09   2010-05-09     5  2010   129
+#> 10 MODIS/006/MOD1~ 2010-05-25 00:00:00 2010_05_25   2010-05-25     5  2010   145
+#> # ... with 36 more rows, and 2 more variables: band_names <list>,
+#> #   tidyee_index <chr>
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -257,20 +260,21 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 88 x 8
-#>    id         time_start          date       month  year system_index band_names
-#>    <chr>      <dttm>              <date>     <dbl> <dbl> <chr>        <list>    
-#>  1 MODIS/006~ 2000-07-11 00:00:00 2000-07-11     7  2000 2000_07_11   <chr [12]>
-#>  2 MODIS/006~ 2000-07-27 00:00:00 2000-07-27     7  2000 2000_07_27   <chr [12]>
-#>  3 MODIS/006~ 2000-08-12 00:00:00 2000-08-12     8  2000 2000_08_12   <chr [12]>
-#>  4 MODIS/006~ 2000-08-28 00:00:00 2000-08-28     8  2000 2000_08_28   <chr [12]>
-#>  5 MODIS/006~ 2001-07-12 00:00:00 2001-07-12     7  2001 2001_07_12   <chr [12]>
-#>  6 MODIS/006~ 2001-07-28 00:00:00 2001-07-28     7  2001 2001_07_28   <chr [12]>
-#>  7 MODIS/006~ 2001-08-13 00:00:00 2001-08-13     8  2001 2001_08_13   <chr [12]>
-#>  8 MODIS/006~ 2001-08-29 00:00:00 2001-08-29     8  2001 2001_08_29   <chr [12]>
-#>  9 MODIS/006~ 2002-07-12 00:00:00 2002-07-12     7  2002 2002_07_12   <chr [12]>
-#> 10 MODIS/006~ 2002-07-28 00:00:00 2002-07-28     7  2002 2002_07_28   <chr [12]>
-#> # ... with 78 more rows, and 1 more variable: tidyee_index <chr>
+#> # A tibble: 88 x 9
+#>    id              time_start          system_index date       month  year   doy
+#>    <chr>           <dttm>              <chr>        <date>     <dbl> <dbl> <dbl>
+#>  1 MODIS/006/MOD1~ 2000-07-11 00:00:00 2000_07_11   2000-07-11     7  2000   193
+#>  2 MODIS/006/MOD1~ 2000-07-27 00:00:00 2000_07_27   2000-07-27     7  2000   209
+#>  3 MODIS/006/MOD1~ 2000-08-12 00:00:00 2000_08_12   2000-08-12     8  2000   225
+#>  4 MODIS/006/MOD1~ 2000-08-28 00:00:00 2000_08_28   2000-08-28     8  2000   241
+#>  5 MODIS/006/MOD1~ 2001-07-12 00:00:00 2001_07_12   2001-07-12     7  2001   193
+#>  6 MODIS/006/MOD1~ 2001-07-28 00:00:00 2001_07_28   2001-07-28     7  2001   209
+#>  7 MODIS/006/MOD1~ 2001-08-13 00:00:00 2001_08_13   2001-08-13     8  2001   225
+#>  8 MODIS/006/MOD1~ 2001-08-29 00:00:00 2001_08_29   2001-08-29     8  2001   241
+#>  9 MODIS/006/MOD1~ 2002-07-12 00:00:00 2002_07_12   2002-07-12     7  2002   193
+#> 10 MODIS/006/MOD1~ 2002-07-28 00:00:00 2002_07_28   2002-07-28     7  2002   209
+#> # ... with 78 more rows, and 2 more variables: band_names <list>,
+#> #   tidyee_index <chr>
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -344,7 +348,7 @@ modis_tidy |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 17 x 7
+#> # A tibble: 18 x 7
 #>     year month dates_summarised number_images time_start time_end   band_names
 #>    <dbl> <dbl> <list>                   <int> <date>     <date>     <list>    
 #>  1  2021     1 <date [2]>                   2 2021-01-01 2021-01-17 <chr [1]> 
@@ -363,7 +367,8 @@ modis_tidy |>
 #> 14  2022     2 <date [2]>                   2 2022-02-02 2022-02-18 <chr [1]> 
 #> 15  2022     3 <date [2]>                   2 2022-03-06 2022-03-22 <chr [1]> 
 #> 16  2022     4 <date [2]>                   2 2022-04-07 2022-04-23 <chr [1]> 
-#> 17  2022     5 <date [1]>                   1 2022-05-09 2022-05-09 <chr [1]> 
+#> 17  2022     5 <date [2]>                   2 2022-05-09 2022-05-25 <chr [1]> 
+#> 18  2022     6 <date [2]>                   2 2022-06-10 2022-06-26 <chr [1]> 
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
