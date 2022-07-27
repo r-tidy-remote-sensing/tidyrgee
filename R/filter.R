@@ -15,6 +15,7 @@ filter.tidyee <-  function(.data,...){
   if(length(vrt$tidyee_index)==1){
     ee_index <-  rgee::ee$String(vrt$tidyee_index |> as.character())
     ic_filt = .data$ee_ob$filter(ee$Filter$eq('tidyee_index', ee_index))
+    ic_filt <- rgee::ee$Image(ic_filt$first())
   }
 
   return(create_tidyee(x=ic_filt,vrt=vrt))
