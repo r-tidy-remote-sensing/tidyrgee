@@ -323,15 +323,21 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
         indexString <-  yearString$cat(monthString)
         idString <- ee$String("composited_yyyymmm_")$cat(indexString)
         ic_temp_filtered <- yearCollection$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
-        ee_reducer(ic_temp_filtered)$
-          # set('system:id',idString)$
-          set('system:index', indexString)$
-          set('year',y)$
-          set('month',m)$
-          set('date',rgee::ee$Date$fromYMD(y,m,1))$
-           #set('system:time_start',ee$Date$fromYMD(y,m,1))$
-          set('system:time_start',rgee::ee$Date$millis(start_date))$
-          set('system:time_end',rgee::ee$Date$millis(end_date))
+        rgee::ee$Algorithms$If(
+          ic_temp_filtered$size(),
+          ee_reducer(ic_temp_filtered)$
+            # set('system:id',idString)$
+            set('system:index', indexString)$
+            set('year',y)$
+            set('month',m)$
+            set('date',rgee::ee$Date$fromYMD(y,m,1))$
+            #set('system:time_start',ee$Date$fromYMD(y,m,1))$
+            set('system:time_start',rgee::ee$Date$millis(start_date))$
+            set('system:time_end',rgee::ee$Date$millis(end_date)),
+          NULL
+
+        )
+
 
       }))
     )
