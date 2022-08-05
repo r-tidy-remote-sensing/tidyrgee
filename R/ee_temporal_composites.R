@@ -284,7 +284,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   # after running the calendarRange maps there is a strange behavior which
   # warrants the need to post-filter.
   start_post_filter <- lubridate::floor_date(min(x$vrt$date),"month") |> as.character()
-  end_post_filter <- lubridate::as_date(max(x$vrt$date)) |> as.character()
+  end_post_filter <- (lubridate::as_date(max(x$vrt$date))+1) |> as.character()
 
 
   years_unique_chr <- unique(x$vrt$year) |> sort()
@@ -414,7 +414,7 @@ ee_composite.tidyee <-  function(x,
     set('year',min_year)$
     set('month',min_month)$
     set('date',rgee::ee$Date$fromYMD(min_year,min_month,min_day))$
-    set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,min_day)))$
+      set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,min_day)))$
     set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(max_year,max_month,max_day)))
 
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
@@ -424,6 +424,7 @@ ee_composite.tidyee <-  function(x,
     vrt_summarised <-x$vrt |>
       tidyr::unnest(.data$dates_summarised) |>
       dplyr::summarise(
+        time_start= lubridate::ymd(glue::glue("{min_year}-{min_month}-{min_day}")),
         dates_summarised= list(.data$dates_summarised),
         .groups = "drop"
       )
@@ -432,6 +433,7 @@ ee_composite.tidyee <-  function(x,
     vrt_summarised <-x$vrt |>
       # dplyr::tibble() |>
       dplyr::summarise(
+        time_start= lubridate::ymd(glue::glue("{min_year}-{min_month}-{min_day}")),
         dates_summarised= list(date),
         .groups = "drop"
       )

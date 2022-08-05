@@ -8,8 +8,8 @@ set_idx.tidyee <- function(x,idx_name="tidyee_index"){
     dplyr::arrange(
       dplyr::across(
         dplyr::any_of(c("time_start","year","month"))
-        )
-      ) |>
+      )
+    ) |>
     dplyr::mutate(
       !!idx_name:=sprintf((dplyr::row_number()-1),fmt = "%03d")
     )
@@ -39,7 +39,6 @@ set_idx.ee.imagecollection.ImageCollection <-  function(x,idx_name="tidyee_index
   )
   return(ic_with_idx)
 }
-
 
 
 #' set_idx
