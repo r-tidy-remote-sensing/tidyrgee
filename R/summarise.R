@@ -120,7 +120,7 @@ summarise_pixels <-  function(.data,stat,...){
         ~ee_composite(
           .x |>
           group_by(!!!rlang::syms(group_vars_chr)),
-          stat="sum")
+          stat=stat)
         ) |>
       bind_ics()
     #previously would just call this:
