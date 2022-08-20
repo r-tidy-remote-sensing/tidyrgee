@@ -97,14 +97,14 @@ mean_ndvi <-  modis_tidy |>
 </table>
 
 ## Example usage
-Below are a couple examples showing some of the functionality available 
 
+Below are a couple examples showing some of the available functions.
 
-First you must follow standard procedures of:
+To load images/imageCollections you follow the standard approach using `rgee`:
 
-- loading libraries
-- initializing the GEE session
-- loading an `ee$ImageCollection`
+- load libraries
+- initialize the GEE session
+- load `ee$ImageCollection`/ `ee$Image`
 
 ```{r example, eval=T}
 library(tidyrgee)
@@ -114,7 +114,7 @@ ee_Initialize()
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 ```
 
-Once the above steps have been performed you can convert the `ee$ImageCollection` to a `tidyee` object with the function `as_tidyee`.  The tidyee object contains stores the original `ee$ImageCollection` and `ee_ob` (for earth engine object) and produces as virtual table/data.frame stored as `vrt`. This vrt allows not only facilitates the use of dplyr/tidyverse methods, but also allows the user to better view the data stored in the accompanying imageCollection
+Once the above steps are performed you can convert the `ee$ImageCollection` to a `tidyee` object with the function `as_tidyee`.  The tidyee object stores the original `ee$ImageCollection` as `ee_ob` (for earth engine object) and produces as virtual table/data.frame stored as `vrt`. This vrt not only facilitates the use of dplyr/tidyverse methods, but also allows the user to better view the data stored in the accompanying imageCollection. The `ee_ob` and `vrt` inside the tidyee object are linked, any function applied to the tidyee object will apply to them both so that they remain in sync.
 
 ```{r, eval=T}
 modis_tidy <-  as_tidyee(modis_ic)
@@ -151,7 +151,7 @@ In this next example we pipe together multiple functions (`select`, `filter`, `g
 
 1. select the `NDVI` band from the ImageCollection
 2. filter the imageCollection to a desired date range
-2. grouping the filtered ImageCollection  by month
+2. group the filtered ImageCollection  by month
 3. summarizing each pixel by year and month.
 
 The result will be an `ImageCollection` with the one `Image` per month (12 images) where each pixel in each image represents the average NDVI value for that month calculated using monthly data from 2000 2015. 
@@ -170,7 +170,7 @@ You can easily `group_by` more than 1 property to calculate different summary st
 1. filter to only data from 2021-2022
 2. group by year, month and calculate the median NDVI pixel value
 
-As we are using the MODIS 16-day composite we summarising approximate 2 images per month to create median composite image fo reach month in the specified years. The `vrt` holds  a `list-col` containing all the dates summarised per new composite image.
+As we are using the MODIS 16-day composite we summarising approximately 2 images per month to create median composite image fo reach month in the specified years. The `vrt` holds  a `list-col` containing all the dates summarised per new composite image.
 
 ```{r}
 modis_tidy |> 
@@ -182,7 +182,7 @@ modis_tidy |>
 
 ```
 
-To improve enhance backward compatibility with `rgee` we have included the `as_ee` function to return the `tidyee` object back to `rgee` classes where/if necessary
+To improve interoperability with `rgee` we have included the `as_ee` function to return the `tidyee` object back to `rgee` classes when necessary
 
 ```{r,eval=T}
 modis_ic <- modis_tidy |> as_ee()

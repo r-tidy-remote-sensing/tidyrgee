@@ -84,6 +84,7 @@ tidyrgee
 <td>
 
 ``` r
+
 modis <- ee$ImageCollection( "MODIS/006/MOD13Q1")
 modis_ndvi <-  modis$select("NDVI")
 month_list <- ee$List$sequence(1,12)
@@ -131,13 +132,14 @@ mean_ndvi <-  modis_tidy |>
 
 ## Example usage
 
-Below are a couple examples showing some of the functionality available
+Below are a couple examples showing some of the available functions.
 
-First you must follow standard procedures of:
+To load images/imageCollections you follow the standard approach using
+`rgee`:
 
--   loading libraries
--   initializing the GEE session
--   loading an `ee$ImageCollection`
+-   load libraries
+-   initialize the GEE session
+-   load `ee$ImageCollection`/ `ee$Image`
 
 ``` r
 library(tidyrgee)
@@ -146,24 +148,29 @@ library(tidyrgee)
 #> The following object is masked from 'package:stats':
 #> 
 #>     filter
+#> The following object is masked from 'package:graphics':
+#> 
+#>     clip
 library(rgee)
 ee_Initialize()
-#> -- rgee 1.1.2 --------------------------------------- earthengine-api 0.1.312 -- 
+#> -- rgee 1.1.2.9000 ---------------------------------- earthengine-api 0.1.295 -- 
 #>  v user: not_defined
 #>  v Initializing Google Earth Engine: v Initializing Google Earth Engine:  DONE!
-#>  v Earth Engine account: users/joshualerickson 
+#>  v Earth Engine account: users/zackarno 
 #> --------------------------------------------------------------------------------
 
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 ```
 
-Once the above steps have been performed you can convert the
+Once the above steps are performed you can convert the
 `ee$ImageCollection` to a `tidyee` object with the function `as_tidyee`.
-The tidyee object contains stores the original `ee$ImageCollection` and
-`ee_ob` (for earth engine object) and produces as virtual
-table/data.frame stored as `vrt`. This vrt allows not only facilitates
-the use of dplyr/tidyverse methods, but also allows the user to better
-view the data stored in the accompanying imageCollection
+The tidyee object stores the original `ee$ImageCollection` as `ee_ob`
+(for earth engine object) and produces as virtual table/data.frame
+stored as `vrt`. This vrt not only facilitates the use of
+dplyr/tidyverse methods, but also allows the user to better view the
+data stored in the accompanying imageCollection. The `ee_ob` and `vrt`
+inside the tidyee object are linked, any function applied to the tidyee
+object will apply to them both so that they remain in sync.
 
 ``` r
 modis_tidy <-  as_tidyee(modis_ic)
@@ -200,21 +207,22 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 25 x 9
-#>    id              time_start          system_index date       month  year   doy
-#>    <chr>           <dttm>              <chr>        <date>     <dbl> <dbl> <dbl>
-#>  1 MODIS/006/MOD1~ 2021-06-10 00:00:00 2021_06_10   2021-06-10     6  2021   161
-#>  2 MODIS/006/MOD1~ 2021-06-26 00:00:00 2021_06_26   2021-06-26     6  2021   177
-#>  3 MODIS/006/MOD1~ 2021-07-12 00:00:00 2021_07_12   2021-07-12     7  2021   193
-#>  4 MODIS/006/MOD1~ 2021-07-28 00:00:00 2021_07_28   2021-07-28     7  2021   209
-#>  5 MODIS/006/MOD1~ 2021-08-13 00:00:00 2021_08_13   2021-08-13     8  2021   225
-#>  6 MODIS/006/MOD1~ 2021-08-29 00:00:00 2021_08_29   2021-08-29     8  2021   241
-#>  7 MODIS/006/MOD1~ 2021-09-14 00:00:00 2021_09_14   2021-09-14     9  2021   257
-#>  8 MODIS/006/MOD1~ 2021-09-30 00:00:00 2021_09_30   2021-09-30     9  2021   273
-#>  9 MODIS/006/MOD1~ 2021-10-16 00:00:00 2021_10_16   2021-10-16    10  2021   289
-#> 10 MODIS/006/MOD1~ 2021-11-01 00:00:00 2021_11_01   2021-11-01    11  2021   305
-#> # ... with 15 more rows, and 2 more variables: band_names <list>,
-#> #   tidyee_index <chr>
+#> # A tibble: 26 x 9
+#>    id           time_start          syste~1 date       month  year   doy band_~2
+#>    <chr>        <dttm>              <chr>   <date>     <dbl> <dbl> <dbl> <list> 
+#>  1 MODIS/006/M~ 2021-06-10 00:00:00 2021_0~ 2021-06-10     6  2021   161 <chr>  
+#>  2 MODIS/006/M~ 2021-06-26 00:00:00 2021_0~ 2021-06-26     6  2021   177 <chr>  
+#>  3 MODIS/006/M~ 2021-07-12 00:00:00 2021_0~ 2021-07-12     7  2021   193 <chr>  
+#>  4 MODIS/006/M~ 2021-07-28 00:00:00 2021_0~ 2021-07-28     7  2021   209 <chr>  
+#>  5 MODIS/006/M~ 2021-08-13 00:00:00 2021_0~ 2021-08-13     8  2021   225 <chr>  
+#>  6 MODIS/006/M~ 2021-08-29 00:00:00 2021_0~ 2021-08-29     8  2021   241 <chr>  
+#>  7 MODIS/006/M~ 2021-09-14 00:00:00 2021_0~ 2021-09-14     9  2021   257 <chr>  
+#>  8 MODIS/006/M~ 2021-09-30 00:00:00 2021_0~ 2021-09-30     9  2021   273 <chr>  
+#>  9 MODIS/006/M~ 2021-10-16 00:00:00 2021_1~ 2021-10-16    10  2021   289 <chr>  
+#> 10 MODIS/006/M~ 2021-11-01 00:00:00 2021_1~ 2021-11-01    11  2021   305 <chr>  
+#> # ... with 16 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
+#> #   variable names 1: system_index, 2: band_names
+#> # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -231,20 +239,21 @@ modis_tidy   |>
 #> EarthEngine Object: ImageCollection
 #> $vrt
 #> # A tibble: 46 x 9
-#>    id              time_start          system_index date       month  year   doy
-#>    <chr>           <dttm>              <chr>        <date>     <dbl> <dbl> <dbl>
-#>  1 MODIS/006/MOD1~ 2010-01-01 00:00:00 2010_01_01   2010-01-01     1  2010     1
-#>  2 MODIS/006/MOD1~ 2010-01-17 00:00:00 2010_01_17   2010-01-17     1  2010    17
-#>  3 MODIS/006/MOD1~ 2010-02-02 00:00:00 2010_02_02   2010-02-02     2  2010    33
-#>  4 MODIS/006/MOD1~ 2010-02-18 00:00:00 2010_02_18   2010-02-18     2  2010    49
-#>  5 MODIS/006/MOD1~ 2010-03-06 00:00:00 2010_03_06   2010-03-06     3  2010    65
-#>  6 MODIS/006/MOD1~ 2010-03-22 00:00:00 2010_03_22   2010-03-22     3  2010    81
-#>  7 MODIS/006/MOD1~ 2010-04-07 00:00:00 2010_04_07   2010-04-07     4  2010    97
-#>  8 MODIS/006/MOD1~ 2010-04-23 00:00:00 2010_04_23   2010-04-23     4  2010   113
-#>  9 MODIS/006/MOD1~ 2010-05-09 00:00:00 2010_05_09   2010-05-09     5  2010   129
-#> 10 MODIS/006/MOD1~ 2010-05-25 00:00:00 2010_05_25   2010-05-25     5  2010   145
-#> # ... with 36 more rows, and 2 more variables: band_names <list>,
-#> #   tidyee_index <chr>
+#>    id           time_start          syste~1 date       month  year   doy band_~2
+#>    <chr>        <dttm>              <chr>   <date>     <dbl> <dbl> <dbl> <list> 
+#>  1 MODIS/006/M~ 2010-01-01 00:00:00 2010_0~ 2010-01-01     1  2010     1 <chr>  
+#>  2 MODIS/006/M~ 2010-01-17 00:00:00 2010_0~ 2010-01-17     1  2010    17 <chr>  
+#>  3 MODIS/006/M~ 2010-02-02 00:00:00 2010_0~ 2010-02-02     2  2010    33 <chr>  
+#>  4 MODIS/006/M~ 2010-02-18 00:00:00 2010_0~ 2010-02-18     2  2010    49 <chr>  
+#>  5 MODIS/006/M~ 2010-03-06 00:00:00 2010_0~ 2010-03-06     3  2010    65 <chr>  
+#>  6 MODIS/006/M~ 2010-03-22 00:00:00 2010_0~ 2010-03-22     3  2010    81 <chr>  
+#>  7 MODIS/006/M~ 2010-04-07 00:00:00 2010_0~ 2010-04-07     4  2010    97 <chr>  
+#>  8 MODIS/006/M~ 2010-04-23 00:00:00 2010_0~ 2010-04-23     4  2010   113 <chr>  
+#>  9 MODIS/006/M~ 2010-05-09 00:00:00 2010_0~ 2010-05-09     5  2010   129 <chr>  
+#> 10 MODIS/006/M~ 2010-05-25 00:00:00 2010_0~ 2010-05-25     5  2010   145 <chr>  
+#> # ... with 36 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
+#> #   variable names 1: system_index, 2: band_names
+#> # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -260,21 +269,22 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 88 x 9
-#>    id              time_start          system_index date       month  year   doy
-#>    <chr>           <dttm>              <chr>        <date>     <dbl> <dbl> <dbl>
-#>  1 MODIS/006/MOD1~ 2000-07-11 00:00:00 2000_07_11   2000-07-11     7  2000   193
-#>  2 MODIS/006/MOD1~ 2000-07-27 00:00:00 2000_07_27   2000-07-27     7  2000   209
-#>  3 MODIS/006/MOD1~ 2000-08-12 00:00:00 2000_08_12   2000-08-12     8  2000   225
-#>  4 MODIS/006/MOD1~ 2000-08-28 00:00:00 2000_08_28   2000-08-28     8  2000   241
-#>  5 MODIS/006/MOD1~ 2001-07-12 00:00:00 2001_07_12   2001-07-12     7  2001   193
-#>  6 MODIS/006/MOD1~ 2001-07-28 00:00:00 2001_07_28   2001-07-28     7  2001   209
-#>  7 MODIS/006/MOD1~ 2001-08-13 00:00:00 2001_08_13   2001-08-13     8  2001   225
-#>  8 MODIS/006/MOD1~ 2001-08-29 00:00:00 2001_08_29   2001-08-29     8  2001   241
-#>  9 MODIS/006/MOD1~ 2002-07-12 00:00:00 2002_07_12   2002-07-12     7  2002   193
-#> 10 MODIS/006/MOD1~ 2002-07-28 00:00:00 2002_07_28   2002-07-28     7  2002   209
-#> # ... with 78 more rows, and 2 more variables: band_names <list>,
-#> #   tidyee_index <chr>
+#> # A tibble: 89 x 9
+#>    id           time_start          syste~1 date       month  year   doy band_~2
+#>    <chr>        <dttm>              <chr>   <date>     <dbl> <dbl> <dbl> <list> 
+#>  1 MODIS/006/M~ 2000-07-11 00:00:00 2000_0~ 2000-07-11     7  2000   193 <chr>  
+#>  2 MODIS/006/M~ 2000-07-27 00:00:00 2000_0~ 2000-07-27     7  2000   209 <chr>  
+#>  3 MODIS/006/M~ 2000-08-12 00:00:00 2000_0~ 2000-08-12     8  2000   225 <chr>  
+#>  4 MODIS/006/M~ 2000-08-28 00:00:00 2000_0~ 2000-08-28     8  2000   241 <chr>  
+#>  5 MODIS/006/M~ 2001-07-12 00:00:00 2001_0~ 2001-07-12     7  2001   193 <chr>  
+#>  6 MODIS/006/M~ 2001-07-28 00:00:00 2001_0~ 2001-07-28     7  2001   209 <chr>  
+#>  7 MODIS/006/M~ 2001-08-13 00:00:00 2001_0~ 2001-08-13     8  2001   225 <chr>  
+#>  8 MODIS/006/M~ 2001-08-29 00:00:00 2001_0~ 2001-08-29     8  2001   241 <chr>  
+#>  9 MODIS/006/M~ 2002-07-12 00:00:00 2002_0~ 2002-07-12     7  2002   193 <chr>  
+#> 10 MODIS/006/M~ 2002-07-28 00:00:00 2002_0~ 2002-07-28     7  2002   209 <chr>  
+#> # ... with 79 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
+#> #   variable names 1: system_index, 2: band_names
+#> # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -287,7 +297,7 @@ In this next example we pipe together multiple functions (`select`,
 
 1.  select the `NDVI` band from the ImageCollection
 2.  filter the imageCollection to a desired date range
-3.  grouping the filtered ImageCollection by month
+3.  group the filtered ImageCollection by month
 4.  summarizing each pixel by year and month.
 
 The result will be an `ImageCollection` with the one `Image` per month
@@ -295,6 +305,7 @@ The result will be an `ImageCollection` with the one `Image` per month
 value for that month calculated using monthly data from 2000 2015.
 
 ``` r
+
 modis_tidy |> 
   select("NDVI") |> 
   filter(year %in% 2000:2015) |> 
@@ -305,22 +316,24 @@ modis_tidy |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 12 x 6
-#>    month dates_summarised number_images time_start          time_end           
-#>    <dbl> <list>                   <int> <dttm>              <dttm>             
-#>  1     1 <date [30]>                 30 2001-01-01 00:00:00 2001-01-01 00:00:00
-#>  2     2 <date [31]>                 31 2000-02-18 00:00:00 2000-02-18 00:00:00
-#>  3     3 <date [32]>                 32 2000-03-05 00:00:00 2000-03-05 00:00:00
-#>  4     4 <date [32]>                 32 2000-04-06 00:00:00 2000-04-06 00:00:00
-#>  5     5 <date [32]>                 32 2000-05-08 00:00:00 2000-05-08 00:00:00
-#>  6     6 <date [32]>                 32 2000-06-09 00:00:00 2000-06-09 00:00:00
-#>  7     7 <date [32]>                 32 2000-07-11 00:00:00 2000-07-11 00:00:00
-#>  8     8 <date [32]>                 32 2000-08-12 00:00:00 2000-08-12 00:00:00
-#>  9     9 <date [32]>                 32 2000-09-13 00:00:00 2000-09-13 00:00:00
-#> 10    10 <date [20]>                 20 2000-10-15 00:00:00 2000-10-15 00:00:00
-#> 11    11 <date [28]>                 28 2000-11-16 00:00:00 2000-11-16 00:00:00
-#> 12    12 <date [32]>                 32 2000-12-02 00:00:00 2000-12-02 00:00:00
-#> # ... with 1 more variable: band_names <list>
+#> # A tibble: 12 x 7
+#>    month dates_summ~1 numbe~2 time_start          time_end            date      
+#>    <dbl> <list>         <int> <dttm>              <dttm>              <date>    
+#>  1     1 <dttm [30]>       30 2001-01-01 00:00:00 2001-01-01 00:00:00 2001-01-01
+#>  2     2 <dttm [31]>       31 2000-02-18 00:00:00 2000-02-18 00:00:00 2000-02-18
+#>  3     3 <dttm [32]>       32 2000-03-05 00:00:00 2000-03-05 00:00:00 2000-03-05
+#>  4     4 <dttm [32]>       32 2000-04-06 00:00:00 2000-04-06 00:00:00 2000-04-06
+#>  5     5 <dttm [32]>       32 2000-05-08 00:00:00 2000-05-08 00:00:00 2000-05-08
+#>  6     6 <dttm [32]>       32 2000-06-09 00:00:00 2000-06-09 00:00:00 2000-06-09
+#>  7     7 <dttm [32]>       32 2000-07-11 00:00:00 2000-07-11 00:00:00 2000-07-11
+#>  8     8 <dttm [32]>       32 2000-08-12 00:00:00 2000-08-12 00:00:00 2000-08-12
+#>  9     9 <dttm [32]>       32 2000-09-13 00:00:00 2000-09-13 00:00:00 2000-09-13
+#> 10    10 <dttm [20]>       20 2000-10-15 00:00:00 2000-10-15 00:00:00 2000-10-15
+#> 11    11 <dttm [28]>       28 2000-11-16 00:00:00 2000-11-16 00:00:00 2000-11-16
+#> 12    12 <dttm [32]>       32 2000-12-02 00:00:00 2000-12-02 00:00:00 2000-12-02
+#> # ... with 1 more variable: band_names <list>, and abbreviated variable names
+#> #   1: dates_summarised, 2: number_images
+#> # i Use `colnames()` to see all variable names
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
@@ -332,10 +345,10 @@ summary stats. Below we
 1.  filter to only data from 2021-2022
 2.  group by year, month and calculate the median NDVI pixel value
 
-As we are using the MODIS 16-day composite we summarising approximate 2
-images per month to create median composite image fo reach month in the
-specified years. The `vrt` holds a `list-col` containing all the dates
-summarised per new composite image.
+As we are using the MODIS 16-day composite we summarising approximately
+2 images per month to create median composite image fo reach month in
+the specified years. The `vrt` holds a `list-col` containing all the
+dates summarised per new composite image.
 
 ``` r
 modis_tidy |> 
@@ -348,35 +361,39 @@ modis_tidy |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 18 x 7
-#>     year month dates_summarised number_images time_start time_end   band_names
-#>    <dbl> <dbl> <list>                   <int> <date>     <date>     <list>    
-#>  1  2021     1 <date [2]>                   2 2021-01-01 2021-01-17 <chr [1]> 
-#>  2  2021     2 <date [2]>                   2 2021-02-02 2021-02-18 <chr [1]> 
-#>  3  2021     3 <date [2]>                   2 2021-03-06 2021-03-22 <chr [1]> 
-#>  4  2021     4 <date [2]>                   2 2021-04-07 2021-04-23 <chr [1]> 
-#>  5  2021     5 <date [2]>                   2 2021-05-09 2021-05-25 <chr [1]> 
-#>  6  2021     6 <date [2]>                   2 2021-06-10 2021-06-26 <chr [1]> 
-#>  7  2021     7 <date [2]>                   2 2021-07-12 2021-07-28 <chr [1]> 
-#>  8  2021     8 <date [2]>                   2 2021-08-13 2021-08-29 <chr [1]> 
-#>  9  2021     9 <date [2]>                   2 2021-09-14 2021-09-30 <chr [1]> 
-#> 10  2021    10 <date [1]>                   1 2021-10-16 2021-10-16 <chr [1]> 
-#> 11  2021    11 <date [2]>                   2 2021-11-01 2021-11-17 <chr [1]> 
-#> 12  2021    12 <date [2]>                   2 2021-12-03 2021-12-19 <chr [1]> 
-#> 13  2022     1 <date [2]>                   2 2022-01-01 2022-01-17 <chr [1]> 
-#> 14  2022     2 <date [2]>                   2 2022-02-02 2022-02-18 <chr [1]> 
-#> 15  2022     3 <date [2]>                   2 2022-03-06 2022-03-22 <chr [1]> 
-#> 16  2022     4 <date [2]>                   2 2022-04-07 2022-04-23 <chr [1]> 
-#> 17  2022     5 <date [2]>                   2 2022-05-09 2022-05-25 <chr [1]> 
-#> 18  2022     6 <date [2]>                   2 2022-06-10 2022-06-26 <chr [1]> 
+#> # A tibble: 19 x 8
+#>     year month dates_summarised number~1 time_start          time_end           
+#>    <dbl> <dbl> <list>              <int> <dttm>              <dttm>             
+#>  1  2021     1 <dttm [2]>              2 2021-01-01 00:00:00 2021-01-01 00:00:00
+#>  2  2021     2 <dttm [2]>              2 2021-02-02 00:00:00 2021-02-02 00:00:00
+#>  3  2021     3 <dttm [2]>              2 2021-03-06 00:00:00 2021-03-06 00:00:00
+#>  4  2021     4 <dttm [2]>              2 2021-04-07 00:00:00 2021-04-07 00:00:00
+#>  5  2021     5 <dttm [2]>              2 2021-05-09 00:00:00 2021-05-09 00:00:00
+#>  6  2021     6 <dttm [2]>              2 2021-06-10 00:00:00 2021-06-10 00:00:00
+#>  7  2021     7 <dttm [2]>              2 2021-07-12 00:00:00 2021-07-12 00:00:00
+#>  8  2021     8 <dttm [2]>              2 2021-08-13 00:00:00 2021-08-13 00:00:00
+#>  9  2021     9 <dttm [2]>              2 2021-09-14 00:00:00 2021-09-14 00:00:00
+#> 10  2021    10 <dttm [1]>              1 2021-10-16 00:00:00 2021-10-16 00:00:00
+#> 11  2021    11 <dttm [2]>              2 2021-11-01 00:00:00 2021-11-01 00:00:00
+#> 12  2021    12 <dttm [2]>              2 2021-12-03 00:00:00 2021-12-03 00:00:00
+#> 13  2022     1 <dttm [2]>              2 2022-01-01 00:00:00 2022-01-01 00:00:00
+#> 14  2022     2 <dttm [2]>              2 2022-02-02 00:00:00 2022-02-02 00:00:00
+#> 15  2022     3 <dttm [2]>              2 2022-03-06 00:00:00 2022-03-06 00:00:00
+#> 16  2022     4 <dttm [2]>              2 2022-04-07 00:00:00 2022-04-07 00:00:00
+#> 17  2022     5 <dttm [2]>              2 2022-05-09 00:00:00 2022-05-09 00:00:00
+#> 18  2022     6 <dttm [2]>              2 2022-06-10 00:00:00 2022-06-10 00:00:00
+#> 19  2022     7 <dttm [1]>              1 2022-07-12 00:00:00 2022-07-12 00:00:00
+#> # ... with 2 more variables: date <date>, band_names <list>, and abbreviated
+#> #   variable name 1: number_images
+#> # i Use `colnames()` to see all variable names
 #> 
 #> attr(,"class")
 #> [1] "tidyee"
 ```
 
-To improve enhance backward compatibility with `rgee` we have included
-the `as_ee` function to return the `tidyee` object back to `rgee`
-classes where/if necessary
+To improve interoperability with `rgee` we have included the `as_ee`
+function to return the `tidyee` object back to `rgee` classes when
+necessary
 
 ``` r
 modis_ic <- modis_tidy |> as_ee()
