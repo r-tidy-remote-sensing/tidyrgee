@@ -433,9 +433,9 @@ ee_composite.tidyee <-  function(x,
     vrt_summarised <-x$vrt |>
       tidyr::unnest(.data$dates_summarised) |>
       dplyr::summarise(
+        dates_summarised= list(.data$dates_summarised),
         time_start= lubridate::ymd(glue::glue("{min_year}-{min_month}-{min_day}")),
         date= lubridate::as_date(time_start),
-        dates_summarised= list(.data$dates_summarised),
         .groups = "drop"
       )
   }
@@ -443,9 +443,9 @@ ee_composite.tidyee <-  function(x,
     vrt_summarised <-x$vrt |>
       # dplyr::tibble() |>
       dplyr::summarise(
+        dates_summarised= list(.data$time_start),
         time_start= lubridate::ymd(glue::glue("{min_year}-{min_month}-{min_day}")),
         date= lubridate::as_date(time_start),
-        dates_summarised= list(time_start),
         .groups = "drop"
       )
   }
