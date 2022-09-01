@@ -16,11 +16,18 @@ select.tidyee <-  function(.data,...){
     )
     name_lookup <- name_lookup |>
       dplyr::mutate(new_name=dplyr::if_else(.data$new_name=="",.data$old_name,.data$new_name))
+
+    if(inherits(.data$ee_ob ,"ee.imagecollection.ImageCollection")){
     ic_selected <- .data$ee_ob$map(
       function(img){
         img$select(unname(dots))$rename(name_lookup$new_name)
       }
     )
+    }
+    if(inherits(.data$ee_ob,"ee.image.Image")){
+     ic_selected <-  .data$ee_ob$select(unname(dots))$rename(name_lookup$new_name)
+    }
+
     .data$vrt <- .data$vrt |>
       mutate(band_names = list( name_lookup$new_name))
   }
