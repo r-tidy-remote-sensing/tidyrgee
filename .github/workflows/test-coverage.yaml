@@ -17,9 +17,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@master
 
       - name: SETUP PYTHON
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7.13
+        uses: actions/setup-python@v2
 
       - name: FIND ALL R PACKAGES DEPENDECIES OF RGEE
         run: |
