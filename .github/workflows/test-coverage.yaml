@@ -53,23 +53,6 @@ jobs:
           remotes::install_cran("covr", force = TRUE)
         shell: Rscript {0}
 
-      - name: PREBUILD TESTING
-        run: |
-          earthengine -h
-          ls $HOME/.config/earthengine/
-          ls $HOME/.config/earthengine/ndef
-
-
-      - name: INSTALL rgdal WITH CONFIGURE
-        run: |
-          install.packages("rgdal", type = "source", configure.args = "--with-proj-lib=/usr/local/lib/ --with-proj-include=/usr/local/include/")
-        shell: Rscript {0}
-
-      - name: INSTALL geojsonio
-        run: |
-          install.packages("geojsonio")
-        shell: Rscript {0}
-
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
