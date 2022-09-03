@@ -3,9 +3,10 @@ library(tidyrgee)
 library(sf)
 library(rgee)
 
-Sys.setenv(EARTHENGINE_PYTHON="/usr/bin/python3")
-Sys.setenv(RETICULATE_PYTHON="/usr/bin/python3")
-
+ee_install_set_pyenv(
+    py_path = '/usr/bin/python3/python.exe',
+    py_env = "rgee" # Change it for your own Python ENV
+  )
 # Necessary Python packages were loaded?
 skip_if_no_pypkg <- function() {
   have_ee <- reticulate::py_module_available("ee")
