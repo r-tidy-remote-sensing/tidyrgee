@@ -19,7 +19,7 @@ skip_if_no_pypkg <- function() {
 # If you do not count with GCS credentials the test will be skipped
 have_ee <- reticulate::py_module_available("ee")
 if (have_ee) {
-  ee_Initialize()
+  ee_Initialize(user = "joshualerickson@gmail.com")
 }
 
 test_check("tidyrgee")

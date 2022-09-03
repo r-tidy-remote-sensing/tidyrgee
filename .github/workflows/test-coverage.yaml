@@ -34,13 +34,6 @@ jobs:
           close(fileConn)
         shell: Rscript {0}
 
-      - name: commit files
-        continue-on-error: true
-        run: |
-          today=$(date +"%Y-%m-%d %H:%M:%S")
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
       - name: INSTALL PYTHON DEPENDENCIES
         run: |
           pip install --upgrade pip
