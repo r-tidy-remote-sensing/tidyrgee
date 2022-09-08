@@ -26,6 +26,9 @@ e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{months}{\code{numeric} vector, e.g. c(1,12).}
 }
+\value{
+tidyee class containing \code{ee$Image} or \code{ee$ImageCollection} with pixels aggregated by year and month
+}
 \description{
 Pixel-level composite by year and month
 }

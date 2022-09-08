@@ -8,6 +8,9 @@
 
 \item{...}{ungroup args}
 }
+\value{
+tidyee class object with vrt ungrouped.
+}
 \description{
 ungroup
 }

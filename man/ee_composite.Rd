@@ -17,6 +17,9 @@ ee_composite(x, ...)
 \item{stat}{A \code{character} indicating what to reduce the imageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 }
+\value{
+tidyee class containing \code{ee$Image} where all images within \code{ee$ImageCollection} have been aggregated based on pixel-level stats
+}
 \description{
 ee_composite
 }

@@ -22,6 +22,9 @@ e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{year}{\code{numeric} vector containing years (i.e c(2001,2002,2003))}
 }
+\value{
+tidyee class containing \code{ee$Image} or \code{ee$ImageCollection} with pixels aggregated by year
+}
 \description{
 Pixel level composite by year
 }

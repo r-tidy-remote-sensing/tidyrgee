@@ -22,6 +22,9 @@ e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{months}{A vector of months, e.g. c(1, 12).}
 }
+\value{
+tidyee class containing \code{ee$Image} or \code{ee$ImageCollection} with pixels aggregated by month
+}
 \description{
 Pixel-level composite by month
 }
