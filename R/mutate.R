@@ -22,6 +22,7 @@ mutate.ee.imagecollection.ImageCollection <- function(.data,...){
 #' @rdname mutate
 #' @param .data tidyee class object (list of ee_ob, vrt)
 #' @param ... mutate arguments
+#' @return return tidyee class object with vrt data.frame mutated.
 #' @examples \dontrun{
 #'library(tidyrgee)
 #' library(rgee)
