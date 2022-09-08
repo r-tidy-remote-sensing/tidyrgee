@@ -89,11 +89,11 @@ ee_year_composite.tidyee<-  function(x,
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
-      dates_summarised= list(time_start),
+      dates_summarised= list(.data$time_start),
       number_images= dplyr::n(),
       time_start= min(.data$time_start),
       time_end= max(.data$time_start),
-      date= lubridate::as_date(time_start),
+      date= lubridate::as_date(.data$time_start),
       .groups = "drop"
     ) |>
     mutate(
@@ -199,7 +199,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
       number_images= dplyr::n(),
       time_start= min(.data$time_start),
       time_end= max(.data$time_start),
-      date= lubridate::as_date(time_start)
+      date= lubridate::as_date(.data$time_start)
     ) |>
     mutate(
       band_names = list(client_bandnames)
@@ -378,7 +378,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
       number_images= dplyr::n(),
       time_start= min(.data$time_start),
       time_end= max(.data$time_start),
-      date= lubridate::as_date(time_start)
+      date= lubridate::as_date(.data$time_start)
     ) |>
     mutate(
       band_names= list(client_bandnames)
@@ -439,7 +439,7 @@ ee_composite.tidyee <-  function(x,
       dplyr::summarise(
         dates_summarised= list(.data$dates_summarised),
         time_start= lubridate::ymd(glue::glue("{min_year}-{min_month}-{min_day}")),
-        date= lubridate::as_date(time_start),
+        date= lubridate::as_date(.data$time_start),
         .groups = "drop"
       )
   }
@@ -449,7 +449,7 @@ ee_composite.tidyee <-  function(x,
       dplyr::summarise(
         dates_summarised= list(.data$time_start),
         time_start= lubridate::ymd(glue::glue("{min_year}-{min_month}-{min_day}")),
-        date= lubridate::as_date(time_start),
+        date= lubridate::as_date(.data$time_start),
         .groups = "drop"
       )
   }
