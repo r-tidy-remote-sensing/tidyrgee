@@ -143,21 +143,8 @@ To load images/imageCollections you follow the standard approach using
 
 ``` r
 library(tidyrgee)
-#> 
-#> Attaching package: 'tidyrgee'
-#> The following object is masked from 'package:stats':
-#> 
-#>     filter
-#> The following object is masked from 'package:graphics':
-#> 
-#>     clip
 library(rgee)
-ee_Initialize()
-#> -- rgee 1.1.2.9000 ---------------------------------- earthengine-api 0.1.295 -- 
-#>  v user: not_defined
-#>  v Initializing Google Earth Engine: v Initializing Google Earth Engine:  DONE!
-#>  v Earth Engine account: users/zackarno 
-#> --------------------------------------------------------------------------------
+ee_Initialize(quiet = T)
 
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 ```
@@ -207,7 +194,7 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 26 x 9
+#> # A tibble: 28 x 9
 #>    id           time_start          syste~1 date       month  year   doy band_~2
 #>    <chr>        <dttm>              <chr>   <date>     <dbl> <dbl> <dbl> <list> 
 #>  1 MODIS/006/M~ 2021-06-10 00:00:00 2021_0~ 2021-06-10     6  2021   161 <chr>  
@@ -220,7 +207,7 @@ modis_tidy   |>
 #>  8 MODIS/006/M~ 2021-09-30 00:00:00 2021_0~ 2021-09-30     9  2021   273 <chr>  
 #>  9 MODIS/006/M~ 2021-10-16 00:00:00 2021_1~ 2021-10-16    10  2021   289 <chr>  
 #> 10 MODIS/006/M~ 2021-11-01 00:00:00 2021_1~ 2021-11-01    11  2021   305 <chr>  
-#> # ... with 16 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
+#> # ... with 18 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
 #> #   variable names 1: system_index, 2: band_names
 #> # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 #> 
@@ -269,7 +256,7 @@ modis_tidy   |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 89 x 9
+#> # A tibble: 91 x 9
 #>    id           time_start          syste~1 date       month  year   doy band_~2
 #>    <chr>        <dttm>              <chr>   <date>     <dbl> <dbl> <dbl> <list> 
 #>  1 MODIS/006/M~ 2000-07-11 00:00:00 2000_0~ 2000-07-11     7  2000   193 <chr>  
@@ -282,7 +269,7 @@ modis_tidy   |>
 #>  8 MODIS/006/M~ 2001-08-29 00:00:00 2001_0~ 2001-08-29     8  2001   241 <chr>  
 #>  9 MODIS/006/M~ 2002-07-12 00:00:00 2002_0~ 2002-07-12     7  2002   193 <chr>  
 #> 10 MODIS/006/M~ 2002-07-28 00:00:00 2002_0~ 2002-07-28     7  2002   209 <chr>  
-#> # ... with 79 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
+#> # ... with 81 more rows, 1 more variable: tidyee_index <chr>, and abbreviated
 #> #   variable names 1: system_index, 2: band_names
 #> # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 #> 
@@ -361,7 +348,7 @@ modis_tidy |>
 #> $ee_ob
 #> EarthEngine Object: ImageCollection
 #> $vrt
-#> # A tibble: 19 x 8
+#> # A tibble: 20 x 8
 #>     year month dates_summarised number~1 time_start          time_end           
 #>    <dbl> <dbl> <list>              <int> <dttm>              <dttm>             
 #>  1  2021     1 <dttm [2]>              2 2021-01-01 00:00:00 2021-01-01 00:00:00
@@ -382,7 +369,8 @@ modis_tidy |>
 #> 16  2022     4 <dttm [2]>              2 2022-04-07 00:00:00 2022-04-07 00:00:00
 #> 17  2022     5 <dttm [2]>              2 2022-05-09 00:00:00 2022-05-09 00:00:00
 #> 18  2022     6 <dttm [2]>              2 2022-06-10 00:00:00 2022-06-10 00:00:00
-#> 19  2022     7 <dttm [1]>              1 2022-07-12 00:00:00 2022-07-12 00:00:00
+#> 19  2022     7 <dttm [2]>              2 2022-07-12 00:00:00 2022-07-12 00:00:00
+#> 20  2022     8 <dttm [1]>              1 2022-08-13 00:00:00 2022-08-13 00:00:00
 #> # ... with 2 more variables: date <date>, band_names <list>, and abbreviated
 #> #   variable name 1: number_images
 #> # i Use `colnames()` to see all variable names
