@@ -1,8 +1,12 @@
 #' stat_to_reducer
+#' @noRd
+#'
 #' @param fun \code{character} rstats fun (i.e "mean" , "median")
+#'
+#' @return `ee$Reducer` class function that can be supplied as reducer type arguments
 
 
-# there are particular use-cases where you need this syntax vs the syntax below
+
 stat_to_reducer <- function(fun){ switch(
   fun,
   "mean" = rgee::ee$Reducer$mean(),
@@ -16,9 +20,10 @@ stat_to_reducer <- function(fun){ switch(
 )
 }
 
-
-#' stat_to_reducer_full - helper function - useful in ee_*_composite funcs
+#' @noRd
+#' @title  stat_to_reducer_full - helper function - useful in ee_*_composite funcs
 #' @param fun reducer/statistic using typical r-syntax (character)
+#' @return `ee$Reducer` function that can be piped or wrapped around `ee$ImageCollections`
 
 stat_to_reducer_full <-  function(fun){switch(fun,
 
@@ -33,9 +38,11 @@ stat_to_reducer_full <-  function(fun){switch(fun,
 )
 }
 
-
-#' rstat_to_eestat - helper function - useful in ee_*_composite functions to get bandNames from vrt
+#' @noRd
+#' @name rstat_to_eestat
+#' @title rstat_to_eestat - helper function - useful in ee_*_composite functions to get bandNames from vrt
 #' @param fun reducer/statistic using typical r-syntax (character)
+#' @return rgee/GEE equivalent typical character statistic syntax
 
 rstat_to_eestat <-  function(fun){switch(fun,
 
@@ -64,7 +71,6 @@ rstat_to_eestat <-  function(fun){switch(fun,
 #' @description a fast-working helper function to extract min and max date ranges for image collections
 #'
 #' @return sorted date vector (length 2)
-#' @export
 #'
 #' @examples \dontrun{
 #' library(tidyrgee)
@@ -127,8 +133,9 @@ last_day_of_month <- function(year,month_numeric){
 }
 
 # logicals ---------------------------------------------------------------
-
-#' geometry_type_is_unique
+#' @noRd
+#' @name geometry_type_is_unique
+#' @title geometry_type_is_unique
 #' @param x sf object
 #' @return \code{logical} indicating whether geometry type is unique in sf object
 
@@ -136,7 +143,8 @@ geometry_type_is_unique <- function(x){
   length(unique(sf::st_geometry_type(x)))==1
 }
 
-
+#' @noRd
+#' @return return warning message when filter/summarise is implicitly casting from `Image/ImageCollection` to tidyee class
 convert_to_tidyee_warning <- function(){
   cat(
     crayon::yellow("We recommend you always start your `tidyee` flow by first converting and storing your object to class `tidyee` with the function:"),
