@@ -6,6 +6,7 @@
 #' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
 
 #' @param ... other arguments
+#' @return tidyee class containing `ee$Image` or `ee$ImageCollection` with pixels aggregated by year
 #' @importFrom rlang .data
 #' @export
 #'
@@ -116,6 +117,7 @@ ee_year_composite.tidyee<-  function(x,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param months A vector of months, e.g. c(1, 12).
 #' @param ... extra args to pass on
+#' @return tidyee class containing `ee$Image` or `ee$ImageCollection` with pixels aggregated by month
 #' @importFrom rlang .data
 #' @export
 #'
@@ -219,6 +221,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 #' @param endDate \code{character} format date, e.g. "2018-10-23".
 #' @param months \code{numeric} vector, e.g. c(1,12).
 #' @param ... args to pass on.
+#' @return tidyee class containing `ee$Image` or `ee$ImageCollection` with pixels aggregated by year and month
 #' @export
 #'
 #'
@@ -394,6 +397,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
 #' @param stat  A \code{character} indicating what to reduce the imageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param ... other arguments
+#' @return tidyee class containing `ee$Image` where all images within `ee$ImageCollection` have been aggregated based on pixel-level stats
 #' @importFrom rlang .data
 #' @export
 #'
