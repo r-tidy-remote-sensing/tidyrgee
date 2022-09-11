@@ -1,14 +1,13 @@
 
 #' @name rename_stdDev_bands
 #' @title rename_stdDev_bands
-#' @noRd
 #' @param x
-#'
 #' @return x ee$Image/ImageCollection with `.*_stdDev$` bands renamed to `.*_sd$`
 
 rename_stdDev_bands <-  function(x){
   UseMethod("rename_stdDev_bands")
 }
+
 
 #' @export
 rename_stdDev_bands.ee.imagecollection.ImageCollection<-function(x){
@@ -132,7 +131,7 @@ rstat_to_eestat <-  function(fun){switch(fun,
 #'
 #' @param x imageCollection or image
 #' @description a fast-working helper function to extract min and max date ranges for image collections
-#'
+#' @noRd
 #' @return sorted date vector (length 2)
 #'
 #' @examples \dontrun{
@@ -163,7 +162,7 @@ date_range_imageCol <-  function(x){
 
 #' vrt_band_names
 #' @name vrt_band_names
-#' @rdname vrt_band_names
+#' @noRd
 #' @param x tidyee class object
 #' @return a character vector of band_names
 #' @importFrom rlang .data
@@ -181,7 +180,7 @@ vrt_band_names <-  function(x){
 #' last_day_of_month
 #' @param year \code{numeric} year
 #' @param month_numeric \code{numeric} vector containing months of interest
-#'
+#' @noRd
 #' @return \code{numeric} vector which the last day of each month
 #'
 
@@ -221,11 +220,13 @@ convert_to_tidyee_warning <- function(){
 # https://github.com/rstudio/reticulate/issues/1227#issue-1272278478
 
 #' @export
+#' @return A blank str method
 str.ee.imagecollection.ImageCollection <- function(object,...) {
   "A short description of x"
   }
 
 #' @export
+#' @return A blank str method
 str.ee.image.Image <- function(object,...) {
   "A short description of x"
   }

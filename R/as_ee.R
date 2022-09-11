@@ -1,6 +1,6 @@
 
 
-#' as_ee tidyee to ee$ImageCollection or ee$Image
+#' @title as_ee tidyee to ee$ImageCollection or ee$Image
 #'
 #' @param x tidyee
 #'
@@ -24,7 +24,7 @@ as_ee <- function(x){
 }
 
 
-#'@export
+#' @export
 as_ee.tidyee <- function(x){
   x$ee_ob
 }

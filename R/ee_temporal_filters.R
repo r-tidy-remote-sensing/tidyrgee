@@ -50,7 +50,7 @@ ee_year_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 #' @param month \code{numeric} vector containing month values (1-12)
 #' @param ... other arguments
 #'
-#' @return ee$ImageCollection or ee$Image filtered by year
+#' @return ee$ImageCollection or ee$Image filtered by month
 #' @export
 
 ee_month_filter <- function(imageCol,month,...){

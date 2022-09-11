@@ -28,6 +28,9 @@ A data frame with 1374 rows and 15 variables:
 \usage{
 bgd_msna
 }
+\value{
+data frame
+}
 \description{
 Data frame of responses with anonymized coordinates
 }

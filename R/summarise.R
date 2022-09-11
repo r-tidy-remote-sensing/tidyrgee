@@ -1,5 +1,6 @@
 
 #' @export
+#' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
   stopifnot(!is.null(.data), inherits(.data, "ee.imagecollection.ImageCollection"))
   convert_to_tidyee_warning()
@@ -11,6 +12,7 @@ summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
 }
 
 #' @export
+#' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 summarise.tidyee <-  function(.data,stat,...,join_bands=T){
   summary_list <- stat |>
     purrr::map(
@@ -63,7 +65,7 @@ NULL
 #' @param .data ee$Image or ee$ImageCollection
 #' @param stat stat/function to apply
 #' @param ... other arguments
-#' @export
+#' @noRd
 
 summarise_pixels <-  function(.data,stat,...){
   group_vars_chr <- dplyr::group_vars(.data$vrt)

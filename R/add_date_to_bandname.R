@@ -4,6 +4,7 @@
 #' @description
 #' of the bands as well as the date.
 #' @param x ee$ImageCollection or ee$Image
+#' @return a date to band name in x.
 #' @export
 
 add_date_to_bandname <- function(x) {
@@ -35,6 +36,7 @@ add_date_to_bandname.ee.imagecollection.ImageCollection <- function(x){
 }
 
 #' @export
+#' @return a date to band name in image.
 add_date_to_bandname.ee.image.Image <- function(x){
   bnames<- x$bandNames()
   date <- ee$Date(x$get("system:time_start"))$format('YYYY_MM_dd')

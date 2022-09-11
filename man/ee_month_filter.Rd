@@ -14,7 +14,7 @@ ee_month_filter(imageCol, month, ...)
 \item{...}{other arguments}
 }
 \value{
-ee$ImageCollection or ee$Image filtered by year
+ee$ImageCollection or ee$Image filtered by month
 }
 \description{
 ee_month_filter

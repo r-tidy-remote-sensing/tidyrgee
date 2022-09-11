@@ -22,6 +22,7 @@
 #'   \item{_gps_reading_latitude}{latitude - jittered/anonymized}
 #'   ...
 #' }
+#' @return data frame
 "bgd_msna"
 
 

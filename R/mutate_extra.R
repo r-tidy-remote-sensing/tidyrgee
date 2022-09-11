@@ -1,16 +1,16 @@
-#'
-#' #' Title
-#' #'
-#' #' @param .data
-#' #' @param ...
-#' #'
-#' #' @return
-#' #' @export
-#' #'
-#' #' @examples \dontrun{
-#'
-#'
-#' library(rgee)
+
+# #' Title
+# #'
+# #' @param .data
+# #' @param ...
+# #'
+# #' @return
+# #' @export
+# #'
+# #' @examples \dontrun{
+
+# #'
+# #' library(rgee)
 # library(lubridate)
 # library(tidyrgee)
 # library(tidyverse)
