@@ -1,3 +1,66 @@
+
+#' @name rename_stdDev_bands
+#' @title rename_stdDev_bands
+#' @noRd
+#' @param x
+#'
+#' @return x ee$Image/ImageCollection with `.*_stdDev$` bands renamed to `.*_sd$`
+
+rename_stdDev_bands <-  function(x){
+  UseMethod("rename_stdDev_bands")
+}
+
+#' @export
+rename_stdDev_bands.ee.imagecollection.ImageCollection<-function(x){
+   x$map(
+     function(img){
+       bnames_server <- img$bandNames()
+       bnames_renamed_server <- bnames_server$
+         map(
+           rgee::ee_utils_pyfunc(
+             function(bname){ee$String(bname)$replace("_stdDev$","_sd")}
+           )
+         )
+       img$select(bnames_server,bnames_renamed_server)
+       }
+   )
+ }
+
+#' @export
+rename_stdDev_bands.ee.image.Image<-function(x){
+   bnames_server <- x$bandNames()
+   bnames_renamed_server <- bnames_server$
+     map(
+       rgee::ee_utils_pyfunc(
+         function(bname){ee$String(bname)$replace("_stdDev$","_sd")}
+       )
+     )
+   x$select(bnames_server,bnames_renamed_server)
+ }
+
+
+
+#' @noRd
+#' @title rename_summary_stat_bands
+#' @name rename_summary_stat_bands
+#' @param x ee$ImageCollection/ee$Image
+#' @param stat statistic
+#' @description helper function to rename bands that have been auto-renamed during composite. `rgee` appends on reducer name to band (i.e `band_reducer`). The r-syntax and GEE syntax are the same accept for standard deviation. When images are reduced by standard deviation - this function switches the suffix to r-syntax.
+#'
+#' @return x ee$Image/ImageCollection with renamed band if `.*_stdDev` bandnames
+
+rename_summary_stat_bands <- function(x, stat){
+  if(stat=="sd"){
+    res <- rename_stdDev_bands(x)
+  }
+  else{
+    res <-  x
+  }
+  return(res)
+}
+
+
+
 #' stat_to_reducer
 #' @noRd
 #'

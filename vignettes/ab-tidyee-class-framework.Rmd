@@ -168,12 +168,30 @@ Here we show how you can perform pixel-level summary statistics with `summarise`
 
 modis_mean_by_yrmo <- modis_ic_tidy |> 
   group_by(year,month) |> 
-  summarise(stat = "mean")
+  summarise(stat = list("median","sd"))
+
 
 modis_mean_by_yrmo <- modis_ic_tidy |> 
   select("NDVI","EVI") |> 
   group_by(year,month) |> 
   summarise(stat = "mean")
+
+
+modis_mean_by_yrmo$ee_ob$map(
+  function(img){
+    ex_bnames <- img$bandNames()
+    ex_bnames_renamed <- ex_bnames$map(
+      rgee::ee_utils_pyfunc(function(bname){
+       ee$String(bname)$replace("_mean$","_m")
+        
+      })
+    )
+      img$select(ex_bnames,ex_bnames_renamed)
+  }
+    )$first()$bandNames()$getInfo()
+  
+
+modis_mean_by_yrmo$ee_ob$first()
 ```
 
 It's nice that you can summarise by multiple different statistics at once if you want.

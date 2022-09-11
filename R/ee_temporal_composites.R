@@ -35,7 +35,7 @@ ee_year_composite.ee.imagecollection.ImageCollection<-  function(x,
   ic_temp_pre_filt <- x |>
     ee_year_filter(year = year)
 
-  rgee::ee$ImageCollection$fromImages(
+  ic_summarised <- rgee::ee$ImageCollection$fromImages(
     years$map(rgee::ee_utils_pyfunc(function (y) {
       ic_temp_filtered <- ic_temp_pre_filt$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
       indexString = rgee::ee$Number(y)$format('%03d')
@@ -51,6 +51,8 @@ ee_year_composite.ee.imagecollection.ImageCollection<-  function(x,
 
     ))
   )
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
+  return(ic_summarised)
 }
 
 #' @name ee_year_composite
@@ -81,11 +83,11 @@ ee_year_composite.tidyee<-  function(x,
         # set('system:time_start',ee$Date$fromYMD(y,m,1))$
         set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,1,1)))$
         set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(y,12,31)))
-
     }
-
     ))
   )
+
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
@@ -141,7 +143,7 @@ ee_month_composite.ee.imagecollection.ImageCollection <- function(x, stat, month
 
   ee_reducer <- stat_to_reducer_full(stat)
 
-  rgee::ee$ImageCollection$fromImages(
+  ic_summarised <- rgee::ee$ImageCollection$fromImages(
     ee_month_list$map(rgee::ee_utils_pyfunc(function (m) {
       indexString = rgee::ee$Number(m)$format('%03d')
       ic_temp_filtered <- x$filter(rgee::ee$Filter$calendarRange(m, m, 'month'))
@@ -154,6 +156,8 @@ ee_month_composite.ee.imagecollection.ImageCollection <- function(x, stat, month
         set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(1,m,1)))
     }
     )))
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
+  return(ic_summarised)
 
 }
 
@@ -192,6 +196,7 @@ ee_month_composite.tidyee <- function(x, stat, ...){
 
   eestat <- stat |> purrr::map(~rstat_to_eestat(fun = .x)) |> unlist()
   client_bandnames<- paste0(vrt_band_names(x),"_",eestat)
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
 
   vrt_summarised <- x$vrt |>
     dplyr::summarise(
@@ -254,7 +259,8 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(x,
 
   ee_reducer <-  stat_to_reducer_full(stat)
 
-  rgee::ee$ImageCollection(rgee::ee$FeatureCollection(years$map(rgee::ee_utils_pyfunc(function (y) {
+  ic_summarised <- rgee::ee$ImageCollection(
+    rgee::ee$FeatureCollection(years$map(rgee::ee_utils_pyfunc(function (y) {
 
     yearCollection = x$filter(rgee::ee$Filter$calendarRange(y, y, 'year'))
 
@@ -276,6 +282,8 @@ ee_year_month_composite.ee.imagecollection.ImageCollection <-  function(x,
     )
 
   })))$flatten())
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
+  return(ic_summarised)
 }
 
 #' @name ee_year_month_composite
@@ -370,6 +378,9 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
   # for months that didn't occur yet
 
   ic_summarised <-  ic_summarised$filterDate(start_post_filter,end_post_filter)
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
+
+
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
   vrt_summarised <- x$vrt |>
     # nest(data=date)
@@ -430,6 +441,7 @@ ee_composite.tidyee <-  function(x,
       set('system:time_start',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(min_year,min_month,min_day)))$
     set('system:time_end',rgee::ee$Date$millis(rgee::ee$Date$fromYMD(max_year,max_month,max_day)))
 
+  ic_summarised <- rename_summary_stat_bands(ic_summarised,stat=stat)
   client_bandnames<- paste0(vrt_band_names(x),"_",stat)
 
 
