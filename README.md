@@ -51,7 +51,7 @@ You can install the development version of tidyrgee from
 devtools::install_github("r-tidy-remote-sensing/tidyrgee")
 ```
 
-It is important to note that to use tidyrgee you must bee signed up fo
+It is important to note that to use tidyrgee you must be signed up for a
 GEE developer account. Additionally you must install the rgee package
 following there [installation and setup instructions
 here](https://github.com/r-spatial/rgee)

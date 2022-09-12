@@ -4,7 +4,7 @@
 \alias{slice}
 \title{slice ee$ImageCollections or tidyee objects that contain imageCollections}
 \arguments{
-\item{.data}{imageCollection or tidyee class object}
+\item{.data}{ImageCollection or tidyee class object}
 
 \item{...}{other arguments}
 }

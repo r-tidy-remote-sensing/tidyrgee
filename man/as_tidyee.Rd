@@ -15,7 +15,7 @@ as_tidyee(x, time_end = FALSE)
 tidyee class object which contains a list with two components ("x","vrt")
 }
 \description{
-The function returns a list containing the original object (image/imageCollection)as well
+The function returns a list containing the original object (Image/ImageCollection)as well
 as a "virtual data.frame (vrt)" which is a data.frame holding key properties of the
 ee$Image/ee$ImageCollection. The returned list has been assigned a new class "tidyee".
 }

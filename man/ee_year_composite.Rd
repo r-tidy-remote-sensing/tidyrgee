@@ -17,7 +17,7 @@ ee_year_composite(x, ...)
 
 \item{...}{other arguments}
 
-\item{stat}{A \code{character} indicating what to reduce the imageCollection by,
+\item{stat}{A \code{character} indicating what to reduce the ImageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{year}{\code{numeric} vector containing years (i.e c(2001,2002,2003))}

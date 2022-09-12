@@ -2,7 +2,7 @@
 #'
 #' @param x ee$Image or ee$ImageCollection
 #' @param time_end \code{logical} include time_end ("system:time_end") in vrt (default=F)
-#' @description The function returns a list containing the original object (image/imageCollection)as well
+#' @description The function returns a list containing the original object (Image/ImageCollection)as well
 #' as a "virtual data.frame (vrt)" which is a data.frame holding key properties of the
 #' ee$Image/ee$ImageCollection. The returned list has been assigned a new class "tidyee".
 #' @return tidyee class object which contains a list with two components ("x","vrt")

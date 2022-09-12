@@ -26,7 +26,7 @@ slice.tidyee <- function(.data,...){
 #' slice ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name slice
 #' @rdname slice
-#' @param .data imageCollection or tidyee class object
+#' @param .data ImageCollection or tidyee class object
 #' @param ... other arguments
 #' @return sliced/filtered image or imageCollection form filtered imageCollection
 #' @examples \dontrun{

@@ -1,7 +1,7 @@
 #' @title Pixel level composite by year
 #' @rdname ee_year_composite
 #' @param x An earth engine ImageCollection or tidyee class.
-#' @param stat A \code{character} indicating what to reduce the imageCollection by,
+#' @param stat A \code{character} indicating what to reduce the ImageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param year \code{numeric} vector containing years (i.e c(2001,2002,2003))
 
@@ -115,7 +115,7 @@ ee_year_composite.tidyee<-  function(x,
 #' @title Pixel-level composite by month
 #' @rdname ee_month_composite
 #' @param x An earth engine ImageCollection or tidyee class.
-#' @param stat A \code{character} indicating what to reduce the imageCollection by,
+#' @param stat A \code{character} indicating what to reduce the ImageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param months A vector of months, e.g. c(1, 12).
 #' @param ... extra args to pass on
@@ -405,7 +405,7 @@ ee_year_month_composite.tidyee <-  function(x, stat, ...
 #' @title ee_composite
 #'
 #' @param x tidyee object containing `ee$ImageCollection`
-#' @param stat  A \code{character} indicating what to reduce the imageCollection by,
+#' @param stat  A \code{character} indicating what to reduce the ImageCollection by,
 #'  e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.
 #' @param ... other arguments
 #' @return tidyee class containing `ee$Image` where all images within `ee$ImageCollection` have been aggregated based on pixel-level stats

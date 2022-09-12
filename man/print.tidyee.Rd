@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{tidyee object}
 
-\item{...}{additional argumetns}
+\item{...}{additional arguments}
 }
 \value{
 printed tidyee object

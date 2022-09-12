@@ -2,7 +2,7 @@
 #' print tidyee
 #'
 #' @param x tidyee object
-#' @param ... additional argumetns
+#' @param ... additional arguments
 #' @return printed tidyee object
 #' @export
 

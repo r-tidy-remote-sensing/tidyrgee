@@ -61,7 +61,7 @@ group_split.tidyee <-  function(.tbl,...,return_tidyee=T){
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name group_split
 #' @rdname group_split
-#' @param .tbl imageCollection or tidyee class object
+#' @param .tbl ImageCollection or tidyee class object
 #' @param ... other arguments
 #' @param return_tidyee \code{logical} return tidyee object(default =T), if FALSE - only return ee$ImageCollection
 #' @return filtered image or imageCollection form filtered imageCollection
