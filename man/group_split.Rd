@@ -4,7 +4,7 @@
 \alias{group_split}
 \title{filter ee$ImageCollections or tidyee objects that contain imageCollections}
 \arguments{
-\item{.tbl}{imageCollection or tidyee class object}
+\item{.tbl}{ImageCollection or tidyee class object}
 
 \item{...}{other arguments}
 

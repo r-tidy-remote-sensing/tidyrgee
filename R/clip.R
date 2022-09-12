@@ -1,7 +1,7 @@
 #' clip flexible wrapper for rgee::ee$Image$clip()
 #' @description allows clipping of tidyee,ee$Imagecollection, or ee$Image classes. Also allows objects to be clipped to sf object in addition to ee$FeatureCollections/ee$Feature
 #' @param x object to be clipped (tidyee, ee$ImageCollection, ee$Image)
-#' @param y geometry object to clip to (sf, ee$Feature,ee$FeatureCollectio)
+#' @param y geometry object to clip to (sf, ee$Feature,ee$FeatureCollections)
 #' @param return_tidyee \code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performance if F
 #'
 #' @return x as tidyee or ee$Image/ee$ImageCollection depending on `return_tidyee` argument.

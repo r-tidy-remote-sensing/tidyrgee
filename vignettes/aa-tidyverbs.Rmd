@@ -59,7 +59,7 @@ modis_ic$select("NDVI") %>%
 modis_ndvi_yearly <- modis_ic$select("NDVI") %>%
    filter(date>="2016-01-01",date<="2019-12-31") %>%
    group_by(year) %>%
-   summarise(stat="sum")
+   summarise(stat=list("sum","sd"))
 
 
 # showing difference in year_filter vs year_composite here... 

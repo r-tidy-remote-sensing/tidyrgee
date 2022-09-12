@@ -9,7 +9,7 @@ clip(x, y, return_tidyee = T)
 \arguments{
 \item{x}{object to be clipped (tidyee, ee$ImageCollection, ee$Image)}
 
-\item{y}{geometry object to clip to (sf, ee$Feature,ee$FeatureCollectio)}
+\item{y}{geometry object to clip to (sf, ee$Feature,ee$FeatureCollections)}
 
 \item{return_tidyee}{\code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performance if F}
 }

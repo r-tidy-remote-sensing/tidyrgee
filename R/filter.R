@@ -38,7 +38,7 @@ filter.ee.imagecollection.ImageCollection <- function(.data,...){
 #' filter ee$ImageCollections or tidyee objects that contain imageCollections
 #' @name filter
 #' @rdname filter
-#' @param .data imageCollection or tidyee class object
+#' @param .data ImageCollection or tidyee class object
 #' @param ... other arguments
 #' @return filtered image or imageCollection form filtered imageCollection
 #' @examples \dontrun{

@@ -2,7 +2,14 @@
 % Please edit documentation in R/summarise.R
 \name{summarise}
 \alias{summarise}
+\alias{summarise.ee.imagecollection.ImageCollection}
+\alias{summarise.tidyee}
 \title{Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections}
+\usage{
+\method{summarise}{ee.imagecollection.ImageCollection}(.data, stat, ...)
+
+\method{summarise}{tidyee}(.data, stat, ..., join_bands = T)
+}
 \arguments{
 \item{.data}{ee$Image or ee$ImageCollection}
 
@@ -13,6 +20,10 @@
 \item{join_bands}{\code{logical} (default= T) if multiple stats selected should bands be joined?}
 }
 \value{
+ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
+
+ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
+
 ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 }
 \description{

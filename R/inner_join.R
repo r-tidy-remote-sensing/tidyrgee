@@ -68,8 +68,7 @@ inner_join.ee.imagecollection.ImageCollection<- function(x, y, by,...){
 #' @name inner_join
 #' @param x,y A	 pair of tidyee objects containing ee$ImageCollections
 #' @param by A character vector of variables to join by.
-#' @return
-#' An object of the same type as `x`. The output has the following properties:
+#' @return An object of the same type as `x`. The output has the following properties:
 #' Same number of images as `x`
 #' Total number of bands equal the number of bands in `x` plus the number of bands in `y`
 #' @seealso \code{\link[dplyr]{inner_join}} for information about inner_join on normal data tables.

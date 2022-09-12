@@ -17,10 +17,13 @@ ee_month_composite(x, ...)
 
 \item{...}{extra args to pass on}
 
-\item{stat}{A \code{character} indicating what to reduce the imageCollection by,
+\item{stat}{A \code{character} indicating what to reduce the ImageCollection by,
 e.g. 'median' (default), 'mean',  'max', 'min', 'sum', 'sd', 'first'.}
 
 \item{months}{A vector of months, e.g. c(1, 12).}
+}
+\value{
+tidyee class containing \code{ee$Image} or \code{ee$ImageCollection} with pixels aggregated by month
 }
 \description{
 Pixel-level composite by month

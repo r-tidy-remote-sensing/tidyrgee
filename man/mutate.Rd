@@ -8,6 +8,9 @@
 
 \item{...}{mutate arguments}
 }
+\value{
+return tidyee class object with vrt data.frame mutated.
+}
 \description{
 mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection
 }

@@ -1,4 +1,9 @@
 
+#' extract_condition
+#'
+#' @param expr_split an expr_split object
+#' @noRd
+#' @return a condition
 extract_condition <- function(expr_split){
   assertthat::assert_that(length(expr_split) %in% c(3,4),msg = "something wrong with conditional logic")
   if(length(expr_split)==3){
@@ -11,6 +16,11 @@ extract_condition <- function(expr_split){
 
 
 }
+#' extract_date
+#'
+#' @param expr_split an expr_split object
+#' @noRd
+#' @return a condition
 extract_date <- function(expr_split){
   assertthat::assert_that(length(expr_split) %in% c(3,4),msg = "something wrong with conditional logic")
   if(length(expr_split)==3){
@@ -33,7 +43,11 @@ extract_date <- function(expr_split){
   return(date_component_adjusted)
 }
 
-
+#' extract_condition
+#'
+#' @param x a character string
+#' @noRd
+#' @return a conditiont to filter on
 filter_type<- function(x){
   ymd_boolean<- stringr::str_detect(string = x, pattern = "date")
   month_boolean <- stringr::str_detect(string = x, pattern = "month")

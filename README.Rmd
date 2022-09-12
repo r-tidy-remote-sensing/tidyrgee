@@ -40,7 +40,7 @@ You can install the development version of tidyrgee from [GitHub](https://github
 # install.packages("devtools")
 devtools::install_github("r-tidy-remote-sensing/tidyrgee")
 ```
-It is important to note that to use tidyrgee you must bee signed up fo GEE developer account. Additionally you must install the rgee package following there [installation and setup instructions here](https://github.com/r-spatial/rgee)
+It is important to note that to use tidyrgee you must be signed up for a GEE developer account. Additionally you must install the rgee package following there [installation and setup instructions here](https://github.com/r-spatial/rgee)
 
 ## Syntax Comparison
 
@@ -106,10 +106,10 @@ To load images/imageCollections you follow the standard approach using `rgee`:
 - initialize the GEE session
 - load `ee$ImageCollection`/ `ee$Image`
 
-```{r example, eval=T}
+```{r example,warning= F,message=FALSE,eval=T}
 library(tidyrgee)
 library(rgee)
-ee_Initialize()
+ee_Initialize(quiet = T)
 
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 ```

@@ -1,8 +1,74 @@
+
+#' @name rename_stdDev_bands
+#' @title rename_stdDev_bands
+#' @param x ee$ImageCollection
+#' @return x ee$Image/ImageCollection with `.*_stdDev$` bands renamed to `.*_sd$`
+
+rename_stdDev_bands <-  function(x){
+  UseMethod("rename_stdDev_bands")
+}
+
+
+#' @export
+rename_stdDev_bands.ee.imagecollection.ImageCollection<-function(x){
+   x$map(
+     function(img){
+       bnames_server <- img$bandNames()
+       bnames_renamed_server <- bnames_server$
+         map(
+           rgee::ee_utils_pyfunc(
+             function(bname){ee$String(bname)$replace("_stdDev$","_sd")}
+           )
+         )
+       img$select(bnames_server,bnames_renamed_server)
+       }
+   )
+ }
+
+#' @export
+rename_stdDev_bands.ee.image.Image<-function(x){
+   bnames_server <- x$bandNames()
+   bnames_renamed_server <- bnames_server$
+     map(
+       rgee::ee_utils_pyfunc(
+         function(bname){ee$String(bname)$replace("_stdDev$","_sd")}
+       )
+     )
+   x$select(bnames_server,bnames_renamed_server)
+ }
+
+
+
+#' @noRd
+#' @title rename_summary_stat_bands
+#' @name rename_summary_stat_bands
+#' @param x ee$ImageCollection/ee$Image
+#' @param stat statistic
+#' @description helper function to rename bands that have been auto-renamed during composite. `rgee` appends on reducer name to band (i.e `band_reducer`). The r-syntax and GEE syntax are the same accept for standard deviation. When images are reduced by standard deviation - this function switches the suffix to r-syntax.
+#'
+#' @return x ee$Image/ImageCollection with renamed band if `.*_stdDev` bandnames
+
+rename_summary_stat_bands <- function(x, stat){
+  if(stat=="sd"){
+    res <- rename_stdDev_bands(x)
+  }
+  else{
+    res <-  x
+  }
+  return(res)
+}
+
+
+
 #' stat_to_reducer
+#' @noRd
+#'
 #' @param fun \code{character} rstats fun (i.e "mean" , "median")
+#'
+#' @return `ee$Reducer` class function that can be supplied as reducer type arguments
 
 
-# there are particular use-cases where you need this syntax vs the syntax below
+
 stat_to_reducer <- function(fun){ switch(
   fun,
   "mean" = rgee::ee$Reducer$mean(),
@@ -16,9 +82,10 @@ stat_to_reducer <- function(fun){ switch(
 )
 }
 
-
-#' stat_to_reducer_full - helper function - useful in ee_*_composite funcs
+#' @noRd
+#' @title  stat_to_reducer_full - helper function - useful in ee_*_composite funcs
 #' @param fun reducer/statistic using typical r-syntax (character)
+#' @return `ee$Reducer` function that can be piped or wrapped around `ee$ImageCollections`
 
 stat_to_reducer_full <-  function(fun){switch(fun,
 
@@ -33,9 +100,11 @@ stat_to_reducer_full <-  function(fun){switch(fun,
 )
 }
 
-
-#' rstat_to_eestat - helper function - useful in ee_*_composite functions to get bandNames from vrt
+#' @noRd
+#' @name rstat_to_eestat
+#' @title rstat_to_eestat - helper function - useful in ee_*_composite functions to get bandNames from vrt
 #' @param fun reducer/statistic using typical r-syntax (character)
+#' @return rgee/GEE equivalent typical character statistic syntax
 
 rstat_to_eestat <-  function(fun){switch(fun,
 
@@ -62,9 +131,8 @@ rstat_to_eestat <-  function(fun){switch(fun,
 #'
 #' @param x imageCollection or image
 #' @description a fast-working helper function to extract min and max date ranges for image collections
-#'
+#' @noRd
 #' @return sorted date vector (length 2)
-#' @export
 #'
 #' @examples \dontrun{
 #' library(tidyrgee)
@@ -94,7 +162,7 @@ date_range_imageCol <-  function(x){
 
 #' vrt_band_names
 #' @name vrt_band_names
-#' @rdname vrt_band_names
+#' @noRd
 #' @param x tidyee class object
 #' @return a character vector of band_names
 #' @importFrom rlang .data
@@ -112,7 +180,7 @@ vrt_band_names <-  function(x){
 #' last_day_of_month
 #' @param year \code{numeric} year
 #' @param month_numeric \code{numeric} vector containing months of interest
-#'
+#' @noRd
 #' @return \code{numeric} vector which the last day of each month
 #'
 
@@ -127,8 +195,9 @@ last_day_of_month <- function(year,month_numeric){
 }
 
 # logicals ---------------------------------------------------------------
-
-#' geometry_type_is_unique
+#' @noRd
+#' @name geometry_type_is_unique
+#' @title geometry_type_is_unique
 #' @param x sf object
 #' @return \code{logical} indicating whether geometry type is unique in sf object
 
@@ -136,7 +205,8 @@ geometry_type_is_unique <- function(x){
   length(unique(sf::st_geometry_type(x)))==1
 }
 
-
+#' @noRd
+#' @return return warning message when filter/summarise is implicitly casting from `Image/ImageCollection` to tidyee class
 convert_to_tidyee_warning <- function(){
   cat(
     crayon::yellow("We recommend you always start your `tidyee` flow by first converting and storing your object to class `tidyee` with the function:"),
@@ -146,7 +216,7 @@ convert_to_tidyee_warning <- function(){
 
 
 # theses `str` methods provide a work around for the "Error in .Call(_reticulate_py_str_impl, x) : reached elapsed time limit"  which was
-# occuring due to the object not being able to render in the environment pane
+# occurring due to the object not being able to render in the environment pane
 # https://github.com/rstudio/reticulate/issues/1227#issue-1272278478
 
 #' @export
@@ -154,14 +224,14 @@ str.ee.imagecollection.ImageCollection <- function(object,...) {
   "A short description of x"
   }
 
+
 #' @export
 str.ee.image.Image <- function(object,...) {
   "A short description of x"
   }
 
 #' Compactly Display the Structure of an Arbitrary R Object
-#' @name str
-#' @rdname str
+#' @noRd
 #' @param object imageCollection or tidyee class object
 #' @param ... potential further arguments (required for Method/Generic reasons).
 #' @return return str

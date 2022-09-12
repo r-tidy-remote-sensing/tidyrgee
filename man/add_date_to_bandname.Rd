@@ -9,6 +9,9 @@ add_date_to_bandname(x)
 \arguments{
 \item{x}{ee$ImageCollection or ee$Image}
 }
+\value{
+a date to band name in x.
+}
 \description{
-of the bands as well as the date.
+append date to band name
 }
