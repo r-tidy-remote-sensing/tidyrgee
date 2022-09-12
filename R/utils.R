@@ -1,7 +1,7 @@
 
 #' @name rename_stdDev_bands
 #' @title rename_stdDev_bands
-#' @param x
+#' @param x ee$ImageCollection
 #' @return x ee$Image/ImageCollection with `.*_stdDev$` bands renamed to `.*_sd$`
 
 rename_stdDev_bands <-  function(x){
@@ -218,13 +218,16 @@ convert_to_tidyee_warning <- function(){
 # theses `str` methods provide a work around for the "Error in .Call(_reticulate_py_str_impl, x) : reached elapsed time limit"  which was
 # occuring due to the object not being able to render in the environment pane
 # https://github.com/rstudio/reticulate/issues/1227#issue-1272278478
-
+#' @name str
+#' @title str
 #' @export
 #' @return A blank str method
 str.ee.imagecollection.ImageCollection <- function(object,...) {
   "A short description of x"
   }
 
+#' @name str
+#' @title str
 #' @export
 #' @return A blank str method
 str.ee.image.Image <- function(object,...) {
@@ -233,7 +236,8 @@ str.ee.image.Image <- function(object,...) {
 
 #' Compactly Display the Structure of an Arbitrary R Object
 #' @name str
-#' @rdname str
+#' @title str
+#' @noRd
 #' @param object imageCollection or tidyee class object
 #' @param ... potential further arguments (required for Method/Generic reasons).
 #' @return return str

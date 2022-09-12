@@ -6,6 +6,9 @@
 \usage{
 rename_stdDev_bands(x)
 }
+\arguments{
+\item{x}{ee$ImageCollection}
+}
 \value{
 x ee$Image/ImageCollection with \verb{.*_stdDev$} bands renamed to \verb{.*_sd$}
 }

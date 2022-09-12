@@ -1,4 +1,5 @@
-
+#' @rdname summarise
+#' @name summarise
 #' @export
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
@@ -11,6 +12,8 @@ summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
     )
 }
 
+#' @rdname summarise
+#' @name summarise
 #' @export
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 summarise.tidyee <-  function(.data,stat,...,join_bands=T){

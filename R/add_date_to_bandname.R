@@ -1,8 +1,7 @@
 
 
 #' @title add_date_to_band_name
-#' @description
-#' of the bands as well as the date.
+#' @description append date to band name
 #' @param x ee$ImageCollection or ee$Image
 #' @return a date to band name in x.
 #' @export
@@ -11,6 +10,7 @@ add_date_to_bandname <- function(x) {
   UseMethod('add_date_to_bandname')
 }
 
+#' @title add_date_to_band_name
 #' @export
 add_date_to_bandname.ee.imagecollection.ImageCollection <- function(x){
   x |>
@@ -35,6 +35,7 @@ add_date_to_bandname.ee.imagecollection.ImageCollection <- function(x){
 
 }
 
+#' @title add_date_to_band_name
 #' @export
 #' @return a date to band name in image.
 add_date_to_bandname.ee.image.Image <- function(x){
