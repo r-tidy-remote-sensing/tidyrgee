@@ -4,7 +4,7 @@
 \alias{filter_bounds}
 \title{filter_bounds a wrapper for rgee::ee$ImageCollection$filterBounds}
 \usage{
-filter_bounds(x, y, use_tidyee_index = F, return_tidyee = T)
+filter_bounds(x, y, use_tidyee_index = FALSE, return_tidyee = TRUE)
 }
 \arguments{
 \item{x}{tidyee object containing ee$ImageCollection or ee$ImageCollection}
@@ -13,7 +13,7 @@ filter_bounds(x, y, use_tidyee_index = F, return_tidyee = T)
 
 \item{use_tidyee_index}{filter on tidyee_index (default = F) or system_index (by default)}
 
-\item{return_tidyee}{\code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performace if set to F}
+\item{return_tidyee}{\code{logical} return tidyee class (default = TRUE) object or ee$ImageCollection. Faster performance if set to FALSE}
 }
 \value{
 tidyee class or ee$ImageCollection class object with scenes filtered to bounding box of y geometry
@@ -22,7 +22,7 @@ tidyee class or ee$ImageCollection class object with scenes filtered to bounding
 filter_bounds a wrapper for rgee::ee$ImageCollection$filterBounds
 }
 \examples{
-\dontrun{
+donttest{
 
 library(tidyrgee)
 library(tidyverse)
@@ -52,7 +52,7 @@ ls_tidy |>
   filter_bounds(sf_ob)
 # return ee$ImageCollection
 ls_tidy |>
-  filter_bounds(sf_ob,return_tidyee = F)
+  filter_bounds(sf_ob,return_tidyee = FALSE)
 
 # filter_bounds on ee$Geometry object
 # return tidyee object

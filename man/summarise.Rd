@@ -8,7 +8,7 @@
 \usage{
 \method{summarise}{ee.imagecollection.ImageCollection}(.data, stat, ...)
 
-\method{summarise}{tidyee}(.data, stat, ..., join_bands = T)
+\method{summarise}{tidyee}(.data, stat, ..., join_bands = TRUE)
 }
 \arguments{
 \item{.data}{ee$Image or ee$ImageCollection}
@@ -17,7 +17,7 @@
 
 \item{...}{other arguments}
 
-\item{join_bands}{\code{logical} (default= T) if multiple stats selected should bands be joined?}
+\item{join_bands}{\code{logical} (default= TRUE) if multiple stats selected should bands be joined?}
 }
 \value{
 ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
@@ -30,7 +30,7 @@ ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
 }
 \examples{
-\dontrun{
+donttest{
 library(tidyrgee)
 library(rgee)
 ee_Initialize()

@@ -16,7 +16,7 @@ ee$ImageCollection or ee$Image
 as_ee tidyee to ee$ImageCollection or ee$Image
 }
 \examples{
-\dontrun{
+donttest{
 library(rgee)
 librar(tidyee)
 

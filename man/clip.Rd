@@ -4,14 +4,14 @@
 \alias{clip}
 \title{clip flexible wrapper for rgee::ee$Image$clip()}
 \usage{
-clip(x, y, return_tidyee = T)
+clip(x, y, return_tidyee = TRUE)
 }
 \arguments{
 \item{x}{object to be clipped (tidyee, ee$ImageCollection, ee$Image)}
 
 \item{y}{geometry object to clip to (sf, ee$Feature,ee$FeatureCollections)}
 
-\item{return_tidyee}{\code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performance if F}
+\item{return_tidyee}{\code{logical} return tidyee class (default = TRUE) object or ee$ImageCollection. Faster performance if F}
 }
 \value{
 x as tidyee or ee$Image/ee$ImageCollection depending on \code{return_tidyee} argument.
@@ -20,7 +20,7 @@ x as tidyee or ee$Image/ee$ImageCollection depending on \code{return_tidyee} arg
 allows clipping of tidyee,ee$Imagecollection, or ee$Image classes. Also allows objects to be clipped to sf object in addition to ee$FeatureCollections/ee$Feature
 }
 \examples{
-\dontrun{
+donttest{
 library(tidyrgee)
 library(tidyverse)
 library(rgee)
@@ -53,26 +53,26 @@ ls_tidy <-  as_tidyee(ls)
 #  filter_bounds on sf object
 #  return tidyee object
 ls_tidy |>
-  filter_bounds(y = roi,return_tidyee = F) |>
-  clip(roi,return_tidyee = F)
+  filter_bounds(y = roi,return_tidyee = FALSE) |>
+  clip(roi,return_tidyee = FALSE)
 
-# pretty instant with return_tidyee=F
+# pretty instant with return_tidyee=FALSE
 ls_clipped_roi_ic <- ls_tidy |>
-  filter_bounds(y = roi,return_tidyee = F) |>
-  clip(roi,return_tidyee = F)
+  filter_bounds(y = roi,return_tidyee = FALSE) |>
+  clip(roi,return_tidyee = FALSE)
 
 # takes more time with return_tidyee=T, but you get the vrt
 ls_clipped__roi_tidyee <- ls_tidy |>
-  filter_bounds(y = roi,return_tidyee = F) |>
-  clip(roi,return_tidyee = T)
+  filter_bounds(y = roi,return_tidyee = FALSE) |>
+  clip(roi,return_tidyee = TRUE)
 
 # demonstrating on sf object
 ls_clipped_sf_ob_ic <- ls_tidy |>
-  filter_bounds(y = sf_ob,return_tidyee = F) |>
-  clip(roi,return_tidyee = F)
+  filter_bounds(y = sf_ob,return_tidyee = FALSE) |>
+  clip(roi,return_tidyee = FALSE)
 
 ls_clipped_sf_ob_tidyee <- ls_tidy |>
-  filter_bounds(y = roi,return_tidyee = F) |>
-  clip(roi,return_tidyee = T)
+  filter_bounds(y = roi,return_tidyee = FALSE) |>
+  clip(roi,return_tidyee = TRUE)
 }
 }

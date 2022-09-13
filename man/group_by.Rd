@@ -27,7 +27,7 @@ ee$ImageCollection with grouped_vars attribute
 Group an imageCollection or tidyee object with Imagecollections by a parameter
 }
 \examples{
-\dontrun{
+donttest{
 library(tidyrgee)
 ee_Initialize()
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

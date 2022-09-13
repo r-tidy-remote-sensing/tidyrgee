@@ -18,7 +18,7 @@ tidyee or \code{ee$ImageCollection} class object with new index containing seque
 set_idx
 }
 \examples{
-\dontrun{
+donttest{
 library(rgee)
 library(tidyrgee)
 ee_Initialize()

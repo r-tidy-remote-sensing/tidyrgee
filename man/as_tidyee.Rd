@@ -20,7 +20,7 @@ as a "virtual data.frame (vrt)" which is a data.frame holding key properties of 
 ee$Image/ee$ImageCollection. The returned list has been assigned a new class "tidyee".
 }
 \examples{
-\dontrun{
+donttest{
 library(tidyrgee)
 library(rgee)
 ee_Initialize()
