@@ -8,9 +8,11 @@
 ^Meta$
 ^vignettes/aa-tidyverbs\.Rmd$
 ^R/archive$
+^R/mutate_extra.R$
 ^vignettes$
 ^vignettes/*
 v
 ^reprex$
 ^cran-comments\.md$
 ^\.covrignore$
+^CRAN-SUBMISSION$
