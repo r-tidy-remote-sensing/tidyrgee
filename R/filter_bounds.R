@@ -10,7 +10,7 @@
 #' @importFrom rlang .data
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples donttest{
 #'
 #' library(tidyrgee)
 #' library(tidyverse)

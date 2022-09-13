@@ -29,7 +29,7 @@ slice.tidyee <- function(.data,...){
 #' @param .data ImageCollection or tidyee class object
 #' @param ... other arguments
 #' @return sliced/filtered image or imageCollection form filtered imageCollection
-#' @examples \dontrun{
+#' @examples donttest{
 #'
 #' library(rgee)
 #' library(tidyrgee)

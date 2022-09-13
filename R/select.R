@@ -40,7 +40,7 @@ select.tidyee <-  function(.data,...){
 #' @param .data tidyee class object containing ee$ImageCollection or ee$Image
 #' @param ... one or more quoted or unquoted expressions separated by commas.
 #' @return tidyee class object with specified (...) bands selected
-#' @examples \dontrun{
+#' @examples donttest{
 #' library(tidyrgee)
 #' ee_Initialize()
 #' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

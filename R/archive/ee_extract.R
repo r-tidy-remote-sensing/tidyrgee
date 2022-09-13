@@ -93,7 +93,7 @@ ee_extract.default <- rgee::ee_extract
 #'
 #' @return
 #'
-#' @examples \dontrun{
+#' @examples donttest{
 #' library(rgee)
 #' library(tidyrgee)
 #' ee_Initizialize()

@@ -38,7 +38,7 @@ group_by.tidyee <- function(.data,...,.add=FALSE,.drop=dplyr::group_by_drop_defa
 #'   data? The default is `TRUE` except when `.data` has been previously
 #'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
 #' @return ee$ImageCollection with grouped_vars attribute
-#' @examples \dontrun{
+#' @examples donttest{
 #' library(tidyrgee)
 #' ee_Initialize()
 #' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

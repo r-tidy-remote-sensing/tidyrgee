@@ -134,7 +134,7 @@ rstat_to_eestat <-  function(fun){switch(fun,
 #' @noRd
 #' @return sorted date vector (length 2)
 #'
-#' @examples \dontrun{
+#' @examples donttest{
 #' library(tidyrgee)
 #' ee_Initialize()
 #' modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

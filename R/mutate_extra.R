@@ -7,7 +7,7 @@
 # #' @return
 # #' @export
 # #'
-# #' @examples \dontrun{
+# #' @examples donttest{
 
 # #'
 # #' library(rgee)
