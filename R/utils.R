@@ -208,7 +208,7 @@ geometry_type_is_unique <- function(x){
 #' @noRd
 #' @return return warning message when filter/summarise is implicitly casting from `Image/ImageCollection` to tidyee class
 convert_to_tidyee_warning <- function(){
-  cat(
+  message(
     crayon::yellow("We recommend you always start your `tidyee` flow by first converting and storing your object to class `tidyee` with the function:"),
     crayon::green("`as_tidyee()`."),
     crayon::yellow("Using `tidyverse/dplyr`-style functions on `ee$ImageCollections` directly can be slow on large ImageCollections.\n"))

@@ -38,7 +38,7 @@ ee_year_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 
   fc_from_ic_list <- rgee::ee$FeatureCollection(ic_list)
 
-  cat("returning  ImageCollection of x\n")
+  message("returning  ImageCollection of x\n")
   return(rgee::ee$ImageCollection(fc_from_ic_list$flatten()))
 
 }
@@ -82,7 +82,7 @@ ee_month_filter.ee.imagecollection.ImageCollection <-  function(imageCol,
 
   fc_from_ic_list <- rgee::ee$FeatureCollection(ic_list)
 
-  cat("returning  ImageCollection of x\n")
+  message("returning  ImageCollection of x\n")
   return(rgee::ee$ImageCollection(fc_from_ic_list$flatten()))
 
 }

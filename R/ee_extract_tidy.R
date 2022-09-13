@@ -18,7 +18,7 @@ ee_extract_tidy.tidyee <-  function(x,
         geometry_type_is_unique(y),
         msg = "Currently we can only handle a single geometry types"
       )
-      cat("uploading sf to ee object\n")
+      message("uploading sf to ee object\n")
       y_ee <- rgee::sf_as_ee(y)
 
     }
@@ -30,7 +30,7 @@ ee_extract_tidy.tidyee <-  function(x,
     y_ee <- y
   }
 
-  cat("renaming bands with dates\n")
+  message("renaming bands with dates\n")
   ic_renamed<- x$ee_ob |>
     add_date_to_bandname()
 
@@ -38,7 +38,7 @@ ee_extract_tidy.tidyee <-  function(x,
 
 
 
-  cat("starting ee_extract\n")
+  message("starting ee_extract\n")
   ic_extracted_wide <- rgee::ee_extract(x = ic_renamed,
                                            y=y_ee,
                                            scale=scale,
@@ -106,7 +106,7 @@ ee_extract_tidy.ee.imagecollection.ImageCollection <-  function(x,
         geometry_type_is_unique(y),
         msg = "Currently we can only handle a single geometry types"
       )
-      cat("uploading sf to ee object\n")
+      message("uploading sf to ee object\n")
       y_ee <- rgee::sf_as_ee(y)
 
     }
@@ -118,7 +118,7 @@ ee_extract_tidy.ee.imagecollection.ImageCollection <-  function(x,
     y_ee <- y
   }
 
-  cat("renaming bands with dates\n")
+  message("renaming bands with dates\n")
   ic_renamed<- x |>
     add_date_to_bandname()
 
@@ -126,7 +126,7 @@ ee_extract_tidy.ee.imagecollection.ImageCollection <-  function(x,
 
 
 
-  cat("starting ee_extract\n")
+  message("starting ee_extract\n")
   ic_extracted_wide <- rgee::ee_extract(x = ic_renamed,
                                            y=y_ee,
                                            scale=scale,
@@ -189,7 +189,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
         geometry_type_is_unique(y),
         msg = "Currently we can only handle a single geometry types"
       )
-      cat("uploading sf to ee object\n")
+      message("uploading sf to ee object\n")
       y_ee <- rgee::sf_as_ee(y)
 
     }
@@ -201,7 +201,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
     y_ee <- y
   }
 
-  cat("renaming bands with dates\n")
+  message("renaming bands with dates\n")
   ic_renamed<- x |>
     add_date_to_bandname()
 
@@ -209,7 +209,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
 
 
 
-  cat("starting ee_extract\n")
+  message("starting ee_extract\n")
   ic_extracted_wide <- rgee::ee_extract(x = ic_renamed,
                                            y=y_ee,
                                            scale=scale,
