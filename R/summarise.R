@@ -16,7 +16,7 @@ summarise.ee.imagecollection.ImageCollection <-  function(.data,stat,...){
 #' @name summarise
 #' @export
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
-summarise.tidyee <-  function(.data,stat,...,join_bands=T){
+summarise.tidyee <-  function(.data,stat,...,join_bands=TRUE){
   summary_list <- stat |>
     purrr::map(
       ~.data |>
@@ -41,7 +41,7 @@ summarise.tidyee <-  function(.data,stat,...,join_bands=T){
 #' @param .data ee$Image or ee$ImageCollection
 #' @param stat \code{character} stat/function to apply
 #' @param ... other arguments
-#' @param join_bands \code{logical} (default= T) if multiple stats selected should bands be joined?
+#' @param join_bands \code{logical} (default= TRUE) if multiple stats selected should bands be joined?
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 #' @examples \dontrun{
 #' library(tidyrgee)

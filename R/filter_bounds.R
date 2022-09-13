@@ -4,7 +4,7 @@
 #' @param x tidyee object containing ee$ImageCollection or ee$ImageCollection
 #' @param y feature to filter bounds by (sf, ee$FeatureCollection, ee$Feature, ee$Geometry)
 #' @param use_tidyee_index filter on tidyee_index (default = F) or system_index (by default)
-#' @param return_tidyee \code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performace if set to F
+#' @param return_tidyee \code{logical} return tidyee class (default = TRUE) object or ee$ImageCollection. Faster performance if set to FALSE
 #'
 #' @return tidyee class or ee$ImageCollection class object with scenes filtered to bounding box of y geometry
 #' @importFrom rlang .data
@@ -40,7 +40,7 @@
 #'   filter_bounds(sf_ob)
 #' # return ee$ImageCollection
 #' ls_tidy |>
-#'   filter_bounds(sf_ob,return_tidyee = F)
+#'   filter_bounds(sf_ob,return_tidyee = FALSE)
 #'
 #' # filter_bounds on ee$Geometry object
 #' # return tidyee object
@@ -51,7 +51,7 @@
 #'
 #' }
 
-filter_bounds <- function(x,y,use_tidyee_index=F,return_tidyee=T){
+filter_bounds <- function(x,y,use_tidyee_index=FALSE,return_tidyee=TRUE){
   UseMethod('filter_bounds')
 }
 
@@ -59,7 +59,7 @@ filter_bounds <- function(x,y,use_tidyee_index=F,return_tidyee=T){
 
 
 #' @export
-filter_bounds.tidyee <-  function(x,y,use_tidyee_index=F,return_tidyee=T){
+filter_bounds.tidyee <-  function(x,y,use_tidyee_index=FALSE,return_tidyee=TRUE){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
@@ -101,7 +101,7 @@ filter_bounds.tidyee <-  function(x,y,use_tidyee_index=F,return_tidyee=T){
 
 
 #' @export
-filter_bounds.ee.imagecollection.ImageCollection <-  function(x,y,use_tidyee_index=F,return_tidyee=T){
+filter_bounds.ee.imagecollection.ImageCollection <-  function(x,y,use_tidyee_index=FALSE,return_tidyee=TRUE){
 
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",

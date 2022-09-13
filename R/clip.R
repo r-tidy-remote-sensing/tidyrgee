@@ -41,27 +41,27 @@
 #' #  filter_bounds on sf object
 #' #  return tidyee object
 #' ls_tidy |>
-#'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip(roi,return_tidyee = F)
+#'   filter_bounds(y = roi,return_tidyee = FALSE) |>
+#'   clip(roi,return_tidyee = FALSE)
 #'
-#' # pretty instant with return_tidyee=F
+#' # pretty instant with return_tidyee=FALSE
 #' ls_clipped_roi_ic <- ls_tidy |>
-#'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip(roi,return_tidyee = F)
+#'   filter_bounds(y = roi,return_tidyee = FALSE) |>
+#'   clip(roi,return_tidyee = FALSE)
 #'
 #' # takes more time with return_tidyee=T, but you get the vrt
 #' ls_clipped__roi_tidyee <- ls_tidy |>
-#'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip(roi,return_tidyee = T)
+#'   filter_bounds(y = roi,return_tidyee = FALSE) |>
+#'   clip(roi,return_tidyee = TRUE)
 #'
 #' # demonstrating on sf object
 #' ls_clipped_sf_ob_ic <- ls_tidy |>
-#'   filter_bounds(y = sf_ob,return_tidyee = F) |>
-#'   clip(roi,return_tidyee = F)
+#'   filter_bounds(y = sf_ob,return_tidyee = FALSE) |>
+#'   clip(roi,return_tidyee = FALSE)
 #'
 #' ls_clipped_sf_ob_tidyee <- ls_tidy |>
-#'   filter_bounds(y = roi,return_tidyee = F) |>
-#'   clip(roi,return_tidyee = T)
+#'   filter_bounds(y = roi,return_tidyee = FALSE) |>
+#'   clip(roi,return_tidyee = TRUE)
 #' }
 
 clip<-  function(x,y, return_tidyee=TRUE){
