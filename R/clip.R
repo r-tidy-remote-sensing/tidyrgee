@@ -2,7 +2,7 @@
 #' @description allows clipping of tidyee,ee$Imagecollection, or ee$Image classes. Also allows objects to be clipped to sf object in addition to ee$FeatureCollections/ee$Feature
 #' @param x object to be clipped (tidyee, ee$ImageCollection, ee$Image)
 #' @param y geometry object to clip to (sf, ee$Feature,ee$FeatureCollections)
-#' @param return_tidyee \code{logical} return tidyee class (default = T) object or ee$ImageCollection. Faster performance if F
+#' @param return_tidyee \code{logical} return tidyee class (default = TRUE) object or ee$ImageCollection. Faster performance if F
 #'
 #' @return x as tidyee or ee$Image/ee$ImageCollection depending on `return_tidyee` argument.
 #' @export
@@ -64,7 +64,7 @@
 #'   clip(roi,return_tidyee = T)
 #' }
 
-clip<-  function(x,y, return_tidyee=T){
+clip<-  function(x,y, return_tidyee=TRUE){
   UseMethod("clip")
 }
 
@@ -73,7 +73,7 @@ clip<-  function(x,y, return_tidyee=T){
 
 
 #' @export
-clip.tidyee <-  function(x,y,return_tidyee=T){
+clip.tidyee <-  function(x,y,return_tidyee=TRUE){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
@@ -109,7 +109,7 @@ clip.tidyee <-  function(x,y,return_tidyee=T){
 }
 
 #' @export
-clip.ee.image.Image <-  function(x,y,return_tidyee=T){
+clip.ee.image.Image <-  function(x,y,return_tidyee=TRUE){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
@@ -134,7 +134,7 @@ clip.ee.image.Image <-  function(x,y,return_tidyee=T){
 }
 
 #' @export
-clip.ee.imagecollection.ImageCollection <-  function(x,y,return_tidyee=T){
+clip.ee.imagecollection.ImageCollection <-  function(x,y,return_tidyee=TRUE){
   assertthat::assert_that(rlang::inherits_any(y, c("sf","ee.geometry.Geometry",
                                                    "ee.featurecollection.FeatureCollection",
                                                    "ee.feature.Feature")))
