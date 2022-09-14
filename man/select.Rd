@@ -15,7 +15,7 @@ tidyee class object with specified (...) bands selected
 Select bands from ee$Image or ee$ImageCollection
 }
 \examples{
-donttest{
+dontrun{
 library(tidyrgee)
 ee_Initialize()
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")

@@ -16,7 +16,7 @@ tidyee object containing single image collection and vrt
 bind ImageCollections
 }
 \examples{
-donttest{
+dontrun{
 library(tidyrgee)
 library(rgee)
 ee_Initialize()

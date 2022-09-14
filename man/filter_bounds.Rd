@@ -22,7 +22,7 @@ tidyee class or ee$ImageCollection class object with scenes filtered to bounding
 filter_bounds a wrapper for rgee::ee$ImageCollection$filterBounds
 }
 \examples{
-donttest{
+dontrun{
 
 library(tidyrgee)
 library(tidyverse)
