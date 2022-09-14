@@ -7,7 +7,7 @@
 # #' @return
 # #' @export
 # #'
-# #' @examples donttest{
+# #' @examples dontrun{
 
 # #'
 # #' library(rgee)

@@ -7,7 +7,7 @@
 #' @return x as tidyee or ee$Image/ee$ImageCollection depending on `return_tidyee` argument.
 #' @export
 #'
-#' @examples donttest{
+#' @examples dontrun{
 
 #' library(tidyrgee)
 #' library(tidyverse)

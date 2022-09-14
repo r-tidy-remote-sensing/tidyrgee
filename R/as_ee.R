@@ -7,7 +7,7 @@
 #' @return ee$ImageCollection or ee$Image
 #' @export
 #'
-#' @examples donttest{
+#' @examples dontrun{
 #' library(rgee)
 #' librar(tidyee)
 #'

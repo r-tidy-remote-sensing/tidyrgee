@@ -65,7 +65,7 @@ group_split.tidyee <-  function(.tbl,...,return_tidyee=T){
 #' @param ... other arguments
 #' @param return_tidyee \code{logical} return tidyee object(default =T), if FALSE - only return ee$ImageCollection
 #' @return filtered image or imageCollection form filtered imageCollection
-#' @examples donttest{
+#' @examples dontrun{
 #'
 #' library(rgee)
 #' library(tidyrgee)

@@ -49,7 +49,7 @@ set_idx.ee.imagecollection.ImageCollection <-  function(x,idx_name="tidyee_index
 #' @return tidyee or `ee$ImageCollection` class object with new index containing sequential 0-based indexing
 #' @export
 #' @importFrom rlang :=
-#' @examples donttest{
+#' @examples dontrun{
 #' library(rgee)
 #' library(tidyrgee)
 #' ee_Initialize()

@@ -5,7 +5,7 @@
 #' @return tidyee object containing single image collection and vrt
 #' @export
 #'
-#' @examples donttest{
+#' @examples dontrun{
 #' library(tidyrgee)
 #' library(rgee)
 #' ee_Initialize()
