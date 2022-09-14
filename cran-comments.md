@@ -77,3 +77,11 @@ functions. This is not allowed by the CRAN policies. -> R/zzz.R"
 7 response: **DONE:* This file has been removed after being deemed unnecessary
 
 Please fix and resubmit.
+**DONE**
+
+## Run on 2022-09-14
+-- R CMD check results -------------------------------------------------------------------------- tidyrgee 0.1.0 ----
+Duration: 1m 49.8s
+
+0 errors √ | 0 warnings √ | 0 notes √
+
