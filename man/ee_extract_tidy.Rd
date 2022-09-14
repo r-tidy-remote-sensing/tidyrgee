@@ -45,7 +45,7 @@ data.frame in long format with point estimates for each time-step and y feature 
 ee_extract_tidy
 }
 \examples{
-dontrun{
+\dontrun{
 library(rgee)
 library(tidyrgee)
 ee_Initizialize()

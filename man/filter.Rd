@@ -15,7 +15,7 @@ filtered image or imageCollection form filtered imageCollection
 filter ee$ImageCollections or tidyee objects that contain imageCollections
 }
 \examples{
-dontrun{
+\dontrun{
 
 library(rgee)
 library(tidyrgee)

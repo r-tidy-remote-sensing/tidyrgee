@@ -30,7 +30,7 @@ ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
 Summary pixel-level stats for ee$ImageCollection or tidyrgee objects with ImageCollections
 }
 \examples{
-dontrun{
+\dontrun{
 library(tidyrgee)
 library(rgee)
 ee_Initialize()

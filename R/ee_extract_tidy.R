@@ -270,7 +270,7 @@ ee_extract_tidy.ee.image.Image <-  function(x,
 #'
 #' @return data.frame in long format with point estimates for each time-step and y feature based on statistic provided
 #'
-#' @examples dontrun{
+#' @examples \dontrun{
 #' library(rgee)
 #' library(tidyrgee)
 #' ee_Initizialize()

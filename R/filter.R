@@ -41,7 +41,7 @@ filter.ee.imagecollection.ImageCollection <- function(.data,...){
 #' @param .data ImageCollection or tidyee class object
 #' @param ... other arguments
 #' @return filtered image or imageCollection form filtered imageCollection
-#' @examples dontrun{
+#' @examples \dontrun{
 #'
 #' library(rgee)
 #' library(tidyrgee)

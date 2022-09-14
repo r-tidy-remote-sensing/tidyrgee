@@ -15,7 +15,7 @@ sliced/filtered image or imageCollection form filtered imageCollection
 slice ee$ImageCollections or tidyee objects that contain imageCollections
 }
 \examples{
-dontrun{
+\dontrun{
 
 library(rgee)
 library(tidyrgee)

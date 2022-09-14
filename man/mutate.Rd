@@ -15,7 +15,7 @@ return tidyee class object with vrt data.frame mutated.
 mutate columns into tidyee vrt which can later be used to modify tidyee ImageCollection
 }
 \examples{
-dontrun{
+\dontrun{
 library(tidyrgee)
 library(rgee)
 ee_Initialize()

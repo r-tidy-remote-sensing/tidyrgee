@@ -43,7 +43,7 @@ summarise.tidyee <-  function(.data,stat,...,join_bands=TRUE){
 #' @param ... other arguments
 #' @param join_bands \code{logical} (default= TRUE) if multiple stats selected should bands be joined?
 #' @return ee$Image or ee$ImageCollection where pixels are summarised by group_by and stat
-#' @examples dontrun{
+#' @examples \dontrun{
 #' library(tidyrgee)
 #' library(rgee)
 #' ee_Initialize()

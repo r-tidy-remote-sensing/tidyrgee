@@ -20,7 +20,7 @@ x as tidyee or ee$Image/ee$ImageCollection depending on \code{return_tidyee} arg
 allows clipping of tidyee,ee$Imagecollection, or ee$Image classes. Also allows objects to be clipped to sf object in addition to ee$FeatureCollections/ee$Feature
 }
 \examples{
-dontrun{
+\dontrun{
 library(tidyrgee)
 library(tidyverse)
 library(rgee)
