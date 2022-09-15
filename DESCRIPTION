@@ -6,7 +6,7 @@ Authors@R: c(
     person("Josh", "Erickson", , "joshualerickson@gmail.com", role = c("aut", "cph"))
   )
 Description: Provides 'tidyverse' methods for wrangling
-    and analyzing Earth Engine <https://earthengine.google.com/> data. These methods help the user with filtering, 
+    and analyzing 'Earth Engine' <https://earthengine.google.com/> data. These methods help the user with filtering, 
     joining and summarising 'Earth Engine' image collections.
 License: MIT + file LICENSE
 URL: https://github.com/r-tidy-remote-sensing/tidyrgee
