@@ -34,6 +34,12 @@ try it out!
 
 ## Installation
 
+Install from CRAN with:  
+
+``` r
+install.packages("tidyrgee")
+```
+
 You can install the development version of tidyrgee from [GitHub](https://github.com/) with:
 
 ``` r
