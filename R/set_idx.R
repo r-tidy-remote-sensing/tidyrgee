@@ -26,19 +26,21 @@ set_idx.tidyee <- function(x,idx_name="tidyee_index"){
 #' @export
 set_idx.ee.imagecollection.ImageCollection <-  function(x,idx_name="tidyee_index"){
   x <- x$sort("sytem:time_start")
-  idx_list = ee$List$sequence(0,x$size()$subtract(1))
-  ic_list = x$toList(x$size())
-  ic_with_idx = ee$ImageCollection(
-    idx_list$map(rgee::ee_utils_pyfunc(
-      function(idx){
-        img = ee$Image(ic_list$get(idx))
-        #create as string
-        idx_string = ee$Number(idx)$format('%03d')
-        img$set(idx_name, idx_string)
-      }))
+
+  incr_index = ee$List$sequence(0,x$size()$subtract(1))
+  sys_index = ee$List(x$aggregate_array('system:index'))
+
+  # create key-value dictionary
+  incr_sys_dict = ee$Dictionary$fromLists(sys_index, incr_index)
+  ic_with_idx = x$map(
+    function(img){
+      # can  use dictionary as lookup to iterate through images and add incremental value
+      img$set(idx_name,incr_sys_dict$get(img$get("system:index")))
+    }
   )
   return(ic_with_idx)
 }
+
 
 
 #' set_idx
