@@ -239,3 +239,19 @@ str.ee.image.Image <- function(object,...) {
 #' @importFrom utils str
 #' @export
 NULL
+
+
+
+
+
+#' ic_list_to_ic
+#'
+#' @param x ee list made up of imageCollections
+#'
+#' @return imageCollection
+
+ic_list_to_ic <- function(x){
+  rgee::ee$ImageCollection(rgee::ee$FeatureCollection(x)$flatten())
+}
+
+
