@@ -72,7 +72,7 @@ rename_summary_stat_bands <- function(x, stat){
 stat_to_reducer <- function(fun){ switch(
   fun,
   "mean" = rgee::ee$Reducer$mean(),
-  "max" = rgee::ee$Reducer$mean(),
+  "max" = rgee::ee$Reducer$max(),
   "min" = rgee::ee$Reducer$min(),
   "median"= rgee::ee$Reducer$median(),
   "sum"= rgee::ee$Reducer$sum(),
