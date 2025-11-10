@@ -36,7 +36,7 @@ group_by.tidyee <- function(.data,...,.add=FALSE,.drop=dplyr::group_by_drop_defa
 #'   our naming conventions.
 #' @param .drop Drop groups formed by factor levels that don't appear in the
 #'   data? The default is `TRUE` except when `.data` has been previously
-#'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
+#'   grouped with `.drop = FALSE`. See [dplyr::group_by_drop_default()] for details.
 #' @return ee$ImageCollection with grouped_vars attribute
 #' @examples \dontrun{
 #' library(tidyrgee)
