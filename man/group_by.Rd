@@ -18,7 +18,7 @@ our naming conventions.}
 
 \item{.drop}{Drop groups formed by factor levels that don't appear in the
 data? The default is \code{TRUE} except when \code{.data} has been previously
-grouped with \code{.drop = FALSE}. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for details.}
+grouped with \code{.drop = FALSE}. See \code{\link[dplyr:group_by_drop_default]{dplyr::group_by_drop_default()}} for details.}
 }
 \value{
 ee$ImageCollection with grouped_vars attribute
