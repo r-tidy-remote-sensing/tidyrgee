@@ -18,7 +18,7 @@ as_ee tidyee to ee$ImageCollection or ee$Image
 \examples{
 \dontrun{
 library(rgee)
-librar(tidyee)
+library(tidyrgee)
 
 modis_ic <- ee$ImageCollection("MODIS/006/MOD13Q1")
 
